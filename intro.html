@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>흑백요리사 시즌2</title>
+
+    <!-- Swiper CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <!-- ✅ 같은 폴더 -->
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- ✅ 480px 고정 프레임 / 이 div가 스크롤 컨테이너 -->
+      <div class="app" role="application" aria-label="흑백요리사 시즌2">
+        <!-- ===== 헤더 ===== -->
+        <header class="topbar">
+          <a class="topbar__back" href="./index.html" aria-label="뒤로가기"
+            >←</a
+          >
+          <h1 class="topbar__title">흑백요리사 시즌2</h1>
+          <button class="topbar__right" type="button">예약현황</button>
+        </header>
+
+        <!-- ===== 배너 ===== -->
+        <section class="hero" aria-label="상단 배너">
+          <img
+            class="hero__img"
+            src="../front_proj/intro2.jpg"
+            alt="배너(더미)"
+          />
+        </section>
+
+        <!-- ===== 탭 ===== -->
+        <nav class="tabs" aria-label="카테고리 탭">
+          <button class="tab is-active" type="button" data-tab="all">
+            전체
+          </button>
+          <button class="tab" type="button" data-tab="white">백수저</button>
+          <button class="tab" type="button" data-tab="black">흑수저</button>
+        </nav>
+
+        <!-- ===== Sticky 필터 ===== -->
+        <section class="sticky-wrap" aria-label="필터 영역">
+          <!-- ✅ 선택 적용 값이 여기 표시됨 -->
+          <button class="dtbar" type="button" id="openDateTime">
+            <span class="dtbar__icon" aria-hidden="true">📅</span>
+            <span class="dtbar__text" id="dtSummary">날짜 · 인원 · 시간</span>
+            <span class="dtbar__chev" aria-hidden="true">▾</span>
+          </button>
+
+          <div class="quick" aria-label="퀵 필터">
+            <button class="chip" type="button" data-chip="지역">지역</button>
+            <button class="chip" type="button" data-chip="음식 종류">
+              음식 종류
+            </button>
+            <button class="chip" type="button" data-chip="가격">가격</button>
+          </div>
+
+          <!-- ✅ 선택된 조건 스택 -->
+          <div class="selected" aria-label="선택된 조건">
+            <button
+              class="selected__trash"
+              type="button"
+              id="clearAllChips"
+              aria-label="전체 삭제"
+            >
+              🗑️
+            </button>
+            <div class="selected__list" id="selectedChipList"></div>
+          </div>
+        </section>
+
+        <!-- ✅ 식당 리스트는 JS가 더미 데이터로 렌더링 -->
+        <main class="content" id="shopList" aria-label="식당 목록"></main>
+
+        <!-- ===== 하단 버튼 ===== -->
+        <footer class="bottom-actions" aria-label="하단 버튼">
+          <button class="btn btn--ghost" type="button" id="btnClose">
+            닫기
+          </button>
+          <button class="btn btn--primary" type="button" id="btnShowResults">
+            결과 보기
+          </button>
+        </footer>
+
+        <!-- ===== 바텀시트(날짜·인원·시간) ===== -->
+        <!--
+  ✅ 초기에는 hidden이라서 화면에 보이지 않아야 정상입니다.
+  ✅ openDateTime 버튼을 눌렀을 때만 JS가 hidden을 해제해서 보여줍니다.
+-->
+        <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+
+        <section
+          class="sheet"
+          id="dateTimeSheet"
+          hidden
+          aria-label="날짜 인원 시간 선택"
+        >
+          <div class="sheet__handle" aria-hidden="true"></div>
+
+          <div class="sheet__header">
+            <h3>날짜 · 인원 · 시간</h3>
+            <button
+              class="sheet__x"
+              type="button"
+              id="closeDateTime"
+              aria-label="닫기"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div class="sheet__body">
+            <!-- ✅ 같은 그룹(data-group) 안에서는 pill이 1개만 선택되도록 JS가 처리 -->
+            <div class="sheet-block" data-group="date">
+              <div class="sheet-block__title">날짜</div>
+              <div class="sheet-grid">
+                <button class="pill is-on" type="button">오늘(월)</button>
+                <button class="pill" type="button">내일(화)</button>
+                <button class="pill" type="button">2.25(수)</button>
+                <button class="pill" type="button">2.26(목)</button>
+                <button class="pill" type="button">2.27(금)</button>
+              </div>
+            </div>
+
+            <div class="sheet-block" data-group="people">
+              <div class="sheet-block__title">인원</div>
+              <div class="sheet-grid">
+                <button class="pill is-on" type="button">2명</button>
+                <button class="pill" type="button">3명</button>
+                <button class="pill" type="button">4명</button>
+                <button class="pill" type="button">5명</button>
+              </div>
+            </div>
+
+            <div class="sheet-block" data-group="time">
+              <div class="sheet-block__title">시간</div>
+              <div class="sheet-grid">
+                <button class="pill is-on" type="button">18:00</button>
+                <button class="pill" type="button">18:30</button>
+                <button class="pill" type="button">19:00</button>
+                <button class="pill" type="button">19:30</button>
+                <button class="pill" type="button">20:00</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sheet__footer">
+            <button class="btn btn--ghost" type="button" id="sheetCloseBtn">
+              닫기
+            </button>
+            <button class="btn btn--primary" type="button" id="sheetApplyBtn">
+              선택 적용
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
+      defer
+    ></script>
+
+    <!-- ✅ 같은 폴더 -->
+    <script src="./app.js" defer></script>
+  </body>
+</html>
