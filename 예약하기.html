@@ -3,107 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>예약하기</title>
+    <title>예약하기 컴포넌트</title>
     <link rel="stylesheet" href="예약하기.css">
 </head>
 <body>
-    <div class="food-wrap">
-        <header id="header">
-            <a href="intro.html" aria-label="뒤로가기">←</a>
-            <b>도우룸 광화문</b>
-            <button class="btn3" type="button" id="reservationBtn">예약현황</button>
-        </header>
-
-        <div class="menu">
+    <!--
+      사용 방법:
+      1) 아래 <section class="rk-reserve">...</section> 블록을 원하는 HTML에 복사
+      2) <link rel="stylesheet" href="예약하기.css"> 추가
+      3) <script src="예약하기.js"></script> 추가
+      4) data-shop-* 값만 매장 정보에 맞게 변경
+    -->
+    <section
+        class="rk-reserve"
+        data-shop-id="shop-001"
+        data-shop-name="도우룸 광화문"
+        data-shop-info="광화문 / 점심, 저녁 동일가 3-4만원"
+        data-shop-image="https://ugc-images.catchtable.co.kr/shop/manager/images/043d25fe6bbc44fd961228b3b11814f9?resizeType=details500&ftype=avif"
+        data-status-page="예약현황.html"
+    >
+        <div class="rk-head">
             <h3>예약</h3>
-            <div class="day" id="openBtn">
-                <span class="ss">📅 날짜, 인원, 시간 </span>
-            </div>
+            <button type="button" class="rk-status-btn" data-role="status-btn">예약현황</button>
         </div>
 
-        <div class="reservation-box" id="calendarModal">
-            <div class="calender-header">
-                <div class="month">
-                    <span>2026년 2월</span>
+        <div class="rk-box">
+            <button type="button" class="rk-trigger" data-role="toggle">
+                <span class="rk-trigger-title">📅 날짜, 인원, 시간</span>
+                <span class="rk-summary" data-role="summary">날짜/시간을 선택해 주세요.</span>
+                <span class="rk-arrow" data-role="arrow">∨</span>
+            </button>
+
+            <div class="rk-panel" data-role="panel">
+                <div class="rk-group">
+                    <p class="rk-label">날짜</p>
+                    <div class="rk-calendar-head">
+                        <button type="button" class="rk-nav-btn" data-role="prev-month">‹</button>
+                        <span class="rk-month" data-role="month-label"></span>
+                        <button type="button" class="rk-nav-btn" data-role="next-month">›</button>
+                    </div>
+                    <div class="rk-week">
+                        <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+                    </div>
+                    <div class="rk-date-grid" data-role="date-grid"></div>
                 </div>
+
+                <div class="rk-group">
+                    <p class="rk-label">인원</p>
+                    <div class="rk-people" data-role="people-row"></div>
+                </div>
+
+                <div class="rk-group">
+                    <p class="rk-label">시간</p>
+                    <div class="rk-time-grid" data-role="time-grid"></div>
+                    <p class="rk-note">※ “예약 마감” 또는 “예약 완료”는 선택할 수 없습니다.</p>
+                </div>
+
+                <button type="button" class="rk-reserve-btn" data-role="reserve-btn" disabled>예약하기</button>
             </div>
-
-            <div class="week">
-                <span>일</span>
-                <span>월</span>
-                <span>화</span>
-                <span>수</span>
-                <span>목</span>
-                <span>금</span>
-                <span>토</span>
-            </div>
-
-            <div class="calendar">
-                <span class="disabled">1</span>
-                <span class="disabled">2</span>
-                <span class="disabled">3</span>
-                <span class="disabled">4</span>
-                <span class="disabled">5</span>
-                <span class="disabled">6</span>
-                <span class="disabled">7</span>
-
-                <span class="disabled">8</span>
-                <span class="disabled">9</span>
-                <span class="disabled">10</span>
-                <span class="disabled">11</span>
-                <span class="disabled">12</span>
-                <span class="disabled">13</span>
-                <span class="disabled">14</span>
-
-                <span class="disabled">15</span>
-                <span class="disabled">16</span>
-                <span class="disabled">17</span>
-                <span class="disabled">18</span>
-                <span class="disabled">19</span>
-                <span class="disabled">20</span>
-                <span class="disabled">21</span>
-
-                <span>22</span>
-                <span class="selected">23</span>
-                <span>24</span>
-                <span>25</span>
-                <span>26</span>
-                <span>27</span>
-                <span>28</span>
-            </div>
-
-            <div class="people">
-                <button class="active">2명</button>
-                <button>3명</button>
-                <button>4명</button>
-                <button>5명</button>
-                <button>6명</button>
-                <button>7명</button>
-                <button>8명</button>
-            </div>
-
-            <div class="watch">
-                <button>오후 3:00</button>
-                <button>오후 3:30</button>
-                <button>오후 4:00</button>
-                <button>오후 4:30</button>
-                <button>오후 5:00</button>
-                <button>오후 5:30</button>
-                <button>오후 6:00</button>
-                <button>오후 6:30</button>
-                <button>오후 7:00</button>
-                <button>오후 7:30</button>
-                <button>오후 8:00</button>
-            </div>
-
-            <button class="calendar-reserve-btn">예약하기</button>
-            <button class="close" id="closeBtn">닫기</button>
         </div>
-
-        <div class="res">
-            <button id="reserveBtn">예약하기</button>
-        </div>
-    </div>
+    </section>
 
     <script src="예약하기.js"></script>
 </body>
