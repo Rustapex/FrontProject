@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>식당 상세</title>
+    <link rel="stylesheet" href="./shop.css" />
+    <script src="./shop01.js" defer></script>
+  </head>
+  <body>
+    <main class="app" aria-label="식당 상세 페이지">
+      <section class="hero" aria-label="가게 대표 이미지">
+        <img
+          src="https://images.unsplash.com/photo-1555992336-cbf7c366f2a2?auto=format&fit=crop&w=1200&q=60"
+          alt="정출서울 대표 이미지"
+        />
+      </section>
+
+      <section class="card" aria-label="가게 소개">
+        <h1 class="title">양출서울</h1>
+
+        <div class="meta">
+          <span>★ 4.8</span>
+          <span>(319)</span>
+          <span>· 한식</span>
+          <span>· 논현구</span>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="label">가는 방법</span>
+            <span>신홍동역 2번 출구에서 275m</span>
+          </div>
+          <div class="info-row">
+            <span class="label">가격</span>
+            <span>점심 영업 없음 · 저녁 55,000~75,000원</span>
+          </div>
+          <div class="info-row">
+            <span class="label">영업</span>
+            <span>18:00 ~ 22:00</span>
+          </div>
+          <div class="info-row">
+            <span class="label">예약</span>
+            <span>날짜/시간 선택 후 예약하기</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="reserveSection" aria-label="예약">
+  <h2 class="section-title">예약</h2>
+
+  <!-- 선택 상태 요약(영상처럼 위에서 선택이 보이게) -->
+  <p class="muted" id="reserveSummary">날짜/인원/시간을 선택해 주세요.</p>
+
+  <div class="block">
+    <div class="block-title">날짜</div>
+    <!-- 날짜 버튼이 가로로 쌓이는 영역 -->
+    <div class="hscroll" id="dateRow" aria-label="날짜 선택"></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">인원</div>
+    <!-- 인원 버튼 영역 -->
+    <div class="grid" id="peopleRow" aria-label="인원 선택"></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">시간</div>
+    <!-- 시간 버튼 영역(예약 마감/예약 완료는 비활성) -->
+    <div class="grid" id="timeGrid" aria-label="시간 선택"></div>
+    <p class="muted small">※ “예약 마감 / 예약 완료”는 선택할 수 없습니다.</p>
+  </div>
+
+  <!-- 페이지 안 예약하기 -->
+  <button class="btn primary" id="reserveBtn" type="button" disabled>
+    예약하기
+  </button>
+</section>
+
+      <section class="card" aria-label="메뉴">
+        <h2 class="section-title">메뉴</h2>
+
+        <div class="menu-list" id="menuList">
+          <div class="menu-item">
+            <div class="menu-head">
+              <div>
+                <div class="menu-name">5코스</div>
+                <div class="menu-price">55,000원</div>
+              </div>
+              <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-1">
+                구성 보기
+              </button>
+            </div>
+            <div class="menu-detail" id="menuDetail-1" hidden>
+              • 채소 요리 3~4가지, 고기 요리 1가지, 면 요리 1가지<br />
+              • 제철 채소 구이<br />
+              • 샐러드<br />
+              • 버섯요리<br>
+              • 숯불 고기<br>
+              • 뇨끼 또는 오일 파스타 류
+            </div>
+          </div>
+
+          <div class="menu-item">
+            <div class="menu-head">
+              <div>
+                <div class="menu-name">디너 코스</div>
+                <div class="menu-price">75,000원</div>
+              </div>
+              <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-2">
+                구성 보기
+              </button>
+            </div>
+            <div class="menu-detail" id="menuDetail-2" hidden>
+              • 채소 요리 3가지, 고기 요리 2가지, 면 요리 1가지, 디저트 1가지<br />
+              • 으깬 감자 사워크림<br />
+              • 구운 양배추<br />
+              • 부라타치즈와 귤 소스<br>
+              • 테이블 당 와인 보틀 주문 필수
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-label="위치">
+        <h2 class="section-title">위치</h2>
+        <iframe
+          title="지도"
+          src="about:blank"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="label">주소</span>
+            <span>서울 강남구 연주로 135길 34 1층</span>
+          </div>
+          <div class="info-row">
+            <span class="label">도보</span>
+            <span>학동역에서 275m / 강남구청역에서 772m</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-label="상세정보">
+        <h2 class="section-title">상세정보</h2>
+
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="label">전화</span>
+            <span>02-547-4420</span>
+          </div>
+          <div class="info-row">
+            <span class="label">정기휴무</span>
+            <span>매주 일요일</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="bottom-spacer" aria-hidden="true"></div>
+    </main>
+
+    <footer class="bottom-bar" aria-label="하단 예약하기">
+      <button class="btn primary" id="bottomReserveBtn" type="button" disabled>
+        예약하기
+      </button>
+    </footer>
+  </body>
+</html>

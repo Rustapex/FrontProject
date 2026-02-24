@@ -1,0 +1,105 @@
+/* ✅ 조건6: 어떤 것도 width 480px 초과 금지 */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
+  display: flex;
+  justify-content: center; /* 화면 가운데 480px 앱을 놓기 */
+  background: #fafafa;
+}
+
+/* 앱 전체 폭: 최대 480 */
+.app {
+  width: min(480px, 100%);
+  background: #fff;
+}
+
+/* 이미지가 480 넘지 않게 */
+img { display: block; width: 100%; height: auto; }
+
+.hero img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  background: #eee;
+}
+
+.card {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.title { margin: 0 0 8px; font-size: 20px; }
+.section-title { margin: 0 0 10px; font-size: 16px; }
+
+.meta { font-size: 13px; color: #444; display: flex; gap: 6px; flex-wrap: wrap; }
+
+.info-grid { margin-top: 10px; display: grid; gap: 8px; }
+.info-row { display: grid; grid-template-columns: 80px 1fr; gap: 8px; font-size: 13px; }
+.label { color: #666; }
+
+.muted { color: #666; font-size: 13px; margin: 6px 0 12px; }
+.small { font-size: 12px; }
+
+.block { margin: 10px 0; }
+.block-title { font-size: 13px; color: #333; margin-bottom: 6px; }
+
+.hscroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+
+.pill {
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 10px 8px;
+  font-size: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.pill.on { border-color: #111; }
+.pill.disabled { opacity: .45; cursor: not-allowed; }
+
+.btn {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 700;
+}
+.btn.primary { background: #111; color: #fff; border-color: #111; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.menu-item {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.menu-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.menu-name { font-weight: 800; }
+.menu-price { color: #444; font-size: 13px; }
+.menu-detail { margin-top: 8px; font-size: 13px; color: #333; display: block; }
+.menu-detail.open { display: block; }
+.menu-detail[hidden] { display: none !important; }
+.menu-toggle { min-width: 88px; }
+
+iframe {
+  width: 100%;
+  height: 180px;
+  border: 0;
+  background: #eee;
+  border-radius: 12px;
+}
+
+.bottom-spacer { height: 90px; } /* 하단 고정 버튼 공간 확보 */
+.bottom-bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: min(480px, 100%);
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 10px;
+}

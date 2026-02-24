@@ -5,6 +5,42 @@
 console.log("[app.js] loaded");
 
 /* =========================================================
+  함수: buildUpcomingDateLabels
+  매개변수:
+    - dayCount (number): 생성할 날짜 개수
+    - baseDate (Date): 시작 기준 날짜 (기본값: 오늘)
+  반환값:
+    - string[]: ["오늘(화)", "내일(수)", "2.27(목)" ...] 형태 배열
+  동작:
+    - 오늘부터 dayCount 만큼 날짜 라벨을 만들어 date-btn 렌더에 사용
+========================================================= */
+function buildUpcomingDateLabels(dayCount = 12, baseDate = new Date()) {
+  const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+  const labels = [];
+
+  for (let i = 0; i < dayCount; i++) {
+    const d = new Date(baseDate);
+    d.setDate(baseDate.getDate() + i);
+
+    const w = weekdays[d.getDay()];
+    if (i === 0) {
+      labels.push(`오늘(${w})`);
+      continue;
+    }
+    if (i === 1) {
+      labels.push(`내일(${w})`);
+      continue;
+    }
+
+    labels.push(`${d.getMonth() + 1}.${String(d.getDate()).padStart(2, "0")}(${w})`);
+  }
+
+  return labels;
+}
+
+const DEFAULT_DATE_LABELS = buildUpcomingDateLabels(12);
+
+/* =========================================================
   [1] 더미 식당 데이터 (나중에 실제 데이터로 바꾸면 됨)
   - type: "white" | "black"  (탭 필터용)
   - images: 첫 번째 이미지는 '요리사(대표)'라고 가정
@@ -12,6 +48,8 @@ console.log("[app.js] loaded");
 const DUMMY_SHOPS = [
   {
     id: "s1",
+    headLink: "#",
+    infoLink: "#",
     type: "white",
     name: "갓포아키 삼성점",
     rating: 4.7,
@@ -25,10 +63,12 @@ const DUMMY_SHOPS = [
       "https://picsum.photos/seed/food1/960/540",
       "https://picsum.photos/seed/food2/960/540",
     ],
-    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    dates: [...DEFAULT_DATE_LABELS],
   },
   {
     id: "s2",
+    headLink: "#",
+    infoLink: "#",
     type: "black",
     name: "다이탈리안 클럽",
     rating: 4.4,
@@ -41,10 +81,12 @@ const DUMMY_SHOPS = [
       "https://picsum.photos/seed/chef2/960/540",
       "https://picsum.photos/seed/food3/960/540",
     ],
-    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    dates: [...DEFAULT_DATE_LABELS],
   },
   {
     id: "s3",
+    headLink: "#",
+    infoLink: "#",
     type: "black",
     name: "수인 인사동 닭한마리",
     rating: 4.6,
@@ -58,7 +100,7 @@ const DUMMY_SHOPS = [
       "https://picsum.photos/seed/food4/960/540",
       "https://picsum.photos/seed/food5/960/540",
     ],
-    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    dates: [...DEFAULT_DATE_LABELS],
   },
 ];
 /* =========================================================
@@ -85,7 +127,17 @@ function reserveSlot(shopId, date, time) {
 ========================================================= */
 function buildTimeSlots(shopId, date) {
   // 영상/클론 기준으로 보이는 시간대 (원하면 여기만 바꾸면 됨)
-  const baseTimes = ["18:00", "18:30", "19:00", "19:30", "20:00"];
+  const baseTimes = [
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+  ];
 
   // 항상 같은 결과가 나오도록 seed 생성(데모용)
   const seedStr = `${shopId}__${date}`;
@@ -150,7 +202,17 @@ function setReservedDate(shopId, date) {
 ========================================================= */
 function buildTimeSlots(shopId, date) {
   // 화면에서 보여줄 시간대(필요하면 영상에 맞게 여기만 수정)
-  const baseTimes = ["18:00", "18:30", "19:00", "19:30", "20:00"];
+  const baseTimes = [
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+  ];
 
   // 문자열을 숫자로 바꿔서 seed 생성(항상 같은 결과가 나오게)
   const seedStr = `${shopId}__${date}`;
@@ -336,6 +398,8 @@ function renderShopList() {
 
   // 렌더 후 “예약 버튼(날짜 버튼)” 더미 동작 연결
   initReserveButtons();
+  initShopCardHeadLinks();
+  initGrabSlideForDateStrip(root);
 }
 
 /* 카드 HTML 템플릿 */
@@ -374,7 +438,7 @@ function shopCardHTML(shop) {
 
   return `
   <article class="shop-card" data-shopid="${shop.id}">
-    <div class="shop-card__head">
+    <div class="shop-card__head" data-href="${shop.headLink || "#"}" role="link" tabindex="0">
       <div>
         <h2 class="shop-card__name">${shop.name}</h2>
         <div class="shop-card__meta">
@@ -396,7 +460,7 @@ function shopCardHTML(shop) {
       <div class="swiper-pagination"></div>
     </div>
 
-    <div class="shop-card__info">
+    <div class="shop-card__info" data-href="${shop.infoLink || "#"}" role="link" tabindex="0">
       <div class="info-row"><span class="info-ico">🕒</span>${shop.openInfo}</div>
       <div class="info-row"><span class="info-ico">💳</span>${shop.priceInfo}</div>
     </div>
@@ -433,6 +497,35 @@ function initReserveButtons() {
     const date = btn.dataset.date;
 
     openReserveSheet(shopId, date);
+  });
+}
+
+function initShopCardHeadLinks() {
+  const listRoot = document.getElementById("shopList");
+  if (!listRoot) return;
+
+  if (listRoot.dataset.headLinkBound === "1") return;
+  listRoot.dataset.headLinkBound = "1";
+
+  function moveToCardAreaLink(target) {
+    const href = target.dataset.href || "#";
+    window.location.href = href;
+  }
+
+  listRoot.addEventListener("click", (e) => {
+    const area = e.target.closest(".shop-card__head, .shop-card__info");
+    if (!area || !listRoot.contains(area)) return;
+    if (e.target.closest(".bookmark")) return;
+    moveToCardAreaLink(area);
+  });
+
+  listRoot.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const area = e.target.closest(".shop-card__head, .shop-card__info");
+    if (!area || !listRoot.contains(area)) return;
+    if (e.target.closest(".bookmark")) return;
+    e.preventDefault();
+    moveToCardAreaLink(area);
   });
 }
 
@@ -658,7 +751,7 @@ function renderReserveDates(shop) {
 
 /* 예약창: 인원 렌더 */
 function renderReservePeople() {
-  const peopleOptions = ["2명", "3명", "4명", "5명"];
+  const peopleOptions = ["2명", "3명", "4명", "5명", "6명", "7명", "8명 이상"];
   reserveUI.peopleGrid.innerHTML = peopleOptions
     .map((p) => {
       const isOn = reserveDraft.people === p;
@@ -1156,36 +1249,63 @@ function initSelectedChips() {
   - 선택: pill 클릭 시 해당 그룹에서 하나만 is-on
   - 적용: 상단 dtSummary 텍스트 변경 + 닫기
 ========================================================= */
-function initGrabSlideForSheetGrid(root = document) {
-  root.querySelectorAll(".sheet-grid").forEach((grid) => {
-    if (grid.dataset.grabInit === "1") return;
-    grid.dataset.grabInit = "1";
+/* =========================================================
+  함수: initGrabSlideForHorizontalRows
+  매개변수:
+    - root (ParentNode): 탐색 시작 루트 (기본값: document)
+    - selector (string): grab 슬라이드를 적용할 대상 선택자
+    - initFlag (string): 중복 바인딩 방지용 dataset 키
+  반환값:
+    - 없음(void)
+  동작:
+    - 가로 스크롤 컨테이너를 "마우스/터치 드래그"로 이동 가능하게 만든다.
+    - 실제 드래그가 발생한 경우에만 클릭 이벤트를 막아서 오동작을 줄인다.
+========================================================= */
+function initGrabSlideForHorizontalRows(
+  root = document,
+  selector = ".sheet-grid",
+  initFlag = "grabInit",
+) {
+  root.querySelectorAll(selector).forEach((row) => {
+    if (row.dataset[initFlag] === "1") return;
+    row.dataset[initFlag] = "1";
 
     let isDown = false;
     let startX = 0;
     let startScrollLeft = 0;
     let didDrag = false;
+    let suppressClick = false;
+    let clickSuppressTimer = 0;
 
     function onPointerDown(e) {
       if (e.pointerType === "mouse" && e.button !== 0) return;
 
+      if (clickSuppressTimer) {
+        clearTimeout(clickSuppressTimer);
+        clickSuppressTimer = 0;
+      }
       isDown = true;
       didDrag = false;
+      suppressClick = false;
       startX = e.clientX;
-      startScrollLeft = grid.scrollLeft;
-      grid.classList.add("is-grabbing");
-
-      try {
-        grid.setPointerCapture(e.pointerId);
-      } catch (_) {}
+      startScrollLeft = row.scrollLeft;
     }
 
     function onPointerMove(e) {
       if (!isDown) return;
 
       const dx = e.clientX - startX;
-      if (Math.abs(dx) > 4) didDrag = true;
-      grid.scrollLeft = startScrollLeft - dx;
+      if (Math.abs(dx) > 4) {
+        if (!didDrag) {
+          didDrag = true;
+          suppressClick = true;
+          row.classList.add("is-grabbing");
+          try {
+            row.setPointerCapture(e.pointerId);
+          } catch (_) {}
+        }
+      }
+      row.scrollLeft = startScrollLeft - dx;
 
       if (didDrag) e.preventDefault();
     }
@@ -1193,29 +1313,47 @@ function initGrabSlideForSheetGrid(root = document) {
     function endDrag() {
       if (!isDown) return;
       isDown = false;
-      grid.classList.remove("is-grabbing");
+      row.classList.remove("is-grabbing");
+      if (didDrag) {
+        clickSuppressTimer = window.setTimeout(() => {
+          suppressClick = false;
+          didDrag = false;
+          clickSuppressTimer = 0;
+        }, 220);
+      }
     }
 
-    grid.addEventListener("pointerdown", onPointerDown);
-    grid.addEventListener("pointermove", onPointerMove);
-    grid.addEventListener("pointerup", endDrag);
-    grid.addEventListener("pointercancel", endDrag);
-    grid.addEventListener("lostpointercapture", endDrag);
-    grid.addEventListener("pointerleave", (e) => {
+    row.addEventListener("pointerdown", onPointerDown);
+    row.addEventListener("pointermove", onPointerMove);
+    row.addEventListener("pointerup", endDrag);
+    row.addEventListener("pointercancel", endDrag);
+    row.addEventListener("lostpointercapture", endDrag);
+    row.addEventListener("pointerleave", (e) => {
       if (e.pointerType === "mouse") endDrag();
     });
 
-    grid.addEventListener(
+    row.addEventListener(
       "click",
       (e) => {
-        if (!didDrag) return;
+        if (!suppressClick) return;
         e.preventDefault();
         e.stopPropagation();
+        suppressClick = false;
         didDrag = false;
       },
       true,
     );
   });
+}
+
+/* sheet-grid(예약 시트/정렬 시트/상단 시트) grab 슬라이드 적용 */
+function initGrabSlideForSheetGrid(root = document) {
+  initGrabSlideForHorizontalRows(root, ".sheet-grid", "grabInit");
+}
+
+/* 카드의 date-btn 가로줄(.date-strip)에도 동일한 grab 슬라이드 적용 */
+function initGrabSlideForDateStrip(root = document) {
+  initGrabSlideForHorizontalRows(root, ".date-strip", "dateGrabInit");
 }
 
 function initDateTimeSheet() {

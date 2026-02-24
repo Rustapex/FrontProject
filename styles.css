@@ -209,6 +209,11 @@ body {
   gap: 10px;
   padding: 12px 12px 8px;
 }
+.shop-card__head[data-href] { cursor: pointer; }
+.shop-card__head[data-href]:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: -2px;
+}
 .shop-card__name { margin: 0 0 6px; font-size: 18px; }
 .shop-card__meta {
   display: flex;
@@ -236,6 +241,11 @@ body {
 
 /* 카드 정보 */
 .shop-card__info { padding: 10px 12px; border-top: 1px solid #f3f4f6; }
+.shop-card__info[data-href] { cursor: pointer; }
+.shop-card__info[data-href]:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: -2px;
+}
 .info-row { display: flex; gap: 8px; align-items: center; font-size: 13px; margin: 6px 0; }
 
 /* 날짜 버튼 */
@@ -244,9 +254,23 @@ body {
   gap: 8px;
   padding: 10px 12px 14px;
   overflow-x: auto;
+  overflow-y: hidden;
   border-top: 1px solid #f3f4f6;
+  scroll-snap-type: x mandatory;
+  cursor: grab;
+  user-select: auto;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.date-strip::-webkit-scrollbar { display: none; }
+.date-strip.is-grabbing {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .date-btn {
+  flex: 0 0 auto;
   min-width: 74px;
   border: 1px solid #e5e7eb;
   background: #fff;
@@ -255,6 +279,7 @@ body {
   font-weight: 800;
   cursor: pointer;
   font-size: 12px;
+  scroll-snap-align: start;
 }
 .date-btn small { font-weight: 700; color: #6b7280; }
 .date-btn.is-disabled {
@@ -345,7 +370,7 @@ body {
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   cursor: grab;
-  user-select: none;
+  user-select: auto;
   touch-action: pan-y;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -353,6 +378,8 @@ body {
 .sheet-grid::-webkit-scrollbar { display: none; }
 .sheet-grid.is-grabbing {
   cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .sheet-grid .pill {
   flex: 0 0 auto;
