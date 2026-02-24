@@ -1,253 +1,241 @@
-﻿.container {
-    width: 480px;
-    margin: 0 auto;
-}
-
-.food-wrap {
-    width: 480px;
-    margin: 0 auto;
-    height: calc(100vh - 80px);
-    background: #fff;
+﻿.rk-reserve {
+    width: min(480px, 100%);
+    border: 1px solid #eceff3;
     border-radius: 14px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+    padding: 12px;
+    background: #fff;
 }
 
-#header {
-    position: sticky;
-    top: 0;
-    background: #fff;
-    padding: 0 16px;
-    border-bottom: 1px solid #ddd;
-    z-index: 99;
-    height: 60px;
+.rk-reserve * {
+    box-sizing: border-box;
+}
+
+.rk-head {
     display: flex;
     align-items: center;
-    gap: 16px;
+    justify-content: space-between;
+    gap: 8px;
 }
 
-#header a {
-    text-decoration: none;
-    color: #000;
-    font-size: 14px;
-}
-
-#header b {
+.rk-head h3 {
     margin: 0;
-    font-weight: bold;
-    font-size: 17px;
+    font-size: 16px;
 }
 
-#header button {
-    justify-self: end;
-    margin-left: auto;
+.rk-status-btn {
     border: 1px solid #e5e7eb;
     background: #fff;
     border-radius: 999px;
     padding: 8px 10px;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
 }
 
-#header button:hover {
-    background: black;
-    color: white;
+.rk-status-btn:hover {
+    background: #111;
+    border-color: #111;
+    color: #fff;
 }
 
-.menu {
-    width: 440px;
-    height: 248px;
-    margin: 0 auto;
+.rk-box {
     margin-top: 10px;
 }
 
-.day {
-    width: 440px;
-    height: 46px;
-    margin: 0 auto;
-    border-radius: 8px;
-    border: 1px solid #DCE3E8;
-    display: flex;
-}
-
-.ss {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.res {
-    position: fixed;
-    bottom: 0;
-    width: 480px;
-    height: 72px;
-    background-color: white;
-}
-
-.res button {
-    position: absolute;
-    width: 460px;
-    background-color: black;
-    cursor: pointer;
-    height: 52px;
-    border-radius: 8px;
-    border: none;
-    color: white;
-    text-align: center;
-}
-
-.reservation-box {
-    transform: translate(0%, 120%);
-    border-radius: 20px 20px 0 0;
-    background-color: white;
-    width: 480px;
-    z-index: 9999;
-    margin: 0 auto;
-    bottom: 0;
-    position: fixed;
-    transition: transform 0.4s ease;
-    border: 1px solid black;
-    pointer-events: none;
-}
-
-.reservation-box.active {
-    transform: translate(0, 0%);
-    pointer-events: auto;
-}
-
-body.modal-open {
-    overflow: hidden;
-}
-
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.month {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.week {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    color: gray;
-    margin-bottom: 10px;
-}
-
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.calendar span {
-    padding: 8px 0;
-    border-radius: 50%;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.calendar .selected {
-    background: black;
-    color: white;
-}
-
-.calendar .disabled {
-    color: #ccc;
-}
-
-.people {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-}
-
-.people button {
-    border: 1px solid #ccc;
-    background: white;
-    border-radius: 50px;
-    padding: 8px 15px;
-    margin-left: auto;
-    cursor: pointer;
-    margin-top: 30px;
-}
-
-.people button.selected {
-    background: black;
-    color: white;
-    border: none;
-}
-
-.watch {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    user-select: none;
-    scroll-behavior: smooth;
-}
-
-.time:active {
-    cursor: grabbing;
-}
-
-.watch button {
-    background: white;
-    color: black;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 15px;
-    cursor: pointer;
-    margin-left: auto;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    flex: 0 0 auto;
-}
-
-.watch button.selected {
-    background: black;
-    color: white;
-}
-
-.watch button.disabled {
-    background: #ccc;
-    color: #666;
-    pointer-events: none;
-}
-
-.close {
+.rk-trigger {
     width: 100%;
+    border: 1px solid #dce3e8;
+    background: #fff;
+    border-radius: 8px;
     padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background: white;
+    text-align: left;
     cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3px 8px;
 }
 
-.calendar-reserve-btn {
-    width: 100%;
-    padding: 15px;
-    background: black;
-    color: white;
-    border: none;
-    border-radius: 10px;
+.rk-trigger-title {
+    font-size: 13px;
+    color: #111;
+    font-weight: 700;
+    grid-column: 1 / 2;
+}
+
+.rk-summary {
+    font-size: 12px;
+    color: #6b7280;
+    grid-column: 1 / 2;
+}
+
+.rk-arrow {
+    grid-row: 1 / 3;
+    grid-column: 2 / 3;
+    align-self: center;
+    color: #6b7280;
     font-size: 16px;
-    cursor: pointer;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.3s;
+    transition: transform 0.2s ease;
 }
 
-.calendar-reserve-btn.show {
-    opacity: 1;
-    pointer-events: auto;
+.rk-trigger.is-open .rk-arrow {
+    transform: rotate(180deg);
+}
+
+.rk-panel {
+    display: none;
+    margin-top: 12px;
+}
+
+.rk-panel.active {
+    display: block;
+}
+
+.rk-group {
+    margin-bottom: 12px;
+}
+
+.rk-label {
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: #374151;
+}
+
+.rk-calendar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.rk-month {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.rk-nav-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.rk-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.rk-week span {
+    text-align: center;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.rk-date-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.rk-date-empty {
+    height: 36px;
+}
+
+.rk-date-btn {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.rk-date-btn.today {
+    border-color: #111;
+}
+
+.rk-date-btn.on {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+.rk-date-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.rk-people {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.rk-person-btn {
+    flex: 0 0 auto;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.rk-person-btn.on {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+.rk-time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.rk-time-btn {
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 8px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.rk-time-btn.on {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+.rk-time-btn.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.rk-note {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.rk-reserve-btn {
+    width: 100%;
+    border: 1px solid #111;
+    background: #111;
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.rk-reserve-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
