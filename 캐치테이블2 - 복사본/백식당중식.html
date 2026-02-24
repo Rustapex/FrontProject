@@ -165,15 +165,8 @@
   </section>
 
   <!-- ================= 위치 ================= -->
-  <section class="location">
-    <h2>위치</h2>
-    <div id="map" class="map-box"></div>
 
-    <div class="address">
-      <b>서울특별시 중구 동호로 287 2층</b>
-      <div>🚇 동대입구역에서 353m</div>
-      <div>🚇 동대문역사문화공원역에서 536m</div>
-    </div>
+   
 
     <button class="map-btn">🧭 길찾기</button>
   </section>
@@ -209,6 +202,14 @@
       <button data-p="8">8명</button>
       <button data-p="9">9명</button>
     </div>
+    <!-- 시간 선택 -->
+    <div class="times" id="times">
+      <button class="time-btn">오후 5:30</button>
+      <button class="time-btn">오후 6:00</button>
+      <button class="time-btn">오후 6:30</button>
+      <button class="time-btn">오후 7:00</button>
+      <button class="time-btn">오후 8:00</button>
+    </div>
 
     <div class="closed-info">📅 예약이 모두 마감되었어요</div>
 
@@ -216,6 +217,20 @@
   </div>
 </div>
 
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=네_JS_키&autoload=false"></script>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.782687076412!2d126.99982037640551!3d37.56018342449156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca30294428037%3A0x3709b85ef5abe6fd!2z7Zi467mI!5e0!3m2!1sko!2skr!4v1771917848517!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </body>
+<div class="reserve-bar">
+  <div class="map-width-wrap">
+    <button class="call-mini">
+      📞 전화
+    </button>
+
+    
+
+    <button id="openReserveFixed" class="reserve-orange">
+      예약하기
+    </button>
+  </div>
+  
+</div>
 </html>

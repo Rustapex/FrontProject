@@ -198,17 +198,83 @@
         <button id="closeReserve" class="close-btn">닫기</button>
       </div>
     </div>
-
+    
+    <div class="map">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.1541311242704!2d127.03367057640433!3d37.52786382634384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca39c183bd317%3A0x2457abef5c9e62de!2z67O067O07Iud64u5IOyVleq1rOyglQ!5e0!3m2!1sko!2skr!4v1771914515956!5m2!1sko!2skr"
-      width="440"
-      height="480"
       style="border: 0"
       allowfullscreen=""
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
   
     ></iframe>
-    
+    </div>
   </body>
+  <!-- ===== 하단 고정 예약 바 ===== -->
+<div class="reserve-bar">
+  <div class="map-width-wrap">
+    <button class="call-mini">
+      📞 전화
+    </button>
+
+    <button id="openReserveFixed" class="reserve-orange">
+      예약하기
+    </button>
+  </div>
+</div>
+
+<!-- ===== 예약 모달 ===== -->
+<div id="reserveModal" class="reserve-modal">
+  <div class="reserve-sheet">
+
+    <div class="sheet-header">
+      <span class="today">오늘</span>
+      <button class="arrow">‹</button>
+      <strong>2026년 2월</strong>
+      <button class="arrow">›</button>
+      <span class="filter">전체 ▾</span>
+    </div>
+
+    <!-- 요일 -->
+    <div class="week">
+      <span>일</span><span>월</span><span>화</span>
+      <span>수</span><span>목</span><span>금</span><span>토</span>
+    </div>
+
+    <!-- 날짜 -->
+    <div class="days">
+      <span class="disabled">22</span>
+      <span>23</span>
+      <span class="active">24</span>
+      <span>25</span>
+      <span>26</span>
+      <span>27</span>
+      <span>28</span>
+    </div>
+
+    <!-- 인원 -->
+    <div class="people">
+      <button>1명</button>
+      <button class="active">2명</button>
+      <button>3명</button>
+      <button>4명</button>
+      <button>5명</button>
+      <button>6명</button>
+      <button>7명</button>
+      <button>8명</button>
+      <button>9명</button>
+    </div>
+
+    <!-- 시간 -->
+    <div class="times">
+      <button>오후 5:30</button>
+      <button>오후 6:00</button>
+      <button>오후 6:30</button>
+      <button>오후 7:00</button>
+      <button>오후 8:00</button>
+    </div>
+
+    <button id="closeReserveFixed" class="close-btn">닫기</button>
+  </div>
+</div>
 </html>
