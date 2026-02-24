@@ -334,7 +334,34 @@ body {
 
 .sheet-block { margin-bottom: 16px; }
 .sheet-block__title { font-weight: 900; margin-bottom: 10px; }
-.sheet-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.sheet-grid {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.sheet-grid::-webkit-scrollbar { display: none; }
+.sheet-grid.is-grabbing {
+  cursor: grabbing;
+}
+.sheet-grid .pill {
+  flex: 0 0 auto;
+  min-width: 84px;
+  padding: 0 14px;
+  scroll-snap-align: start;
+  white-space: nowrap;
+  cursor: inherit;
+}
 
 .pill {
   height: 44px;

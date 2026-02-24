@@ -1007,6 +1007,8 @@ function initSelectedChips() {
       commitDraftToState();
       closeSortSheet();
     });
+
+    initGrabSlideForSheetGrid(sheet);
   }
 
   function openSortSheet(type) {
@@ -1154,6 +1156,68 @@ function initSelectedChips() {
   - 선택: pill 클릭 시 해당 그룹에서 하나만 is-on
   - 적용: 상단 dtSummary 텍스트 변경 + 닫기
 ========================================================= */
+function initGrabSlideForSheetGrid(root = document) {
+  root.querySelectorAll(".sheet-grid").forEach((grid) => {
+    if (grid.dataset.grabInit === "1") return;
+    grid.dataset.grabInit = "1";
+
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let didDrag = false;
+
+    function onPointerDown(e) {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+
+      isDown = true;
+      didDrag = false;
+      startX = e.clientX;
+      startScrollLeft = grid.scrollLeft;
+      grid.classList.add("is-grabbing");
+
+      try {
+        grid.setPointerCapture(e.pointerId);
+      } catch (_) {}
+    }
+
+    function onPointerMove(e) {
+      if (!isDown) return;
+
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) didDrag = true;
+      grid.scrollLeft = startScrollLeft - dx;
+
+      if (didDrag) e.preventDefault();
+    }
+
+    function endDrag() {
+      if (!isDown) return;
+      isDown = false;
+      grid.classList.remove("is-grabbing");
+    }
+
+    grid.addEventListener("pointerdown", onPointerDown);
+    grid.addEventListener("pointermove", onPointerMove);
+    grid.addEventListener("pointerup", endDrag);
+    grid.addEventListener("pointercancel", endDrag);
+    grid.addEventListener("lostpointercapture", endDrag);
+    grid.addEventListener("pointerleave", (e) => {
+      if (e.pointerType === "mouse") endDrag();
+    });
+
+    grid.addEventListener(
+      "click",
+      (e) => {
+        if (!didDrag) return;
+        e.preventDefault();
+        e.stopPropagation();
+        didDrag = false;
+      },
+      true,
+    );
+  });
+}
+
 function initDateTimeSheet() {
   const openBtn = document.getElementById("openDateTime");
   const closeBtn = document.getElementById("closeDateTime");
@@ -1177,6 +1241,7 @@ function initDateTimeSheet() {
   function openSheet() {
     // 시트 열 때 현재 저장된 선택값을 pill에 반영(동기화)
     syncSheetUIFromState();
+    initGrabSlideForSheetGrid(sheet);
     backdrop.hidden = false;
     sheet.hidden = false;
   }
@@ -1267,6 +1332,7 @@ function initBottomActions() {
 document.addEventListener("DOMContentLoaded", () => {
   initTabs();
   initSelectedChips();
+  initGrabSlideForSheetGrid();
   initDateTimeSheet();
   initBottomActions();
 
