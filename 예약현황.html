@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이다이닝</title>
+<style>
+    .res-wrap{
+        width: 480px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        height: calc(100vh - 24px);
+        background: #fff;
+        border-radius: 14px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+    }
+    #header {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        padding: 0 16px;        /* 좌우 여백 */
+        border-bottom: 1px solid #ddd;
+        z-index: 99;
+        height: 60px;
+
+        display: flex;           /* 플렉스 사용 */
+        align-items: center;     /* 세로 가운데 정렬 */
+        gap: 16px;               /* 내부 아이템 간격 */
+    }
+    #header a {
+        text-decoration: none;
+        color: #000;
+        font-size: 14px;
+        /* flex 컨테이너 안에 있으므로 top/left 제거 */
+    }
+
+    #header b {
+        margin: 0;               /* flex 안이라 margin-left 대신 gap 사용 */
+        font-weight: bold;
+        font-size: 17px;
+    }
+    ul{
+        list-style: none;
+        padding: 0 16px;
+        margin: 16px 0;
+        display: flex;
+        gap: 16px;
+        
+    }
+    ul li span{
+        padding: 8px 0;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* 예약 카드 디자인 */
+    .reservation-container{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+    .reservation-card{
+        border-radius: 12px;
+        padding: 16px;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        position: relative;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+    .reservation-card img{
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+    .reservation-card .d-day{
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: #eee;
+        border-radius: 50px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .reservation-card .status{
+        position: absolute;
+        top: 20px;
+        right: 16px;
+        background: #aaa;
+        color: #fff;
+        border-radius: 12px;
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+    .reservation-info{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .reservation-info h3{
+        margin: 0 0 4px 0;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    .reservation-info p{
+        margin: 2px 0;
+        font-size: 14px;
+    }
+    .reservation-info .date-time{
+        color: #e74c3c;
+        font-weight: bold;
+    }
+    .reservation-info button{
+        margin-top: 8px;
+        padding: 6px;
+        border: none;
+        border-radius: 8px;
+        background: #f0f0f0;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    /* 취소 버튼 */
+    .cancel-btn {
+        width: 300px;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 12px;
+        background: #f0f0f0;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 13px;
+    }
+    .cancel-btn:hover {
+        background: black;
+        color: white;
+    }
+
+</style>
+</head>
+<body>
+<div class="res-wrap">
+    <header id="header">
+        <a id="backBtn" href="#" aria-label="뒤로가기">←</a>
+        <b>마이다이닝</b>
+    </header>
+
+    <ul>
+        <li><span>나의 예약</span></li>
+    </ul>
+
+    <div class="reservation-container" id="myReservation">
+        <!-- 예약 카드 들어가는 곳 -->
+    </div>
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('myReservation');
+    const backBtn = document.getElementById('backBtn');
+
+    // localStorage에서 예약 데이터 가져오기
+    let reservationData = JSON.parse(localStorage.getItem('reservations')) || [];
+
+    // 예약 카드 렌더링 함수
+    function renderReservations() {
+        container.innerHTML = ""; // 기존 카드 초기화
+
+        reservationData.forEach((res, index) => {
+            const card = document.createElement('div');
+            card.classList.add('reservation-card');
+
+            card.innerHTML = `
+                <div class="d-day">${res.dDay}</div>
+                ${res.status ? `<div class="status">${res.status}</div>` : ''}
+                <img src="${res.image}" alt="${res.name}">
+                <div class="reservation-info">
+                    <h3>${res.name}</h3>
+                    <p>${res.info}</p>
+                    <p class="date-time">${res.dateTime}</p>
+                    ${res.status ? `<button class="cancel-btn" data-index="${index}">취소하기</button>` : ''}
+                    ${res.buttonText ? `<button>${res.buttonText}</button>` : ''}
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        // 취소 버튼 이벤트 연결
+        const cancelButtons = document.querySelectorAll('.cancel-btn');
+        cancelButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = btn.dataset.index;
+                reservationData.splice(idx, 1);
+                localStorage.setItem('reservations', JSON.stringify(reservationData));
+                renderReservations();
+            });
+        });
+    }
+
+    renderReservations();
+
+    // ---------------------------
+    // 뒤로가기 버튼 이벤트
+    backBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // 이전 페이지 구분
+        const ref = document.referrer;
+
+        if(ref.includes("intro.html")){
+            window.location.href = "intro.html"; // 인트로로 이동
+        } else if(ref.includes("백(양식).html")){
+            window.location.href = "백(양식).html"; // 백(양식)으로 이동
+        } else {
+            history.back(); // referrer 없으면 이전 페이지
+        }
+    });
+});
+</script>
+</body>
+</html>
