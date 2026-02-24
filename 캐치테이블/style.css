@@ -1,0 +1,115 @@
+:root{
+  --accent:#ff5a00;
+  --line:#e5e7eb;
+  --muted:#6b7280;
+}
+
+*{ box-sizing:border-box; }
+body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
+.container{ max-width:420px; margin:0 auto; padding:16px; }
+
+.hero .slider{
+  height:220px;
+  border-radius:16px;
+  overflow:hidden;
+}
+.slides{ display:flex; transition:.4s ease; }
+.slide{ flex:0 0 100%; }
+.slide img{ width:100%; height:100%; object-fit:cover; }
+
+.badge-row{ display:flex; gap:6px; flex-wrap:wrap; }
+.badge{ padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; }
+.badge.dark{ background:#111; color:#fff; }
+.badge.gold{ background:#fff7ed; color:#c2410c; }
+.badge.outline{ border:1px solid var(--line); }
+
+.reserve-summary{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-weight:900;
+}
+
+.menu-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.menu-item{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px 0;
+  border-bottom:1px solid #f1f5f9;
+}
+
+.menu-item img{
+  width:90px;
+  height:90px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  justify-content:center;
+  align-items:flex-end;
+}
+.overlay.show{ display:flex; }
+
+.modal{
+  width:100%;
+  max-width:420px;
+  background:#fff;
+  border-radius:22px 22px 0 0;
+  padding:16px;
+}
+
+.calendar .week,
+.calendar .days{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  text-align:center;
+}
+.calendar .days span{
+  padding:10px;
+  cursor:pointer;
+}
+.calendar .days .active{
+  background:var(--accent);
+  color:#fff;
+  border-radius:999px;
+}
+
+.people{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin:14px 0;
+}
+.people button{
+  min-width:56px;
+  padding:10px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.people .active{
+  background:var(--accent);
+  color:#fff;
+}
+
+.close-btn{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-weight:900;
+}
