@@ -55,6 +55,7 @@ const state = {
   selectedPeople: "2명",
   selectedTime: null, // 예: "19:00"
   reservedSlots: loadReservedSlots(), // Set 형태
+  calendarCursor: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
 };
 
 /* =========================================================
@@ -122,6 +123,16 @@ function dateKey(dateObj) {
   const m = String(dateObj.getMonth() + 1).padStart(2, "0");
   const d = String(dateObj.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
+}
+
+function monthLabel(dateObj) {
+  return `${dateObj.getFullYear()}년 ${dateObj.getMonth() + 1}월`;
+}
+
+function isPastDate(dateObj) {
+  const t = new Date();
+  const today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+  return dateObj < today;
 }
 
 /* =========================================================
@@ -260,6 +271,52 @@ function render() {
   renderReserveButtons();
 }
 
+function setReservePanel(open) {
+  const panel = $("#reservePanel");
+  const toggleBtn = $("#reserveToggleBtn");
+  if (!panel || !toggleBtn) return;
+
+  panel.classList.toggle("active", open);
+  toggleBtn.classList.toggle("is-open", open);
+}
+
+function initReservePanel() {
+  const toggleBtn = $("#reserveToggleBtn");
+  if (!toggleBtn) return;
+
+  const prevBtn = $("#calPrevBtn");
+  const nextBtn = $("#calNextBtn");
+
+  toggleBtn.addEventListener("click", () => {
+    const panel = $("#reservePanel");
+    if (!panel) return;
+    const shouldOpen = !panel.classList.contains("active");
+    setReservePanel(shouldOpen);
+  });
+
+  prevBtn?.addEventListener("click", () => {
+    state.calendarCursor = new Date(
+      state.calendarCursor.getFullYear(),
+      state.calendarCursor.getMonth() - 1,
+      1
+    );
+    state.selectedDateKey = null;
+    state.selectedTime = null;
+    render();
+  });
+
+  nextBtn?.addEventListener("click", () => {
+    state.calendarCursor = new Date(
+      state.calendarCursor.getFullYear(),
+      state.calendarCursor.getMonth() + 1,
+      1
+    );
+    state.selectedDateKey = null;
+    state.selectedTime = null;
+    render();
+  });
+}
+
 /* ---- 화면 채우기(더미 데이터) ---- */
 function renderShopInfo() {
   $("#heroImg").src = SHOP.heroImg;
@@ -290,42 +347,52 @@ function renderShopInfo() {
 function renderDates() {
   const row = $("#dateRow");
   row.innerHTML = "";
+  const monthLabelEl = $("#calMonthLabel");
+  if (monthLabelEl) monthLabelEl.textContent = monthLabel(state.calendarCursor);
 
-  const dates = makeNextDates(5);
-  dates.forEach((d, idx) => {
+  const y = state.calendarCursor.getFullYear();
+  const m = state.calendarCursor.getMonth();
+  const firstDay = new Date(y, m, 1);
+  const firstWeekDay = firstDay.getDay();
+  const lastDate = new Date(y, m + 1, 0).getDate();
+  const todayKey = dateKey(new Date());
+
+  for (let i = 0; i < firstWeekDay; i++) {
+    const empty = document.createElement("span");
+    empty.className = "calendar-empty";
+    row.appendChild(empty);
+  }
+
+  let firstAvailableKey = null;
+
+  for (let day = 1; day <= lastDate; day++) {
+    const d = new Date(y, m, day);
     const key = dateKey(d);
-    const ok = hasAnyAvailableTime(key);
+    const hasSlot = hasAnyAvailableTime(key);
+    const canReserve = hasSlot && !isPastDate(d);
 
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "pill";
+    btn.className = "calendar-day";
     btn.dataset.role = "date";
     btn.dataset.dateKey = key;
+    btn.textContent = String(day);
 
-    // 표시: 오늘/내일 + 요일 느낌
-    const label =
-      idx === 0
-        ? `오늘(${weekdayKorean(d)})`
-        : idx === 1
-        ? `내일(${weekdayKorean(d)})`
-        : `${d.getMonth() + 1}.${d.getDate()}(${weekdayKorean(d)})`;
-
-    btn.innerHTML = `${label}<br><span class="small">${ok ? "예약 가능" : "예약 불가"}</span>`;
-
-    // 선택 강조
+    if (key === todayKey) btn.classList.add("today");
     if (state.selectedDateKey === key) btn.classList.add("on");
 
-    // 예약 불가면 비활성
-    if (!ok) {
+    if (!canReserve) {
       btn.classList.add("disabled");
       btn.disabled = true;
     }
 
+    if (!firstAvailableKey && canReserve) firstAvailableKey = key;
     row.appendChild(btn);
+  }
 
-    // 초기 선택값(처음 로딩 시)
-    if (!state.selectedDateKey && ok) state.selectedDateKey = key;
-  });
+  if (!state.selectedDateKey && firstAvailableKey) {
+    state.selectedDateKey = firstAvailableKey;
+  }
 }
 
 /* =========================================================
@@ -409,6 +476,7 @@ function renderTimes() {
 ========================================================= */
 function renderSummary() {
   const el = $("#reserveSummary");
+  if (!el) return;
 
   if (!state.selectedDateKey) {
     el.textContent = "예약 가능한 날짜가 없습니다.";
@@ -416,7 +484,7 @@ function renderSummary() {
   }
 
   const t = state.selectedTime ? state.selectedTime : "미선택";
-  el.textContent = `선택: ${state.selectedDateKey} · ${state.selectedPeople} · ${t}`;
+  el.textContent = `${state.selectedDateKey} / ${state.selectedPeople} / ${t}`;
 }
 
 /* =========================================================
@@ -562,6 +630,7 @@ $("#reserveBtn").addEventListener("click", bookSelectedSlot);
 // 하단 예약하기: 선택이 없으면 예약 섹션으로 안내
 $("#bottomReserveBtn").addEventListener("click", () => {
   if (!state.selectedTime) {
+    setReservePanel(true);
     $("#reserveSection").scrollIntoView({ behavior: "smooth", block: "start" });
     alert("날짜/시간을 선택한 후 예약하기를 눌러주세요.");
     return;
@@ -570,4 +639,5 @@ $("#bottomReserveBtn").addEventListener("click", () => {
 });
 
 // 최초 렌더
+initReservePanel();
 render();

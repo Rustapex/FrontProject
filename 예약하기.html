@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약하기</title>
+    <link rel="stylesheet" href="예약하기.css">
+</head>
+<body>
+    <div class="food-wrap">
+        <header id="header">
+            <a href="intro.html" aria-label="뒤로가기">←</a>
+            <b>도우룸 광화문</b>
+            <button class="btn3" type="button" id="reservationBtn">예약현황</button>
+        </header>
+
+        <div class="menu">
+            <h3>예약</h3>
+            <div class="day" id="openBtn">
+                <span class="ss">📅 날짜, 인원, 시간 </span>
+            </div>
+        </div>
+
+        <div class="reservation-box" id="calendarModal">
+            <div class="calender-header">
+                <div class="month">
+                    <span>2026년 2월</span>
+                </div>
+            </div>
+
+            <div class="week">
+                <span>일</span>
+                <span>월</span>
+                <span>화</span>
+                <span>수</span>
+                <span>목</span>
+                <span>금</span>
+                <span>토</span>
+            </div>
+
+            <div class="calendar">
+                <span class="disabled">1</span>
+                <span class="disabled">2</span>
+                <span class="disabled">3</span>
+                <span class="disabled">4</span>
+                <span class="disabled">5</span>
+                <span class="disabled">6</span>
+                <span class="disabled">7</span>
+
+                <span class="disabled">8</span>
+                <span class="disabled">9</span>
+                <span class="disabled">10</span>
+                <span class="disabled">11</span>
+                <span class="disabled">12</span>
+                <span class="disabled">13</span>
+                <span class="disabled">14</span>
+
+                <span class="disabled">15</span>
+                <span class="disabled">16</span>
+                <span class="disabled">17</span>
+                <span class="disabled">18</span>
+                <span class="disabled">19</span>
+                <span class="disabled">20</span>
+                <span class="disabled">21</span>
+
+                <span>22</span>
+                <span class="selected">23</span>
+                <span>24</span>
+                <span>25</span>
+                <span>26</span>
+                <span>27</span>
+                <span>28</span>
+            </div>
+
+            <div class="people">
+                <button class="active">2명</button>
+                <button>3명</button>
+                <button>4명</button>
+                <button>5명</button>
+                <button>6명</button>
+                <button>7명</button>
+                <button>8명</button>
+            </div>
+
+            <div class="watch">
+                <button>오후 3:00</button>
+                <button>오후 3:30</button>
+                <button>오후 4:00</button>
+                <button>오후 4:30</button>
+                <button>오후 5:00</button>
+                <button>오후 5:30</button>
+                <button>오후 6:00</button>
+                <button>오후 6:30</button>
+                <button>오후 7:00</button>
+                <button>오후 7:30</button>
+                <button>오후 8:00</button>
+            </div>
+
+            <button class="calendar-reserve-btn">예약하기</button>
+            <button class="close" id="closeBtn">닫기</button>
+        </div>
+
+        <div class="res">
+            <button id="reserveBtn">예약하기</button>
+        </div>
+    </div>
+
+    <script src="예약하기.js"></script>
+</body>
+</html>

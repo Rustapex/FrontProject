@@ -12,7 +12,7 @@
       <section class="hero" aria-label="가게 대표 이미지">
         <img
           src="https://images.unsplash.com/photo-1555992336-cbf7c366f2a2?auto=format&fit=crop&w=1200&q=60"
-          alt="정출서울 대표 이미지"
+          alt="양출서울 대표 이미지"
         />
       </section>
 
@@ -47,35 +47,51 @@
       </section>
 
       <section class="card" id="reserveSection" aria-label="예약">
-  <h2 class="section-title">예약</h2>
+        <h2 class="section-title">예약</h2>
+        <p class="muted" id="reserveSummary">기본 선택: 오늘 · 1명 · 시간 선택</p>
+        <button class="btn primary" id="openReservePickerBtn" type="button">
+          예약 날짜 선택하기
+        </button>
+      </section>
 
-  <!-- 선택 상태 요약(영상처럼 위에서 선택이 보이게) -->
-  <p class="muted" id="reserveSummary">날짜/인원/시간을 선택해 주세요.</p>
+      <div class="reserve-picker-backdrop" id="reservePickerBackdrop" hidden></div>
 
-  <div class="block">
-    <div class="block-title">날짜</div>
-    <!-- 날짜 버튼이 가로로 쌓이는 영역 -->
-    <div class="hscroll" id="dateRow" aria-label="날짜 선택"></div>
-  </div>
+      <section class="reserve-picker" id="reservePicker" aria-label="예약 날짜 인원 시간 선택" hidden>
+        <div class="reserve-picker__header">
+          <h3>예약 선택</h3>
+          <button type="button" id="closeReservePickerBtn" class="reserve-picker__close" aria-label="닫기">✕</button>
+        </div>
 
-  <div class="block">
-    <div class="block-title">인원</div>
-    <!-- 인원 버튼 영역 -->
-    <div class="grid" id="peopleRow" aria-label="인원 선택"></div>
-  </div>
+        <div class="reserve-picker__body">
+          <div class="picker-block">
+            <div class="picker-block__title">날짜</div>
+            <div class="calendar-head">
+              <button type="button" id="calendarPrevBtn" class="calendar-nav" aria-label="이전 달">◀</button>
+              <strong id="calendarMonthLabel"></strong>
+              <button type="button" id="calendarNextBtn" class="calendar-nav" aria-label="다음 달">▶</button>
+            </div>
+            <div class="calendar-week">
+              <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
 
-  <div class="block">
-    <div class="block-title">시간</div>
-    <!-- 시간 버튼 영역(예약 마감/예약 완료는 비활성) -->
-    <div class="grid" id="timeGrid" aria-label="시간 선택"></div>
-    <p class="muted small">※ “예약 마감 / 예약 완료”는 선택할 수 없습니다.</p>
-  </div>
+          <div class="picker-block">
+            <div class="picker-block__title">인원</div>
+            <div class="pick-scroll" id="pickerPeopleRow" aria-label="인원 선택"></div>
+          </div>
 
-  <!-- 페이지 안 예약하기 -->
-  <button class="btn primary" id="reserveBtn" type="button" disabled>
-    예약하기
-  </button>
-</section>
+          <div class="picker-block">
+            <div class="picker-block__title">시간</div>
+            <div class="pick-scroll" id="pickerTimeRow" aria-label="시간 선택"></div>
+            <p class="muted small">※ 예약 완료된 시간은 다시 선택할 수 없습니다.</p>
+          </div>
+        </div>
+
+        <div class="reserve-picker__footer">
+          <button class="btn primary" id="pickerReserveBtn" type="button">예약하기</button>
+        </div>
+      </section>
 
       <section class="card" aria-label="메뉴">
         <h2 class="section-title">메뉴</h2>
@@ -162,7 +178,7 @@
     </main>
 
     <footer class="bottom-bar" aria-label="하단 예약하기">
-      <button class="btn primary" id="bottomReserveBtn" type="button" disabled>
+      <button class="btn primary" id="bottomReserveBtn" type="button">
         예약하기
       </button>
     </footer>

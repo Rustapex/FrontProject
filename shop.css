@@ -1,5 +1,6 @@
 /* ✅ 조건6: 어떤 것도 width 480px 초과 금지 */
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
@@ -102,4 +103,175 @@ iframe {
   background: #fff;
   border-top: 1px solid #eee;
   padding: 10px;
+}
+
+/* 예약 선택 패널 */
+.reserve-picker-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 50;
+}
+
+.reserve-picker {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;
+  width: min(480px, 100%);
+  max-height: 84vh;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.reserve-picker__header {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reserve-picker__header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.reserve-picker__close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.reserve-picker__body {
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.reserve-picker__footer {
+  border-top: 1px solid #eee;
+  padding: 10px 12px;
+}
+
+.picker-block {
+  margin-bottom: 14px;
+}
+
+.picker-block__title {
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.calendar-nav {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  height: 30px;
+  min-width: 30px;
+  cursor: pointer;
+}
+
+.calendar-week,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendar-week {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.calendar-day {
+  height: 36px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.calendar-day.is-today {
+  border-color: #111;
+}
+
+.calendar-day.is-selected {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.calendar-day.is-out {
+  color: #bbb;
+}
+
+.calendar-day.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.calendar-empty {
+  height: 36px;
+}
+
+.pick-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+  cursor: grab;
+  user-select: auto;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pick-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.pick-scroll.is-grabbing {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.choice-chip {
+  flex: 0 0 auto;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.choice-chip.is-selected {
+  border-color: #111;
+  box-shadow: 0 0 0 1px #111 inset;
+}
+
+.choice-chip.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
