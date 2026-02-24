@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+    <style>
+        .container {
+            width: 480px;     /* 고정 */
+            margin: 0 auto;
+            }
+
+            .swiper {
+            width: 100%;      /* 부모 480px에 맞춤 */
+            height: 248px;    /* 원하는 높이 */
+            }
+        
+            .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            }
+        .food-wrap{
+            width: 480px;
+            margin: 0 auto;
+            /* border: 1px solid black; */
+            height: calc(100vh - 80px);
+            background: #fff;
+            border-radius: 14px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        
+        }
+        
+         #header {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 0 16px;        /* 좌우 여백 */
+            border-bottom: 1px solid #ddd;
+            z-index: 99;
+            height: 60px;
+
+            display: flex;           /* 플렉스 사용 */
+            align-items: center;     /* 세로 가운데 정렬 */
+            gap: 16px;               /* 내부 아이템 간격 */
+        }
+        #header a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            /* flex 컨테이너 안에 있으므로 top/left 제거 */
+        }
+
+        #header b {
+            margin: 0;               /* flex 안이라 margin-left 대신 gap 사용 */
+            font-weight: bold;
+            font-size: 17px;
+        }
+        #header button{
+            justify-self: end;
+            margin-left: auto;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            border-radius: 999px;
+            padding: 8px 10px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        #header button:hover {
+            background: black; /* 배경색 변경 */
+            color: white;          /* 글자색 변경 */
+        }
+        
+        .res{
+            position: fixed;
+            bottom: 0;
+            width: 480px;
+            height: 72px;
+            background-color: white;
+        }
+        .res button{
+            position: absolute;
+            width: 460px;
+            background-color: black;
+            cursor: pointer;
+            height: 52px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            text-align: center;
+    
+        }
+
+        
+        .menu{
+            width: 440px;
+            height: 248px;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+        .title{
+            display: flex;
+        }
+        .btn1{
+            background-color: black;
+            border-radius: 20px;
+            color: white;
+            width: 120px;
+            height: 30px;
+            text-align: center;
+            font-size: 10px;       
+            margin: 0;
+            cursor: pointer;
+        }
+        .btn2{
+            background-color:  #F5F5F5;
+            color:  #5F5F5F;
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            font-size: 10px;   
+            border: none;
+            margin-left: 10px;
+                              
+        }
+        .btn1 img{
+            width: 12px;
+            height: 12px;
+        }
+        .p{
+            color: #9E9E9E;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        p{
+            color: #9E9E9E;
+            font-size: 12px;
+            margin:0
+        }
+        h1{
+            margin: 0px 4px 0px 0px;
+        }
+        svg{
+            /* margin-top: 10px; */
+            color: #F5C518;
+        }
+        span{
+            font-weight: bold;
+        }
+        .text p{ 
+            margin-top: 5px;
+            font-size: 14px;
+            color: #5F5F5F;
+            /* font-weight: 100; */
+        }
+        hr{
+            color: #F5F5F5;
+            margin: 8px  0px 0px;
+        }
+        .time{
+            margin-top: 5px;
+            color: black;
+            font-size: 14px;
+        }
+        .time-list {
+            list-style: none;
+            display: none;
+            padding: 0;
+        }
+        .time-list.active {
+            display: block;
+        }
+
+        .time-list li {
+            display: flex;
+            gap: 20px;
+        }
+        .toggle-btn {
+            cursor: pointer;
+        }
+
+
+        li {
+            display: flex;
+            font-size: 12px;
+            margin-left: 20px;
+        }
+
+        li span:nth-child(1) {
+            width: 40px;   /* 월 자리 */
+        }
+
+        li span:nth-child(2) {
+            width: 60px;   /* 점심/저녁 자리 */
+        }
+
+        li span:nth-child(3) {
+            flex: 1;       /* 시간 영역 */
+        }
+
+
+
+        .aa{
+            height: 8px;
+            background: #F5F5F5;
+            border: none;
+        }
+        .day{
+            width: 440px;
+            height: 46px;
+            margin: 0 auto;
+            border-radius: 8px;
+            border: 1px solid #DCE3E8;;
+            display: flex;
+        }
+        .ss{
+            display: flex;
+            align-items: center;
+            margin-left: 10PX;
+            cursor: pointer;
+        }
+        .food img{
+            width: 440px;
+        }
+        .map{
+            width: 440px;
+            height: 170px;
+            margin: 0 auto;
+            border-radius: 8px;
+            border: 1px solid #DCE3E8;;
+        }
+        .qq{
+            color: black;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+        iframe{
+            width: 440px;
+            height: 170px;
+        }
+        .reservation-box{
+        transform: translate(0%, 120%);
+        border-radius: 20px 20px 0 0;
+        background-color: white;
+        width: 480px;
+        z-index: 9999;
+        margin: 0 auto;
+        bottom: 0;
+        position: fixed;
+        transition: transform 0.4s ease;
+        border: 1px solid black;
+
+        pointer-events: none;   /* ⭐ 추가 */
+    }
+
+    .reservation-box.active {
+        transform: translate(0, 0%);
+        pointer-events: auto;   /* ⭐ 추가 */
+    }
+        body.modal-open {
+            overflow: hidden;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .month{
+            text-align: center;
+            margin-top: 20px;
+        }
+        .week {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            color: gray;
+            margin-bottom: 10px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .calendar span {
+            padding: 8px 0;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .calendar .selected {
+            background: black;
+            color: white;
+        }
+        .calendar .disabled {
+            color: #ccc;
+        }
+        .people{
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        .people button {
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 50px;
+            padding: 8px 15px;
+            margin-left: auto;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+        .people button.selected {
+            background: black;
+            color: white;
+            border: none;
+        }
+        .watch{
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            user-select: none;
+            scroll-behavior: smooth;
+        }
+        .time:active {
+            cursor: grabbing;
+        }
+        .watch button {
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left:  auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            flex: 0 0 auto;
+        }
+        .watch button.selected {
+            background: black;
+            color: white;
+        }
+        .watch button.disabled {
+  background: #ccc;
+  color: #666;
+  pointer-events: none;  /* 클릭 못하게 */
+}
+        .close{
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+        }
+        .calendar-reserve-btn {
+            width: 100%;
+            padding: 15px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+        
+
+.calendar-reserve-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+    </style>
+
+    
+</head>
+<body>
+    <div class="food-wrap">
+        <header id="header">
+            <a class="" href="intro.html" aria-label="뒤로가기">←</a>
+            <b>도우룸 광화문</b>
+            <button class="btn3" type="button" id="reservationBtn">예약현황</button>
+        </header>
+        <div class="bar">
+        <div class="container">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="https://ugc-images.catchtable.co.kr/shop/manager/images/043d25fe6bbc44fd961228b3b11814f9?resizeType=details500&ftype=avif"></div>
+                <div class="swiper-slide"><img src="https://ugc-images.catchtable.co.kr/shop/manager/images/e4dba18fd9174d59b577376650dd9e68?resizeType=details500&ftype=avif"></div>
+                <div class="swiper-slide"><img src="https://ugc-images.catchtable.co.kr/shop/manager/images/7e7ecf19623b4e599c600d53e8caf8d1?resizeType=details500&ftype=avif"></div>
+            </div>
+
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        
+        <div class="menu">
+            <a href=""><button class="btn1"><img src="https://d2ba33ltwyhxsm.cloudfront.net/common_img/comm_2512118565915547.webp"> 흑백요리사2: 이준</button></a>
+            <button class="btn2">흑백요리사2</button>
+            
+        <br>
+        <p class="p">광화문</p>
+        <h1>도우룸 광화문</h1>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M6.51421 20.9297C6.03172 21.1739 5.48423 20.7459 5.58172 20.1996L6.6192 14.3661L2.21554 10.2272C1.8043 9.83994 2.01804 9.13203 2.56928 9.05557L8.69167 8.19719L11.4216 2.86074C11.6679 2.37975 12.3341 2.37975 12.5803 2.86074L15.3103 8.19719L21.4327 9.05557C21.9839 9.13203 22.1977 9.83994 21.7864 10.2272L17.3827 14.3661L18.4202 20.1996C18.5177 20.7459 17.9702 21.1739 17.4877 20.9297L11.9991 18.1474L6.51296 20.9297H6.51421Z" fill="currentColor"></path></svg>
+        <span>4.5</span><br>
+        <div class="text">
+            <p>미쉐린 2스타 이준 셰프의 생면 파스타 비스트로, 광화문점<br>
+            -12월 18일 디너 대관 행사로 일반 예약 불가</p>
+        </div>
+        <hr>
+
+        <p class="time">
+        🚩 광화문역에서 94m <br>
+        💲 점심, 저녁 동일가 3-4만원 <br>
+        🕒 오늘 (월) 11:00 ~ 22:00  
+        <span class="toggle-btn">∨</span></p>
+        <ul class="time-list">
+            <li><span>월</span> 
+                <span>점심</span>
+                <span>11:00 ~ 14:30 (13:50까지 라스트오더)</span>
+            </li> 
+            <li>
+                <span></span>
+                <span>저녁</span>
+                <span>17:30 ~ 22:00 (20:30까지 라스트오더)</span>
+            </li>
+            <li><span>화</span> 
+                <span>점심</span>
+                <span>11:00 ~ 14:30 (13:50까지 라스트오더)</span>
+            </li> 
+            <li>
+                <span></span>
+                <span>저녁</span>
+                <span>17:30 ~ 22:00 (20:30까지 라스트오더)</span>
+            </li>
+            <li><span>수</span> 
+                <span>점심</span>
+                <span>11:00 ~ 14:30 (13:50까지 라스트오더)</span>
+            </li> 
+            <li>
+                <span></span>
+                <span>저녁</span>
+                <span>17:30 ~ 22:00 (20:30까지 라스트오더)</span>
+            </li>
+            <li><span>목</span> 
+                <span>점심</span>
+                <span>11:00 ~ 14:30 (13:50까지 라스트오더)</span>
+            </li> 
+            <li>
+                <span></span>
+                <span>저녁</span>
+                <span>17:30 ~ 22:00 (20:30까지 라스트오더)</span>
+            </li>
+            <li><span>금</span> 
+                <span>점심</span>
+                <span>11:00 ~ 14:30 (13:50까지 라스트오더)</span>
+            </li> 
+            <li>
+                <span></span>
+                <span>저녁</span>
+                <span>17:30 ~ 22:00 (20:30까지 라스트오더)</span>
+            </li>
+            <li><span>토</span> 
+                <span>점심</span>
+                <span>11:00 ~ 14:30 (13:50까지 라스트오더)</span>
+            </li> 
+            <li>
+                <span></span>
+                <span>저녁</span>
+                <span>17:30 ~ 22:00 (20:30까지 라스트오더)</span>
+            </li>
+            <li><span>일</span> 
+                <span>정기휴무</span>
+            </li> 
+            
+
+        </ul>
+
+        <h3>예약</h3>
+            <div class="day" id="openBtn">
+                <span class="ss">📅 날짜, 인원, 시간 </span>
+            </div>
+
+        <h3>메뉴</h3>
+        <div class="food">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/2aeb1e1d8b2946918fa2bd6bc278ae48" alt="">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/affc54548f4a4d9cbc27bc8a46d99c02" alt="">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/c4e1cba9937642e9876064c867cd6c3c" alt="">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/c4e1cba9937642e9876064c867cd6c3c" alt="">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/c4e1cba9937642e9876064c867cd6c3c" alt="">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/d5c6b77f072d46a1be0db1a1f18111a8" alt="">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/9e32e8c022d84beb8c571b4f8842b62d" alt="">
+        <img src="https://ugc-images.catchtable.co.kr/shop/manager/images/d1c39db920f04d31b7fdcedcf89c6262" alt="">
+        </div>
+
+        <h3>위치</h3>
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.2749766265274!2d126.97537451150008!3d37.572142171920454!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca30047b7ac19%3A0x4c391bb617ce5710!2zRG91Z2hyb29tIEd3YW5naHdhbXVuIOuPhOyasOujuCDqtJHtmZTrrLg!5e0!3m2!1sko!2skr!4v1771815906644!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <p class="qq">🚩 서울특별시 종로구 세종대로 178 KT 광화문 빌팅 West 2층<br>
+                5️⃣ 광화문역에서 94m <br>
+                1️⃣ 종각역에서 496m</p>
+
+        <h3>상세정보</h3>
+        <h4>전화번호</h4>
+        <p>📞 02-732-9386</p>
+        <h4>정기 휴무<h4>
+        <p>매주 일요일 휴무</p>
+        <h4>안내 및 유의사항<h4>
+        <p>파스타/메인 메뉴로 1인 1메뉴씩 주문해주셔야 합니다. <br>
+        콜키지 병 당 50,000원이며, 테이블 당 2병까지 가능합니다. <br>
+        점심 13:50/ 저녁 20:30에 주문 마감됩니다. <br><br>
+        룸 이용 최소금액 안내<br>
+        - 4인룸: 20만원 <br>
+        - 6인룸: 30만원 <br>
+        - 8인룸: 40만원 <br>
+        * 위 금액은 음주류(콜키지) 비용 포함금액입니다. <br><br>
+        - 환불규정 - <br><br>
+        *예약 1일전 예약금  100% 환불<br>
+        *당일취소시 예약금 0% 환불
+        </p>
+        
+    </div>
+        <div class="reservation-box" id="calendarModal" >
+            <div class="calender-header">
+                <div class="month">
+                    <span>2026년 2월</span>
+                </div>
+            </div>
+
+            <!-- 요일 -->
+            <div class="week">
+                <span>일</span>
+                <span>월</span>
+                <span>화</span>
+                <span>수</span>
+                <span>목</span>
+                <span>금</span>
+                <span>토</span>
+            </div>
+
+            <!-- 날짜 -->
+            <div class="calendar">
+                <span class="disabled">1</span>
+                <span class="disabled">2</span>
+                <span class="disabled">3</span>
+                <span class="disabled">4</span>
+                <span class="disabled">5</span>
+                <span class="disabled">6</span>
+                <span class="disabled">7</span>
+
+                <span class="disabled">8</span>
+                <span class="disabled">9</span>
+                <span class="disabled">10</span>
+                <span class="disabled">11</span>
+                <span class="disabled">12</span>
+                <span class="disabled">13</span>
+                <span class="disabled">14</span>
+
+                <span class="disabled">15</span>
+                <span class="disabled">16</span>
+                <span class="disabled">17</span>
+                <span class="disabled">18</span>
+                <span class="disabled">19</span>
+                <span class="disabled">20</span>
+                <span class="disabled">21</span>
+
+                <span>22</span>
+                <span class="selected">23</span>
+                <span>24</span>
+                <span>25</span>
+                <span>26</span>
+                <span>27</span>
+                <span>28</span>
+            </div>
+
+            <!-- 인원 -->
+            <div class="people">
+                <button class="active">2명</button>
+                <button>3명</button>
+                <button>4명</button>
+                <button>5명</button>
+                <button>6명</button>
+                <button>7명</button>
+                <button>8명</button>
+            </div>
+
+            <!-- 시간 -->
+            <div class="watch">
+                <button>오후 3:00</button>
+                <button>오후 3:30</button>
+                <button>오후 4:00</button>
+                <button>오후 4:30</button>
+                <button>오후 5:00</button>
+                <button>오후 5:30</button>
+                <button>오후 6:00</button>
+                <button>오후 6:30</button>
+                <button>오후 7:00</button>
+                <button>오후 7:30</button>
+                <button>오후 8:00</button>
+            </div>
+
+            <button class="calendar-reserve-btn">예약하기</button>
+            <button class="close" id="closeBtn">닫기</button>
+        </div>
+
+        <div class="res">
+        <button id="reserveBtn">예약하기</button>
+        </div>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+  const swiper = new Swiper(".mySwiper", {
+    loop: true,
+
+    autoplay: {
+      delay: 3000,          // 3초마다 자동 넘어감
+      disableOnInteraction: false, // 터치해도 자동 유지
+    },
+
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
+</script>
+
+</body>
+
+<script>
+const openBtn = document.getElementById("openBtn");
+const reserveBtn = document.getElementById("reserveBtn"); // 화면 밖 버튼
+const modal = document.getElementById("calendarModal");
+const closeBtn = document.getElementById("closeBtn");
+const reservationBtn = document.getElementById('reservationBtn');
+const toggleBtn = document.querySelector(".toggle-btn");
+const list = document.querySelector(".time-list");
+
+toggleBtn.addEventListener("click", () => {
+    list.classList.toggle("active");
+});
+
+
+reservationBtn.addEventListener('click', () => {
+    // 예약현황 페이지로 이동
+    window.location.href = "예약현황.html";
+});
+openBtn.addEventListener("click", () => {
+    modal.classList.add("active");
+    document.body.classList.add("modal-open"); 
+});
+
+// 화면 밖 버튼 클릭 시 모달 열기
+reserveBtn.addEventListener("click", () => {
+    modal.classList.add("active");
+    document.body.classList.add("modal-open"); 
+});
+
+closeBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+    document.body.classList.remove("modal-open");
+    setTimeout(() => {
+        resetCalendar();   // ⭐ 선택 초기화
+    }, 400);
+});
+
+
+function resetCalendar() {
+    const modal = document.getElementById("calendarModal");
+
+    modal.querySelectorAll(".selected")
+         .forEach(el => el.classList.remove("selected"));
+
+    const calendarReserveBtn = modal.querySelector(".calendar-reserve-btn");
+    if (calendarReserveBtn) {
+        calendarReserveBtn.classList.remove("show");
+    }
+}
+
+// ------------------- 캘린더 선택 & 예약 -------------------
+document.addEventListener("DOMContentLoaded", function() {
+
+    const modalReserveBtn = document.querySelector(".calendar-reserve-btn"); // 모달 안 버튼
+    const outsideReserveBtn = document.getElementById("reserveBtn"); // 화면 밖 버튼
+
+    function checkSelection() {
+        const selectedDate = document.querySelector(".calendar .selected");
+        const selectedPeople = document.querySelector(".people .selected");
+        const selectedTime = document.querySelector(".watch .selected");
+
+        if (selectedDate && selectedPeople && selectedTime) {
+            if(modalReserveBtn) modalReserveBtn.classList.add("show");
+        } else {
+            if(modalReserveBtn) modalReserveBtn.classList.remove("show");
+        }
+    }
+
+    // 날짜 선택
+    document.querySelectorAll(".calendar span").forEach(date => {
+        date.addEventListener("click", () => {
+            if (date.classList.contains("disabled")) return;
+
+            document.querySelectorAll(".calendar .selected")
+                .forEach(d => d.classList.remove("selected"));
+
+            date.classList.add("selected");
+            checkSelection();
+        });
+    });
+
+    // 인원 선택
+    document.querySelectorAll(".people button").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".people button")
+                .forEach(b => b.classList.remove("selected"));
+
+            btn.classList.add("selected");
+            checkSelection();
+        });
+    });
+
+    // 시간 선택
+    document.querySelectorAll(".watch button").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".watch button")
+                .forEach(b => b.classList.remove("selected"));
+
+            btn.classList.add("selected");
+            checkSelection();
+        });
+    });
+
+    // ------------------- 예약 처리 공통 함수 -------------------
+    function processReservation() {
+    const selectedDate = document.querySelector(".calendar .selected");
+    const selectedPeople = document.querySelector(".people .selected");
+    const selectedTime = document.querySelector(".watch .selected");
+
+    if (!selectedDate || !selectedPeople || !selectedTime) return;
+
+    // 예약 정보 객체 생성
+    const reservation = {
+        dDay: selectedDate.textContent,
+        dateTime: `${selectedDate.textContent} ${selectedTime.textContent} / ${selectedPeople.textContent}`,
+        name: "도우룸 광화문",   // 매장명
+        info: "광화문 / 점심, 저녁 동일가 3-4만원",
+        image: "https://ugc-images.catchtable.co.kr/shop/manager/images/043d25fe6bbc44fd961228b3b11814f9?resizeType=details500&ftype=avif",
+        status: "예약완료",
+    };
+
+    // localStorage에 기존 데이터 가져오기
+    let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+    reservations.push(reservation);
+    localStorage.setItem("reservations", JSON.stringify(reservations));
+
+    // 예약마감 처리
+    selectedTime.classList.remove("selected");
+    selectedTime.classList.add("disabled");
+    selectedTime.textContent = "예약마감";
+
+    // 모달 닫기
+    modal.classList.remove("active");
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = "auto"; // 스크롤 복원
+
+    // 선택 초기화
+    resetCalendar();
+}
+
+    // 모달 안 버튼 클릭
+    if(modalReserveBtn) modalReserveBtn.addEventListener("click", processReservation);
+
+    // 화면 밖 버튼 클릭
+    if(outsideReserveBtn) outsideReserveBtn.addEventListener("click", processReservation);
+
+});
+</script>
+
+</html>

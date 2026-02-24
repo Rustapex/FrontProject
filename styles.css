@@ -63,6 +63,13 @@ body {
   font-size: 13px;
   cursor: pointer;
 }
+.topbar__right:hover{
+  background: black;
+  color: white;
+}
+.shop-card {
+    cursor: pointer; /* 클릭 가능 표시 */
+}
 
 /* 배너 */
 .hero {

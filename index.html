@@ -4,11 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+    .index-wrap{
+        width: 480px;
+        height: calc(100vh - 24px);
+        background: black;
+        border-radius: 14px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin: 0 auto;
+
+        display: flex;
+        justify-content: center; /* 가로 가운데 */
+        align-items: center;     /* 세로 가운데 */
+    }
+
+    .index-content {
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: center;    /* 가로 가운데 */
+        gap: 16px;              /* 이미지/버튼 사이 간격 */
+    }
+
+    img{
+        width: 100px;
+        margin-top: 10px;
+        display: block;
+    }
+    .index-content img:nth-of-type(2) {
+        width: 230px; /* 원하는 크기로 조정 */
+        height: 100px;
+    }
+    button{
+        background: white;
+        border-radius: 20px;
+        width: 130px;
+        margin-top: 10px;
+        height: 40px;
+        font-size: 17px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+    #goIntro:hover {
+        background-color: #f0c040; /* 연한 노랑/골드 */
+        color: #000000;
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(255,192,64,0.5);
+    }
+</style>
 </head>
 <body>
-    <script>
-        alert("hi");
-    </script>
-    
+    <div class="index-wrap">
+    <div class="index-content">
+        <img src="https://ugc-images.catchtable.co.kr/assets/icon-culinary-class-wars.svg" alt="">
+        <img src="https://i.namu.wiki/i/JzJA3G54wk3jh5YFBh9G2lhw5l97H5B-y_rNHDf37rLgBv-4sW0vC3rHzmpIkoW04jgXR5fJl854LgHZ3FAPNQ.webp" alt="">
+        <button id="goIntro">보러가기</button>
+    </div>
+</div>
 </body>
+<script>
+document.getElementById('goIntro').addEventListener('click', function() {
+    window.location.href = 'intro.html';
+});
+</script>
 </html>

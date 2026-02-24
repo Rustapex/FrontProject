@@ -9,58 +9,126 @@ console.log("[app.js] loaded");
   - type: "white" | "black"  (탭 필터용)
   - images: 첫 번째 이미지는 '요리사(대표)'라고 가정
 ========================================================= */
+
+//예약현황.html 불러오기
+const reservationBtn = document.getElementById('reservationBtn');
+  reservationBtn.addEventListener('click', () => {
+    // 예약현황 페이지로 이동
+    window.location.href = "예약현황.html";
+  });
+
+
+
+
 const DUMMY_SHOPS = [
   {
     id: "s1",
     type: "white",
-    name: "갓포아키 삼성점",
-    rating: 4.7,
-    reviews: 2236,
-    area: "삼성",
-    cuisine: "이자카야",
+    name: "고료리 켄",
+    rating: 4.8,
+    reviews: 169,
+    area: "도산공원",
+    cuisine: "코스요리",
     openInfo: "영업전 · 11:30 영업 시작",
-    priceInfo: "점심 3~5만원 · 저녁 1~8만원",
+    priceInfo: "점심 영업안함 · 저녁 27만원",
     images: [
-      "https://picsum.photos/seed/chef1/960/540",
-      "https://picsum.photos/seed/food1/960/540",
-      "https://picsum.photos/seed/food2/960/540",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/f46ee8ee92e84a319fd72de838210e1a?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/a6834c1707af44f0b1ab4d94385a4be9?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/snu5CgGPvtvTj7GWIBYcbiA/m/5f5c3938eeb2431f85e8c1c95278f09b?resizeType=details500&ftype=avif",
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
   },
   {
     id: "s2",
     type: "black",
-    name: "다이탈리안 클럽",
-    rating: 4.4,
-    reviews: 2691,
-    area: "잠실",
-    cuisine: "이탈리안",
-    openInfo: "영업중 · 22:00 라스트오더",
-    priceInfo: "점심/저녁 2~5만원",
+    name: "도우룸 광화문",
+    rating: 4.5,
+    reviews: 1308,
+    area: "광화문",
+    cuisine: "양식",
+    openInfo: "영업중 · 21:30 라스트오더",
+    priceInfo: "점심/저녁 동일가 3-4만원",
     images: [
-      "https://picsum.photos/seed/chef2/960/540",
-      "https://picsum.photos/seed/food3/960/540",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/73272bb44c8f452dbdcdaeb0f5e8b1ee?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/e4dba18fd9174d59b577376650dd9e68?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/7a4c14d041d84a36a6d2abbae170f77e?resizeType=details500&ftype=avif"
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "백(양식).html"
   },
   {
     id: "s3",
     type: "black",
-    name: "수인 인사동 닭한마리",
-    rating: 4.6,
-    reviews: 1102,
-    area: "인사동",
-    cuisine: "한식",
+    name: "소바쥬",
+    rating: 4.9,
+    reviews: 736,
+    area: "마포",
+    cuisine: "일식",
     openInfo: "영업전 · 12:00 영업 시작",
-    priceInfo: "1~3만원",
+    priceInfo: "점심 5.5만원 · 저녁 8만원",
     images: [
-      "https://picsum.photos/seed/chef3/960/540",
-      "https://picsum.photos/seed/food4/960/540",
-      "https://picsum.photos/seed/food5/960/540",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/1f371d7f69484f138027895ec178779a?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/2b1c0e3098c1403daa450e03bc678569?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sTgdqdvK4tx1ipytPfrFEKA/1a125adfb0ee42c79699bd1b82d8f494?resizeType=details500&ftype=avif",
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
   },
+  {
+    id: "s4",
+    type: "black",
+    name: "유용욱 바베큐 연구소",
+    rating: 4.7,
+    reviews: 303,
+    area: "남영",
+    cuisine: "바베큐",
+    openInfo: "영업전 · 11:00 영업 시작",
+    priceInfo: "점심 저녁 동일가 10-15만원 · 저녁 15만원",
+    images: [
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/3c7dafb8a7f947e2a00ab59c99cc36d1?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/b4f15004bf9f4bc6bde1665bc19d7e6d?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/d3cd1b68bf17494abd4b1ff57d522766?resizeType=details500&ftype=avif",
+    ],
+    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+  },
+  {
+    id: "s5",
+    type: "black",
+    name: "이타닉 가든",
+    rating: 4.9,
+    reviews: 2875,
+    area: "역삼",
+    cuisine: "코스요리",
+    openInfo: "영업전 · 12:00 영업 시작",
+    priceInfo: "점심 25만원 · 저녁 37만원",
+    images: [
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/a898bdcc3908400a9cf50ae487d25457?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/d6471bcf414340f880429ab04d5336ed?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/4a65a533bafe4f6dbfe5bbb0b62d061d?resizeType=details500&ftype=avif",
+    ],
+    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+  },
+  {
+    id: "s6",
+    type: "black",
+    name: "양출서울",
+    rating: 4.8,
+    reviews: 319,
+    area: "논현",
+    cuisine: "와인",
+    openInfo: "영업전 · 18:00 영업 시작",
+    priceInfo: "점심 영업안함 · 저녁 5.5-7.5만원",
+    images: [
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/3c7dafb8a7f947e2a00ab59c99cc36d1?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/b4f15004bf9f4bc6bde1665bc19d7e6d?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/d3cd1b68bf17494abd4b1ff57d522766?resizeType=details500&ftype=avif",
+    ],
+    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+  },
+  
 ];
+
+
+
 /* =========================================================
   [1-1] 예약 상태를 "시간 단위"로 저장
   - 날짜를 한 번 예약했다고 그 날짜 전체를 '예약완료'로 만들면
