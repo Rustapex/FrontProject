@@ -78,7 +78,7 @@ const DUMMY_SHOPS = [
   },
   {
     id: "s2",
-    headLink: "#",
+    headLink: "백(양식).html",
     infoLink: "#",
     type: "black",
     name: "도우룸 광화문",
