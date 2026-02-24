@@ -672,7 +672,7 @@
 
               </div>
             </div>
-            <button type="button"class="close-btn2" onclick="reserveSubmit()">예약하기</button>
+            <button type="button"class="close-btn2" onclick="closeReserve()">예약하기</button>
             <button type="button"class="close-btn" onclick="closeReserve()">닫기</button>
           </div>
         </div>
@@ -795,140 +795,85 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const SHOP = {
-    id: "sobaju-black",
-    name: "소바쥬",
-    info: "마포 | 점심 5.5만원 저녁 8만원",
-    image:
-      "https://ugc-images.catchtable.co.kr/shop/manager/images/1f371d7f69484f138027895ec178779a?resizeType=details500&ftype=avif",
-  };
 
-  const STORAGE_KEYS = {
-    reservations: "reservations",
-    reservedSlots: "demo_reserved_slots",
-  };
+  const peopleButtons = document.querySelectorAll(".people-btn");
+  const reserveBtn = document.querySelector(".close-btn2");
 
   const modal = document.getElementById("reserveModal");
   const grid = document.getElementById("calendarGrid");
   const header = document.getElementById("calendarTitle");
   const reservationBtn = document.getElementById("reservationBtn");
-  const reserveSubmitBtn = document.querySelector(".close-btn2");
-  const reserveToggleText = document.querySelector(".reserve-toggle span");
-  const peopleButtons = document.querySelectorAll(".people-btn");
-  const timeButtons = document.querySelectorAll(".time-btn");
 
-  function dateKeyFromButton(dayText) {
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = String(now.getMonth() + 1).padStart(2, "0");
-    const d = String(Number(dayText)).padStart(2, "0");
-    return `${y}-${m}-${d}`;
-  }
-
-  function slotKey(dateKey, time) {
-    return `${SHOP.id}__${dateKey}__${time}`;
-  }
-
-  function loadReservedSlots() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEYS.reservedSlots);
-      const arr = raw ? JSON.parse(raw) : [];
-      return new Set(Array.isArray(arr) ? arr : []);
-    } catch {
-      return new Set();
-    }
-  }
-
-  function saveReservedSlots(set) {
-    localStorage.setItem(
-      STORAGE_KEYS.reservedSlots,
-      JSON.stringify(Array.from(set))
-    );
-  }
-
-  const reservedSlots = loadReservedSlots();
-
+  /* ==============================
+     🔥 예약현황 버튼 (오류 수정)
+  ============================== */
   if (reservationBtn) {
-    reservationBtn.addEventListener("click", () => {
+    reservationBtn.addEventListener('click', () => {
       window.location.href = "예약현황.html";
     });
   }
 
+  /* ==============================
+     예약 가능 여부 체크
+  ============================== */
   function checkReserveReady() {
     const selectedDate = document.querySelector(".day.active");
     const selectedPeople = document.querySelector(".people-btn.active");
     const selectedTime = document.querySelector(".time-btn.active");
 
-    reserveSubmitBtn.style.display =
-      selectedDate && selectedPeople && selectedTime ? "block" : "none";
-  }
-
-  function markReservedTimesByDate() {
-    const selectedDate = document.querySelector(".day.active");
-    if (!selectedDate) return;
-
-    const currentDateKey = dateKeyFromButton(selectedDate.textContent.trim());
-
-    timeButtons.forEach((btn) => {
-      const pureTime = btn.textContent.replace(" (예약마감)", "").trim();
-      const key = slotKey(currentDateKey, pureTime);
-      const isReserved = reservedSlots.has(key);
-
-      btn.classList.remove("active");
-      if (isReserved) {
-        btn.classList.add("disabled");
-        btn.textContent = `${pureTime} (예약마감)`;
-      } else {
-        btn.classList.remove("disabled");
-        btn.textContent = pureTime;
-      }
-    });
-  }
-
-  function updateReserveToggleSummary() {
-    const selectedDate = document.querySelector(".day.active");
-    const selectedPeople = document.querySelector(".people-btn.active");
-    const selectedTime = document.querySelector(".time-btn.active");
-    const dayText = selectedDate ? selectedDate.textContent.trim() : "날짜";
-    const peopleText = selectedPeople ? selectedPeople.textContent.trim() : "인원";
-    const timeText = selectedTime
-      ? selectedTime.textContent.replace(" (예약마감)", "").trim()
-      : "시간";
-
-    if (reserveToggleText) {
-      reserveToggleText.textContent = `📅 ${dayText}일 · ${peopleText} · ${timeText}`;
+    if (selectedDate && selectedPeople && selectedTime) {
+      reserveBtn.style.display = "block";
+    } else {
+      reserveBtn.style.display = "none";
     }
   }
 
-  peopleButtons.forEach((btn) => {
+  /* ==============================
+     인원 선택
+  ============================== */
+  peopleButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-      peopleButtons.forEach((b) => b.classList.remove("active"));
+      peopleButtons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       checkReserveReady();
-      updateReserveToggleSummary();
     });
   });
 
-  timeButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (btn.classList.contains("disabled")) return;
+  /* ==============================
+     시간 선택
+  ============================== */
+  function bindTimeButtons() {
+    const timeButtons = document.querySelectorAll(".time-btn");
 
-      timeButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      checkReserveReady();
-      updateReserveToggleSummary();
+    timeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+
+        if (btn.classList.contains("disabled")) return;
+
+        timeButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        checkReserveReady();
+      });
     });
-  });
+  }
 
+  /* ==============================
+     모달 열기 / 닫기
+  ============================== */
   window.toggleReserve = function () {
     modal.classList.add("show");
-  };
+  }
 
   window.closeReserve = function () {
     modal.classList.remove("show");
-  };
+  }
 
+  /* ==============================
+     ✅ 예약하기 (저장 + 마감 처리)
+  ============================== */
   window.reserveSubmit = function () {
+
     const selectedDate = document.querySelector(".day.active");
     const selectedPeople = document.querySelector(".people-btn.active");
     const selectedTime = document.querySelector(".time-btn.active");
@@ -943,38 +888,50 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const dateKey = dateKeyFromButton(selectedDate.textContent.trim());
-    const dayText = String(Number(selectedDate.textContent.trim()));
-    const peopleText = selectedPeople.textContent.trim();
-    const pureTime = selectedTime.textContent.replace(" (예약마감)", "").trim();
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const day = selectedDate.textContent;
+    const people = selectedPeople.textContent;
+    const time = selectedTime.textContent.replace(" (마감)", "");
 
-    const reservation = {
-      dDay: dayText,
-      dateTime: `${dateKey} ${pureTime} / ${peopleText}`,
-      name: SHOP.name,
-      info: SHOP.info,
-      image: SHOP.image,
+    const fullDateTime = `${year}.${month}.${day} / ${time} / ${people}`;
+
+    /* =========================
+       localStorage 저장
+    ========================= */
+    let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+
+    reservations.push({
+      dDay: "예약완료",
       status: "예약완료",
-    };
+      image: "",
+      name: "예약",
+      info: "정상적으로 예약되었습니다.",
+      dateTime: fullDateTime,
+      buttonText: ""
+    });
 
-    const reservations = JSON.parse(localStorage.getItem(STORAGE_KEYS.reservations)) || [];
-    reservations.push(reservation);
-    localStorage.setItem(STORAGE_KEYS.reservations, JSON.stringify(reservations));
+    localStorage.setItem("reservations", JSON.stringify(reservations));
 
-    reservedSlots.add(slotKey(dateKey, pureTime));
-    saveReservedSlots(reservedSlots);
-
+    /* =========================
+       시간 마감 처리
+    ========================= */
     selectedTime.classList.remove("active");
     selectedTime.classList.add("disabled");
-    selectedTime.textContent = `${pureTime} (예약마감)`;
+    selectedTime.textContent = time + " (마감)";
 
-    reserveSubmitBtn.style.display = "none";
+    reserveBtn.style.display = "none";
     modal.classList.remove("show");
-    updateReserveToggleSummary();
 
+    /* =========================
+       예약현황 이동
+    ========================= */
     window.location.href = "예약현황.html";
   };
 
+  /* ==============================
+     캘린더 생성
+  ============================== */
   const today = new Date();
   const y = today.getFullYear();
   const m = today.getMonth();
@@ -997,19 +954,21 @@ document.addEventListener("DOMContentLoaded", function () {
     if (i === d) btn.classList.add("active");
 
     btn.onclick = () => {
-      document.querySelectorAll(".day").forEach((x) => x.classList.remove("active"));
+      document.querySelectorAll(".day")
+        .forEach(x => x.classList.remove("active"));
       btn.classList.add("active");
-      markReservedTimesByDate();
       checkReserveReady();
-      updateReserveToggleSummary();
     };
 
     grid.appendChild(btn);
   }
 
-  markReservedTimesByDate();
+  /* ==============================
+     초기 실행
+  ============================== */
+  bindTimeButtons();
   checkReserveReady();
-  updateReserveToggleSummary();
+
 });
 </script>
   </body>
