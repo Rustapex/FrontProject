@@ -3,173 +3,193 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>식당 상세</title>
+    <title>이타닉 가든</title>
     <link rel="stylesheet" href="./shop.css" />
-    <script src="./shop01.js" defer></script>
+    <script>
+      window.SHOP = {
+        id: "kor-menu-01",
+        heroImg: "./kormenu_img/korMenu01_dish02.jpg",
+        heroImages: [
+          "./kormenu_img/korMenu01_dish02.jpg",
+          "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/4a65a533bafe4f6dbfe5bbb0b62d061d?resizeType=details500&ftype=avif",
+        ],
+        name: "이타닉 가든",
+        rating: 4.9,
+        reviews: 2875,
+        category: "한식",
+        area: "역삼",
+        way: "역삼역에서 500m",
+        price: "점심 25만원 · 저녁 37만원",
+        openHoursSummary: "오늘(월) 휴무일",
+        openHours: "수 ~ 일<br>점심 12 : 00 ~ 15 : 00<br>저녁 18 : 00 ~ 22 : 00",
+        address: "서울 강남구 테헤란로 231 조선팰리스 36층",
+        walk: "역삼역에서 500m / 선릉역에서 624m",
+        phone: "02-727-7610",
+        closedDay: "매주 월요일 화요일",
+        menus: [
+          {
+            id: "m1",
+            name: "LUNCH",
+            price: "250,000원",
+            items: [
+              "주나미 쌀",
+              "부각",
+              "더덕",
+              "봄동",
+              "한재 미나리",
+              "생선 조림",
+              "삼계탕",
+              "불고기",
+              "군고구마 or 옥광밤",
+              "자개함",
+            ],
+          },
+          {
+            id: "m2",
+            name: "DINNER",
+            price: "370,000원",
+            items: [
+              "주나미 쌀",
+              "부각",
+              "더덕",
+              "봄동",
+              "한재 미나리",
+              "생선 조림",
+              "삼계탕",
+              "불고기",
+              "군고구마 or 옥광밤",
+              "자개함",
+            ],
+          },
+        ],
+      };
+    </script>
+    <script src="./shop.js" defer></script>
   </head>
   <body>
-    <main class="app" aria-label="식당 상세 페이지">
+    <main class="app" data-people-range="1-9plus" aria-label="식당 상세 페이지">
       <section class="hero" aria-label="가게 대표 이미지">
-        <img
-          src="https://images.unsplash.com/photo-1555992336-cbf7c366f2a2?auto=format&fit=crop&w=1200&q=60"
-          alt="양출서울 대표 이미지"
-        />
+        <div class="hero-top-actions" aria-label="상단 버튼">
+          <a class="hero-action-btn" href="./intro.html">뒤로</a>
+          <a class="hero-action-btn" href="예약현황.html">예약현황</a>
+        </div>
+        <img id="heroImg" src="" alt="이타닉 가든 대표 이미지" />
       </section>
 
       <section class="card" aria-label="가게 소개">
-        <h1 class="title">양출서울</h1>
-
+        <h1 class="title" id="shopName">이타닉 가든</h1>
         <div class="meta">
-          <span>★ 4.8</span>
-          <span>(319)</span>
-          <span>· 한식</span>
-          <span>· 논현구</span>
+          <span id="rating">별점 4.9</span>
+          <span id="reviewCount">리뷰 2875개</span>
+          <span id="category">- 한식</span>
+          <span id="area">역삼</span>
         </div>
 
         <div class="info-grid">
           <div class="info-row">
-            <span class="label">가는 방법</span>
-            <span>신홍동역 2번 출구에서 275m</span>
+            <span class="label">🗺️</span>
+            <span id="way">역삼역에서 500m</span>
           </div>
           <div class="info-row">
-            <span class="label">가격</span>
-            <span>점심 영업 없음 · 저녁 55,000~75,000원</span>
+            <span class="label">💰</span>
+            <span id="price">점심 25만원 · 저녁 37만원</span>
           </div>
           <div class="info-row">
-            <span class="label">영업</span>
-            <span>18:00 ~ 22:00</span>
-          </div>
-          <div class="info-row">
-            <span class="label">예약</span>
-            <span>날짜/시간 선택 후 예약하기</span>
+            <span class="label">🕒</span>
+            <details>
+              <summary id="openHoursSummary">오늘(월) 휴무일</summary>
+              <span id="openHours">수 ~ 일<br>점심 12 : 00 ~ 15 : 00<br>저녁 18 : 00 ~ 22 : 00</span>
+            </details>
           </div>
         </div>
       </section>
 
       <section class="card" id="reserveSection" aria-label="예약">
-        <h2 class="section-title">예약</h2>
-        <p class="muted" id="reserveSummary">기본 선택: 오늘 · 1명 · 시간 선택</p>
-        <button class="btn primary" id="openReservePickerBtn" type="button">
-          예약 날짜 선택하기
-        </button>
-      </section>
-
-      <div class="reserve-picker-backdrop" id="reservePickerBackdrop" hidden></div>
-
-      <section class="reserve-picker" id="reservePicker" aria-label="예약 날짜 인원 시간 선택" hidden>
-        <div class="reserve-picker__header">
-          <h3>예약 선택</h3>
-          <button type="button" id="closeReservePickerBtn" class="reserve-picker__close" aria-label="닫기">✕</button>
+        <div class="reserve-head">
+          <h2 class="section-title">예약</h2>
         </div>
 
-        <div class="reserve-picker__body">
-          <div class="picker-block">
-            <div class="picker-block__title">날짜</div>
-            <div class="calendar-head">
-              <button type="button" id="calendarPrevBtn" class="calendar-nav" aria-label="이전 달">◀</button>
-              <strong id="calendarMonthLabel"></strong>
-              <button type="button" id="calendarNextBtn" class="calendar-nav" aria-label="다음 달">▶</button>
+        <div class="reserve-shell">
+          <button id="reserveToggleBtn" class="reserve-trigger" type="button">
+            <div>
+              <strong>📅 날짜, 인원, 시간</strong>
+              <span id="reserveSummary">기본 선택: 오늘 · 1명 · 시간 선택</span>
             </div>
-            <div class="calendar-week">
-              <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+            <i class="reserve-arrow">∨</i>
+          </button>
+
+          <div id="reservePanel" class="reserve-panel">
+            <div class="reserve-group">
+              <p class="reserve-group-title">날짜</p>
+              <div class="calendar-head2">
+                <button id="calPrevBtn" class="calendar-nav-btn" type="button">‹</button>
+                <span id="calMonthLabel" class="calendar-month-label">2026년 2월</span>
+                <button id="calNextBtn" class="calendar-nav-btn" type="button">›</button>
+              </div>
+              <div class="calendar-week">
+                <span>일</span>
+                <span>월</span>
+                <span>화</span>
+                <span>수</span>
+                <span>목</span>
+                <span>금</span>
+                <span>토</span>
+              </div>
+              <div class="calendar-grid" id="dateRow" aria-label="날짜 선택"></div>
             </div>
-            <div class="calendar-grid" id="calendarGrid"></div>
-          </div>
 
-          <div class="picker-block">
-            <div class="picker-block__title">인원</div>
-            <div class="pick-scroll" id="pickerPeopleRow" aria-label="인원 선택"></div>
-          </div>
+            <div class="reserve-group">
+              <p class="reserve-group-title">인원</p>
+              <div class="grid" id="peopleRow" aria-label="인원 선택"></div>
+            </div>
 
-          <div class="picker-block">
-            <div class="picker-block__title">시간</div>
-            <div class="pick-scroll" id="pickerTimeRow" aria-label="시간 선택"></div>
-            <p class="muted small">※ 예약 완료된 시간은 다시 선택할 수 없습니다.</p>
-          </div>
-        </div>
+            <div class="reserve-group">
+              <p class="reserve-group-title">시간</p>
+              <div class="grid" id="timeGrid" aria-label="시간 선택"></div>
+              <p class="reserve-note">※ “예약 마감” 또는 “예약 완료”는 선택할 수 없습니다.</p>
+            </div>
 
-        <div class="reserve-picker__footer">
-          <button class="btn primary" id="pickerReserveBtn" type="button">예약하기</button>
+            <button class="btn primary" id="reserveBtn" type="button" disabled>예약하기</button>
+          </div>
         </div>
       </section>
 
       <section class="card" aria-label="메뉴">
         <h2 class="section-title">메뉴</h2>
-
-        <div class="menu-list" id="menuList">
-          <div class="menu-item">
-            <div class="menu-head">
-              <div>
-                <div class="menu-name">5코스</div>
-                <div class="menu-price">55,000원</div>
-              </div>
-              <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-1">
-                구성 보기
-              </button>
-            </div>
-            <div class="menu-detail" id="menuDetail-1" hidden>
-              • 채소 요리 3~4가지, 고기 요리 1가지, 면 요리 1가지<br />
-              • 제철 채소 구이<br />
-              • 샐러드<br />
-              • 버섯요리<br>
-              • 숯불 고기<br>
-              • 뇨끼 또는 오일 파스타 류
-            </div>
-          </div>
-
-          <div class="menu-item">
-            <div class="menu-head">
-              <div>
-                <div class="menu-name">디너 코스</div>
-                <div class="menu-price">75,000원</div>
-              </div>
-              <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-2">
-                구성 보기
-              </button>
-            </div>
-            <div class="menu-detail" id="menuDetail-2" hidden>
-              • 채소 요리 3가지, 고기 요리 2가지, 면 요리 1가지, 디저트 1가지<br />
-              • 으깬 감자 사워크림<br />
-              • 구운 양배추<br />
-              • 부라타치즈와 귤 소스<br>
-              • 테이블 당 와인 보틀 주문 필수
-            </div>
-          </div>
-        </div>
+        <div class="menu-list" id="menuList"></div>
       </section>
 
       <section class="card" aria-label="위치">
         <h2 class="section-title">위치</h2>
         <iframe
+          id="mapFrame"
           title="지도"
-          src="about:blank"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.206707105521!2d127.04158799999998!3d37.5030426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca576c3d96129%3A0x928faa53eb450ee4!2z7J207YOA64uJIOqwgOuToA!5e0!3m2!1sko!2skr!4v1771825889110!5m2!1sko!2skr"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
-
         <div class="info-grid">
           <div class="info-row">
             <span class="label">주소</span>
-            <span>서울 강남구 연주로 135길 34 1층</span>
+            <span id="address">서울 강남구 테헤란로 231 조선팰리스 36층</span>
           </div>
           <div class="info-row">
             <span class="label">도보</span>
-            <span>학동역에서 275m / 강남구청역에서 772m</span>
+            <span id="walk">역삼역에서 500m / 선릉역에서 624m</span>
           </div>
         </div>
       </section>
 
       <section class="card" aria-label="상세정보">
         <h2 class="section-title">상세정보</h2>
-
         <div class="info-grid">
           <div class="info-row">
             <span class="label">전화</span>
-            <span>02-547-4420</span>
+            <span id="phone">02-727-7610</span>
           </div>
           <div class="info-row">
             <span class="label">정기휴무</span>
-            <span>매주 일요일</span>
+            <span id="closedDay">매주 월요일 화요일</span>
           </div>
         </div>
       </section>
@@ -178,9 +198,7 @@
     </main>
 
     <footer class="bottom-bar" aria-label="하단 예약하기">
-      <button class="btn primary" id="bottomReserveBtn" type="button">
-        예약하기
-      </button>
+      <button class="btn primary" id="bottomReserveBtn" type="button">예약하기</button>
     </footer>
   </body>
 </html>
