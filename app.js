@@ -59,7 +59,7 @@ const reservationBtn = document.getElementById('reservationBtn');
 const DUMMY_SHOPS = [
   {
     id: "s1",
-    headLink: "#",
+    headLink: "일식백수저.html",
     infoLink: "#",
     type: "white",
     name: "고료리 켄",
@@ -75,6 +75,7 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/snu5CgGPvtvTj7GWIBYcbiA/m/5f5c3938eeb2431f85e8c1c95278f09b?resizeType=details500&ftype=avif",
     ],
     dates: [...DEFAULT_DATE_LABELS],
+    link: "일식백수저.html"
   },
   {
     id: "s2",
@@ -98,7 +99,7 @@ const DUMMY_SHOPS = [
   },
   {
     id: "s3",
-    headLink: "#",
+    headLink: "일식흑수저.html",
     infoLink: "#",
     type: "black",
     name: "소바쥬",
@@ -114,9 +115,12 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sTgdqdvK4tx1ipytPfrFEKA/1a125adfb0ee42c79699bd1b82d8f494?resizeType=details500&ftype=avif",
     ],
     dates: [...DEFAULT_DATE_LABELS],
+    link: "일식흑수저.html"
   },
   {
     id: "s4",
+    headLink: "흑(양식).html",
+    infoLink: "#",
     type: "black",
     name: "유용욱 바베큐 연구소",
     rating: 4.7,
@@ -131,9 +135,12 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/d3cd1b68bf17494abd4b1ff57d522766?resizeType=details500&ftype=avif",
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "흑(양식).html"
   },
   {
     id: "s5",
+    headLink: "korMenu.html",
+    infoLink: "#",
     type: "black",
     name: "이타닉 가든",
     rating: 4.9,
@@ -148,11 +155,14 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/4a65a533bafe4f6dbfe5bbb0b62d061d?resizeType=details500&ftype=avif",
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "korMenu.html"
   },
   {
     id: "s6",
     type: "black",
     name: "양출서울",
+    headLink: "korMenu01.html",
+    infoLink: "#",
     rating: 4.8,
     reviews: 319,
     area: "논현",
@@ -160,11 +170,52 @@ const DUMMY_SHOPS = [
     openInfo: "영업전 · 18:00 영업 시작",
     priceInfo: "점심 영업안함 · 저녁 5.5-7.5만원",
     images: [
-      "https://ugc-images.catchtable.co.kr/shop/manager/images/3c7dafb8a7f947e2a00ab59c99cc36d1?resizeType=details500&ftype=avif",
-      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/b4f15004bf9f4bc6bde1665bc19d7e6d?resizeType=details500&ftype=avif",
-      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/d3cd1b68bf17494abd4b1ff57d522766?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/d6794db665b94f3cb5ef4bfdf6f9c6e7?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/1ace96248fdd44869e643b1c20fa0577?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/29897e2abb0b48a991081ffaa44cf4bb?resizeType=details500&ftype=avif",
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "korMenu01.html"
+  },
+  {
+    id: "s7",
+    type: "black",
+    name: "보보식당",
+    headLink: "korMenu01.html",
+    infoLink: "#",
+    rating: 4.5,
+    reviews: 3038,
+    area: "압구정",
+    cuisine: "중식",
+    openInfo: "영업전 · 11:30 영업 시작",
+    priceInfo: "점심, 저녁 동일가 1-9만원",
+    images: [
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/c9c27169addc4e6590b6922e6122d656?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/ce0d2c26a94249eb8109a31e6c460d6d?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/b2a7ed11b4ff4d0d84e98225bb275b1c?resizeType=details500&ftype=avif",
+    ],
+    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "korMenu01.html"
+  },
+  {
+    id: "s8",
+    type: "black",
+    name: "엠버서더 서울 풀만 호빈",
+    headLink: "korMenu01.html",
+    infoLink: "#",
+    rating: 4.8,
+    reviews: 166,
+    area: "장충동",
+    cuisine: "중식",
+    openInfo: "영업전 · 11:30 영업 시작",
+    priceInfo: "점심, 저녁 동일가 11-40만원",
+    images: [
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/8a2f0c003d314e3f8ea1a7c3efe4b39d?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/711f1240bee7465d93193645e343298c?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/7669c048bfdd4170aa36d44393bb195a?resizeType=details500&ftype=avif",
+    ],
+    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "korMenu01.html"
   },
   
 ];
@@ -258,6 +309,39 @@ function isReservedDate(shopId, date) {
 }
 function setReservedDate(shopId, date) {
   RESERVED_DATE_KEYS.add(reserveKey(shopId, date));
+}
+
+
+function reserveSlot(shopId, date, time, people, priceInfo) {
+    // 이미 예약된 날짜/시간이면 무시
+    if (isReservedSlot(shopId, date, time)) {
+        alert("이미 예약된 시간입니다.");
+        return;
+    }
+
+    // 예약 처리 (데모용 메모리)
+    setReservedDate(shopId, date);
+
+    // localStorage에서 기존 예약 가져오기
+    let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+
+    // 예약 정보 추가 (취소 버튼 없음)
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+
+    reservations.push({
+        id: Date.now(),
+        shopId,
+        dDay: "예약완료",
+        status: "예약완료",
+        image: "",          // 이미지 있으면 넣기
+        name: "예약",
+        info: priceInfo,
+        dateTime: `${year}.${month}.${date} / ${time} / ${people}`
+    });
+
+    // localStorage 저장
+    localStorage.setItem("reservations", JSON.stringify(reservations));
 }
 
 /* =========================================================
