@@ -4,178 +4,102 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>이타닉 가든</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
     <link rel="stylesheet" href="./shop.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      window.SHOP = {
+        id: "kor-menu-01",
+        heroImg: "./kormenu_img/korMenu01_dish02.jpg",
+        heroImages: [
+          "./kormenu_img/korMenu01_dish02.jpg",
+          "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/4a65a533bafe4f6dbfe5bbb0b62d061d?resizeType=details500&ftype=avif",
+        ],
+        name: "이타닉 가든",
+        rating: 4.9,
+        reviews: 2875,
+        category: "한식",
+        area: "역삼",
+        way: "역삼역에서 500m",
+        price: "점심 25만원 · 저녁 37만원",
+        openHoursSummary: "오늘(월) 휴무일",
+        openHours: "수 ~ 일<br>점심 12 : 00 ~ 15 : 00<br>저녁 18 : 00 ~ 22 : 00",
+        address: "서울 강남구 테헤란로 231 조선팰리스 36층",
+        walk: "역삼역에서 500m / 선릉역에서 624m",
+        phone: "02-727-7610",
+        closedDay: "매주 월요일 화요일",
+        menus: [
+          {
+            id: "m1",
+            name: "LUNCH",
+            price: "250,000원",
+            items: [
+              "주나미 쌀",
+              "부각",
+              "더덕",
+              "봄동",
+              "한재 미나리",
+              "생선 조림",
+              "삼계탕",
+              "불고기",
+              "군고구마 or 옥광밤",
+              "자개함",
+            ],
+          },
+          {
+            id: "m2",
+            name: "DINNER",
+            price: "370,000원",
+            items: [
+              "주나미 쌀",
+              "부각",
+              "더덕",
+              "봄동",
+              "한재 미나리",
+              "생선 조림",
+              "삼계탕",
+              "불고기",
+              "군고구마 or 옥광밤",
+              "자개함",
+            ],
+          },
+        ],
+      };
+    </script>
     <script src="./shop.js" defer></script>
-    <style>
-      #shopIntroCard {
-        transition: height 0.24s ease;
-      }
-
-      #shopIntroCard .meta #rating,
-      #shopIntroCard .meta #reviewCount {
-        font-size: 15px;
-        font-weight: 800;
-        color: #111;
-      }
-
-      #shopIntroCard .open-hours-wrap {
-        display: grid;
-        gap: 6px;
-      }
-
-      #shopIntroCard .open-hours-details {
-        font-size: 12px;
-        color: #374151;
-      }
-
-      #shopIntroCard .open-hours-details summary {
-        cursor: pointer;
-        font-weight: 700;
-      }
-
-      #shopIntroCard .open-hours-content {
-        margin-top: 6px;
-        display: grid;
-        gap: 4px;
-      }
-
-      #menuList .menu-detail {
-        display: block;
-        max-height: 0;
-        margin-top: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: max-height 0.24s ease, opacity 0.18s ease, margin-top 0.18s ease;
-      }
-
-      #menuList .menu-detail.is-open {
-        margin-top: 8px;
-        opacity: 1;
-      }
-
-      #reserveSection #dateRow {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 6px;
-      }
-
-      #reserveSection .calendar-day {
-        width: 100%;
-        border-color: #d1d5db;
-        font-weight: 600;
-      }
-
-      #reserveSection .calendar-day.today {
-        border-color: #111;
-      }
-
-      #reserveSection .calendar-day.on {
-        background: #111;
-        color: #fff;
-        border-color: #111;
-      }
-
-      #reserveSection .calendar-day.disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-      }
-
-      #reserveSection #peopleRow {
-        display: flex;
-        gap: 8px;
-        overflow-x: auto;
-        grid-template-columns: none;
-      }
-
-      #reserveSection #peopleRow .pill {
-        flex: 0 0 auto;
-      }
-
-      #reserveSection #timeGrid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      #reserveSection #reserveBtn {
-        margin-top: 6px;
-      }
-
-      .hero-swiper,
-      .hero-swiper .swiper-wrapper,
-      .hero-swiper .swiper-slide {
-        width: 100%;
-        height: 240px;
-      }
-    </style>
   </head>
   <body>
-    <main
-      class="app"
-      data-static-shop-info="true"
-      data-sticky-topbar="true"
-      data-reservation-link="static"
-      data-people-range="1-9plus"
-      data-default-people="1명"
-      aria-label="식당 상세 페이지"
-    >
-      <header class="topbar hero-top-actions" aria-label="상단 버튼">
-        <a class="topbar__back hero-top-btn" href="./intro.html" aria-label="뒤로가기">←</a>
-        <h1 class="topbar__title">이타닉 가든</h1>
-        <a id="reservationBtn" class="topbar__right hero-top-btn" href="예약현황.html">예약현황</a>
-      </header>
-
+    <main class="app" data-people-range="1-9plus" aria-label="식당 상세 페이지">
       <section class="hero" aria-label="가게 대표 이미지">
-        <div class="swiper hero-swiper" aria-label="가게 대표 이미지 슬라이드">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img
-                src="./kormenu_img/korMenu02_dish01.jpg"
-                id="heroImg"
-                alt="이타닉 가든 대표 이미지 1"
-              />
-            </div>
-            <div class="swiper-slide">
-              <img
-                src="https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/4a65a533bafe4f6dbfe5bbb0b62d061d?resizeType=details500&ftype=avif"
-                alt="이타닉 가든 대표 이미지 2"
-              />
-            </div>
-          </div>
+        <div class="hero-top-actions" aria-label="상단 버튼">
+          <a class="hero-action-btn" href="./intro.html">뒤로</a>
+          <a class="hero-action-btn" href="예약현황.html">예약현황</a>
         </div>
+        <img id="heroImg" src="" alt="이타닉 가든 대표 이미지" />
       </section>
 
-      <section class="card" id="shopIntroCard" aria-label="가게소개">
-        <h1 id="shopName" class="title">이타닉 가든</h1>
-
+      <section class="card" aria-label="가게 소개">
+        <h1 class="title" id="shopName">이타닉 가든</h1>
         <div class="meta">
           <span id="rating">별점 4.9</span>
-          <span id="reviewCount">리뷰, 2875개</span>
-          <span id="category">· 한식</span>
-          <span id="area">· 역삼</span>
+          <span id="reviewCount">리뷰 2875개</span>
+          <span id="category">- 한식</span>
+          <span id="area">역삼</span>
         </div>
 
         <div class="info-grid">
           <div class="info-row">
-            <span class="label">가격</span>
-            <span id="price">점심 - 25만원 , 저녁 - 37만원</span>
+            <span class="label">🗺️</span>
+            <span id="way">역삼역에서 500m</span>
           </div>
           <div class="info-row">
-            <span class="label">영업</span>
-            <div class="open-hours-wrap">
-              <span id="openHours">오늘(월) 휴무일</span>
-              <details id="openHoursDetails" class="open-hours-details">
-                <summary>영업시간 보기</summary>
-                <div class="open-hours-content">
-                  <div>수 ~ 일 </div>
-                  <div>- 점심 12 : 00 ~ 15 : 00</div>
-                  <div>- 저녁 18 : 00 ~ 22 : 00</div>
-                </div>
-              </details>
-            </div>
+            <span class="label">💰</span>
+            <span id="price">점심 25만원 · 저녁 37만원</span>
+          </div>
+          <div class="info-row">
+            <span class="label">🕒</span>
+            <details>
+              <summary id="openHoursSummary">오늘(월) 휴무일</summary>
+              <span id="openHours">수 ~ 일<br>점심 12 : 00 ~ 15 : 00<br>저녁 18 : 00 ~ 22 : 00</span>
+            </details>
           </div>
         </div>
       </section>
@@ -211,7 +135,7 @@
                 <span>금</span>
                 <span>토</span>
               </div>
-              <div class="hscroll" id="dateRow" aria-label="날짜 선택"></div>
+              <div class="calendar-grid" id="dateRow" aria-label="날짜 선택"></div>
             </div>
 
             <div class="reserve-group">
@@ -225,70 +149,18 @@
               <p class="reserve-note">※ “예약 마감” 또는 “예약 완료”는 선택할 수 없습니다.</p>
             </div>
 
-            <button class="btn primary" id="reserveBtn" type="button" disabled>
-              예약하기
-            </button>
+            <button class="btn primary" id="reserveBtn" type="button" disabled>예약하기</button>
           </div>
         </div>
       </section>
 
       <section class="card" aria-label="메뉴">
         <h2 class="section-title">메뉴</h2>
-
-        <div class="menu-list" id="menuList" data-static-menu="true">
-          <div class="menu-item">
-            <div class="menu-head">
-              <div>
-                <div class="menu-name">LUNCH</div>
-                <div class="menu-price">250,000원</div>
-              </div>
-              <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-1">
-                구성 보기
-              </button>
-            </div>
-            <div class="menu-detail" id="menuDetail-1">
-              • 주나미 쌀<br />
-              • 부각<br />
-              • 더덕<br />
-              • 봄동<br />
-              • 한재 미나리<br />
-              • 생선 조림<br />
-              • 삼계탕<br />
-              • 불고기<br />
-              • 군고무가 or 옥광밤<br />
-              • 자개함
-            </div>
-          </div>
-
-          <div class="menu-item">
-            <div class="menu-head">
-              <div>
-                <div class="menu-name">DIINNER</div>
-                <div class="menu-price">370,000원</div>
-              </div>
-              <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-2">
-                구성 보기
-              </button>
-            </div>
-            <div class="menu-detail" id="menuDetail-2">
-              • 주나미 쌀<br />
-              • 부각<br />
-              • 더덕<br />
-              • 봄동<br />
-              • 한재 미나리<br />
-              • 생선 조림<br />
-              • 삼계탕<br />
-              • 불고기<br />
-              • 군고무가 or 옥광밤<br />
-              • 자개함
-            </div>
-          </div>
-        </div>
+        <div class="menu-list" id="menuList"></div>
       </section>
 
       <section class="card" aria-label="위치">
         <h2 class="section-title">위치</h2>
-
         <iframe
           id="mapFrame"
           title="지도"
@@ -296,7 +168,6 @@
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
-
         <div class="info-grid">
           <div class="info-row">
             <span class="label">주소</span>
@@ -311,7 +182,6 @@
 
       <section class="card" aria-label="상세정보">
         <h2 class="section-title">상세정보</h2>
-
         <div class="info-grid">
           <div class="info-row">
             <span class="label">전화</span>
@@ -328,50 +198,7 @@
     </main>
 
     <footer class="bottom-bar" aria-label="하단 예약하기">
-      <button class="btn primary" id="bottomReserveBtn" type="button">
-        예약하기
-      </button>
+      <button class="btn primary" id="bottomReserveBtn" type="button">예약하기</button>
     </footer>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const introCard = document.getElementById("shopIntroCard");
-        const openHoursDetails = document.getElementById("openHoursDetails");
-        const heroSwiperEl = document.querySelector(".hero-swiper");
-
-        if (heroSwiperEl && typeof Swiper !== "undefined") {
-          new Swiper(".hero-swiper", {
-            loop: true,
-            autoplay: {
-              delay: 3000,
-              disableOnInteraction: false,
-            },
-          });
-        }
-
-        const syncIntroCardHeight = () => {
-          if (!introCard) return;
-
-          const startHeight = introCard.getBoundingClientRect().height;
-          introCard.style.height = "auto";
-          const endHeight = introCard.getBoundingClientRect().height;
-
-          introCard.style.height = `${startHeight}px`;
-          requestAnimationFrame(() => {
-            introCard.style.height = `${endHeight}px`;
-          });
-
-          introCard.addEventListener(
-            "transitionend",
-            () => {
-              introCard.style.height = "auto";
-            },
-            { once: true }
-          );
-        };
-
-        openHoursDetails?.addEventListener("toggle", syncIntroCardHeight);
-      });
-    </script>
   </body>
 </html>
