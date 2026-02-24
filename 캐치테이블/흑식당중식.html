@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>보보식당</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="js/main.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 상단 이미지 슬라이더 -->
+      <section class="hero">
+        <div class="slider">
+          <div class="slides" id="slides">
+            <div class="slide"><img src="images1/이미지1.png" /></div>
+            <div class="slide"><img src="images1/이미지2.png" /></div>
+            <div class="slide"><img src="images1/이미지3.png" /></div>
+          </div>
+          <div class="dots" id="dots"></div>
+        </div>
+      </section>
+
+      <!-- 매장 정보 -->
+      <section class="place-header">
+        <div class="badge-row">
+          <span class="badge dark">🍽 흑백요리사4: 삼대가족식</span>
+          <span class="badge gold">Taste of Seoul</span>
+          <span class="badge outline">tv 흑백요리사4-2</span>
+          <span class="badge outline">최자로드</span>
+          <button class="call-btn">📞 전화</button>
+        </div>
+
+        <div class="category">압구정 · 중식</div>
+        <h1>보보식당</h1>
+
+        <div class="rating">⭐ 4.5 <span>리뷰 3,036개</span></div>
+
+        <p class="desc">
+          ✨ 장보원 셰프의 특별한 중식을 경험할 수 있는 모던 차이니즈 레스토랑
+        </p>
+
+        <ul class="info">
+          <li>
+            📍 수요밥상 압구정로데오역에서 376m · <span class="link">위치</span>
+          </li>
+          <li>💰 점심, 저녁 동일가 · 1–19만원</li>
+          <li>⏰ 오늘(월) 11:30 ~ 22:00</li>
+        </ul>
+
+        <div class="chips">
+          <span>최대 9명 예약</span>
+          <span>pay 예치금 0원</span>
+          <span>pay 자동결제</span>
+          <span>룸</span>
+          <span>발렛</span>
+          <span>콜키지</span>
+        </div>
+      </section>
+
+      <!-- 예약 -->
+      <section class="reserve">
+        <h2>예약</h2>
+        <button id="openReserve" class="reserve-summary">
+          📅 <span id="reserveText">2026년 2월 24일 · 2명</span> ▾
+        </button>
+
+        <div class="reserve-disabled">📅 예약이 모두 마감되었어요</div>
+      </section>
+
+      <!-- 메뉴 -->
+      <section class="menu-area">
+        <div class="menu-header">
+          <h2>메뉴</h2>
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>후 불도장</strong>
+            <p>
+              불도장을 처음 전파한 후덕주 마스터 셰프의 최고급 보양 요리입니다.
+            </p>
+            <b>170,000원</b>
+          </div>
+          <img src="images/이미지1.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>북경오리</strong>
+            <b>160,000원</b>
+          </div>
+          <img src="images/이미지2.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>양장피 전채</strong>
+            <small>* Small dish 기준 금액입니다.</small>
+            <b>80,000원</b>
+          </div>
+          <img src="images/이미지3.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>호빈 통전복 찜</strong>
+            <b>78,000원</b>
+          </div>
+          <img src="images/이미지4.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>전가복</strong>
+            <small>* Small dish 기준 금액입니다.</small>
+            <b>140,000원</b>
+          </div>
+          <img src="images/이미지5.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>유린기</strong>
+            <small>* Small dish 기준 금액입니다.</small>
+            <b>60,000원</b>
+          </div>
+          <img src="images/이미지6.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>탕수육</strong>
+            <small>* Small dish 기준 금액입니다.</small>
+            <b>65,000원</b>
+          </div>
+          <img src="images/이미지7.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>호빈짬뽕</strong>
+            <b>33,000원</b>
+          </div>
+          <img src="images/이미지8.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>고구마탕</strong>
+            <small>* Small dish 기준 금액입니다.</small>
+            <b>24,000원</b>
+          </div>
+          <img src="images/이미지9.png" />
+        </div>
+
+        <div class="menu-item">
+          <div class="menu-left">
+            <strong>세가지 맛 모둠 딤섬</strong>
+            <b>24,000원</b>
+          </div>
+          <img src="images/이미지10.png" />
+        </div>
+      </section>
+    </div>
+
+    <!-- 예약 오버레이 -->
+    <div id="reserveOverlay" class="overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <button id="prevMonth" class="month-nav">‹</button>
+          <strong id="monthLabel">2026년 2월</strong>
+          <button id="nextMonth" class="month-nav">›</button>
+        </div>
+
+        <div class="calendar">
+          <div class="week">
+            <span>일</span><span>월</span><span>화</span> <span>수</span
+            ><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="days" id="days"></div>
+        </div>
+
+        <div class="people" id="people">
+          <button data-p="1">1명</button>
+          <button class="active" data-p="2">2명</button>
+          <button data-p="3">3명</button>
+          <button data-p="4">4명</button>
+          <button data-p="5">5명</button>
+          <button data-p="6">6명</button>
+          <button data-p="7">7명</button>
+          <button data-p="8">8명</button>
+          <button data-p="9">9명</button>
+        </div>
+
+        <div class="closed-info">📅 예약이 모두 마감되었어요</div>
+
+        <button id="closeReserve" class="close-btn">닫기</button>
+      </div>
+    </div>
+    
+    <div class="map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.1541311242704!2d127.03367057640433!3d37.52786382634384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca39c183bd317%3A0x2457abef5c9e62de!2z67O067O07Iud64u5IOyVleq1rOyglQ!5e0!3m2!1sko!2skr!4v1771914515956!5m2!1sko!2skr"
+      style="border: 0"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+  
+    ></iframe>
+    </div>
+  </body>
+  <!-- ===== 하단 고정 예약 바 ===== -->
+<div class="reserve-bar">
+  <div class="map-width-wrap">
+    <button class="call-mini">
+      📞 전화
+    </button>
+
+    <button id="openReserveFixed" class="reserve-orange">
+      예약하기
+    </button>
+  </div>
+</div>
+
+<!-- ===== 예약 모달 ===== -->
+<div id="reserveModal" class="reserve-modal">
+  <div class="reserve-sheet">
+
+    <div class="sheet-header">
+      <span class="today">오늘</span>
+      <button class="arrow">‹</button>
+      <strong>2026년 2월</strong>
+      <button class="arrow">›</button>
+      <span class="filter">전체 ▾</span>
+    </div>
+
+    <!-- 요일 -->
+    <div class="week">
+      <span>일</span><span>월</span><span>화</span>
+      <span>수</span><span>목</span><span>금</span><span>토</span>
+    </div>
+
+    <!-- 날짜 -->
+    <div class="days">
+      <span class="disabled">22</span>
+      <span>23</span>
+      <span class="active">24</span>
+      <span>25</span>
+      <span>26</span>
+      <span>27</span>
+      <span>28</span>
+    </div>
+
+    <!-- 인원 -->
+    <div class="people">
+      <button>1명</button>
+      <button class="active">2명</button>
+      <button>3명</button>
+      <button>4명</button>
+      <button>5명</button>
+      <button>6명</button>
+      <button>7명</button>
+      <button>8명</button>
+      <button>9명</button>
+    </div>
+
+    <!-- 시간 -->
+    <div class="times">
+      <button>오후 5:30</button>
+      <button>오후 6:00</button>
+      <button>오후 6:30</button>
+      <button>오후 7:00</button>
+      <button>오후 8:00</button>
+    </div>
+
+    <button id="closeReserveFixed" class="close-btn">닫기</button>
+  </div>
+</div>
+</html>
