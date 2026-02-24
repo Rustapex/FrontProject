@@ -3,136 +3,284 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>식당 상세</title>
+    <title>이타닉 가든</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <link rel="stylesheet" href="./shop.css" />
-    <script src="./shop01.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./shop.js" defer></script>
+    <style>
+      #shopIntroCard {
+        transition: height 0.24s ease;
+      }
+
+      #shopIntroCard .meta #rating,
+      #shopIntroCard .meta #reviewCount {
+        font-size: 15px;
+        font-weight: 800;
+        color: #111;
+      }
+
+      #shopIntroCard .open-hours-wrap {
+        display: grid;
+        gap: 6px;
+      }
+
+      #shopIntroCard .open-hours-details {
+        font-size: 12px;
+        color: #374151;
+      }
+
+      #shopIntroCard .open-hours-details summary {
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      #shopIntroCard .open-hours-content {
+        margin-top: 6px;
+        display: grid;
+        gap: 4px;
+      }
+
+      #menuList .menu-detail {
+        display: block;
+        max-height: 0;
+        margin-top: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.24s ease, opacity 0.18s ease, margin-top 0.18s ease;
+      }
+
+      #menuList .menu-detail.is-open {
+        margin-top: 8px;
+        opacity: 1;
+      }
+
+      #reserveSection #dateRow {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+      }
+
+      #reserveSection .calendar-day {
+        width: 100%;
+        border-color: #d1d5db;
+        font-weight: 600;
+      }
+
+      #reserveSection .calendar-day.today {
+        border-color: #111;
+      }
+
+      #reserveSection .calendar-day.on {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+
+      #reserveSection .calendar-day.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      #reserveSection #peopleRow {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        grid-template-columns: none;
+      }
+
+      #reserveSection #peopleRow .pill {
+        flex: 0 0 auto;
+      }
+
+      #reserveSection #timeGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      #reserveSection #reserveBtn {
+        margin-top: 6px;
+      }
+
+      .hero-swiper,
+      .hero-swiper .swiper-wrapper,
+      .hero-swiper .swiper-slide {
+        width: 100%;
+        height: 240px;
+      }
+    </style>
   </head>
   <body>
-    <main class="app" aria-label="식당 상세 페이지">
+    <main
+      class="app"
+      data-static-shop-info="true"
+      data-sticky-topbar="true"
+      data-reservation-link="static"
+      data-people-range="1-9plus"
+      data-default-people="1명"
+      aria-label="식당 상세 페이지"
+    >
+      <header class="topbar hero-top-actions" aria-label="상단 버튼">
+        <a class="topbar__back hero-top-btn" href="./intro.html" aria-label="뒤로가기">←</a>
+        <h1 class="topbar__title">이타닉 가든</h1>
+        <a id="reservationBtn" class="topbar__right hero-top-btn" href="예약현황.html">예약현황</a>
+      </header>
+
       <section class="hero" aria-label="가게 대표 이미지">
-        <img
-          src="https://images.unsplash.com/photo-1555992336-cbf7c366f2a2?auto=format&fit=crop&w=1200&q=60"
-          alt="양출서울 대표 이미지"
-        />
+        <div class="swiper hero-swiper" aria-label="가게 대표 이미지 슬라이드">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img
+                src="./kormenu_img/korMenu02_dish01.jpg"
+                id="heroImg"
+                alt="이타닉 가든 대표 이미지 1"
+              />
+            </div>
+            <div class="swiper-slide">
+              <img
+                src="https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/4a65a533bafe4f6dbfe5bbb0b62d061d?resizeType=details500&ftype=avif"
+                alt="이타닉 가든 대표 이미지 2"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section class="card" aria-label="가게 소개">
-        <h1 class="title">양출서울</h1>
+      <section class="card" id="shopIntroCard" aria-label="가게소개">
+        <h1 id="shopName" class="title">이타닉 가든</h1>
 
         <div class="meta">
-          <span>★ 4.8</span>
-          <span>(319)</span>
-          <span>· 한식</span>
-          <span>· 논현구</span>
+          <span id="rating">별점 4.9</span>
+          <span id="reviewCount">리뷰, 2875개</span>
+          <span id="category">· 한식</span>
+          <span id="area">· 역삼</span>
         </div>
 
         <div class="info-grid">
           <div class="info-row">
-            <span class="label">가는 방법</span>
-            <span>신홍동역 2번 출구에서 275m</span>
-          </div>
-          <div class="info-row">
             <span class="label">가격</span>
-            <span>점심 영업 없음 · 저녁 55,000~75,000원</span>
+            <span id="price">점심 - 25만원 , 저녁 - 37만원</span>
           </div>
           <div class="info-row">
             <span class="label">영업</span>
-            <span>18:00 ~ 22:00</span>
-          </div>
-          <div class="info-row">
-            <span class="label">예약</span>
-            <span>날짜/시간 선택 후 예약하기</span>
+            <div class="open-hours-wrap">
+              <span id="openHours">오늘(월) 휴무일</span>
+              <details id="openHoursDetails" class="open-hours-details">
+                <summary>영업시간 보기</summary>
+                <div class="open-hours-content">
+                  <div>수 ~ 일 </div>
+                  <div>- 점심 12 : 00 ~ 15 : 00</div>
+                  <div>- 저녁 18 : 00 ~ 22 : 00</div>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="card" id="reserveSection" aria-label="예약">
-        <h2 class="section-title">예약</h2>
-        <p class="muted" id="reserveSummary">기본 선택: 오늘 · 1명 · 시간 선택</p>
-        <button class="btn primary" id="openReservePickerBtn" type="button">
-          예약 날짜 선택하기
-        </button>
-      </section>
-
-      <div class="reserve-picker-backdrop" id="reservePickerBackdrop" hidden></div>
-
-      <section class="reserve-picker" id="reservePicker" aria-label="예약 날짜 인원 시간 선택" hidden>
-        <div class="reserve-picker__header">
-          <h3>예약 선택</h3>
-          <button type="button" id="closeReservePickerBtn" class="reserve-picker__close" aria-label="닫기">✕</button>
+        <div class="reserve-head">
+          <h2 class="section-title">예약</h2>
         </div>
 
-        <div class="reserve-picker__body">
-          <div class="picker-block">
-            <div class="picker-block__title">날짜</div>
-            <div class="calendar-head">
-              <button type="button" id="calendarPrevBtn" class="calendar-nav" aria-label="이전 달">◀</button>
-              <strong id="calendarMonthLabel"></strong>
-              <button type="button" id="calendarNextBtn" class="calendar-nav" aria-label="다음 달">▶</button>
+        <div class="reserve-shell">
+          <button id="reserveToggleBtn" class="reserve-trigger" type="button">
+            <div>
+              <strong>📅 날짜, 인원, 시간</strong>
+              <span id="reserveSummary">기본 선택: 오늘 · 1명 · 시간 선택</span>
             </div>
-            <div class="calendar-week">
-              <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+            <i class="reserve-arrow">∨</i>
+          </button>
+
+          <div id="reservePanel" class="reserve-panel">
+            <div class="reserve-group">
+              <p class="reserve-group-title">날짜</p>
+              <div class="calendar-head2">
+                <button id="calPrevBtn" class="calendar-nav-btn" type="button">‹</button>
+                <span id="calMonthLabel" class="calendar-month-label">2026년 2월</span>
+                <button id="calNextBtn" class="calendar-nav-btn" type="button">›</button>
+              </div>
+              <div class="calendar-week">
+                <span>일</span>
+                <span>월</span>
+                <span>화</span>
+                <span>수</span>
+                <span>목</span>
+                <span>금</span>
+                <span>토</span>
+              </div>
+              <div class="hscroll" id="dateRow" aria-label="날짜 선택"></div>
             </div>
-            <div class="calendar-grid" id="calendarGrid"></div>
-          </div>
 
-          <div class="picker-block">
-            <div class="picker-block__title">인원</div>
-            <div class="pick-scroll" id="pickerPeopleRow" aria-label="인원 선택"></div>
-          </div>
+            <div class="reserve-group">
+              <p class="reserve-group-title">인원</p>
+              <div class="grid" id="peopleRow" aria-label="인원 선택"></div>
+            </div>
 
-          <div class="picker-block">
-            <div class="picker-block__title">시간</div>
-            <div class="pick-scroll" id="pickerTimeRow" aria-label="시간 선택"></div>
-            <p class="muted small">※ 예약 완료된 시간은 다시 선택할 수 없습니다.</p>
-          </div>
-        </div>
+            <div class="reserve-group">
+              <p class="reserve-group-title">시간</p>
+              <div class="grid" id="timeGrid" aria-label="시간 선택"></div>
+              <p class="reserve-note">※ “예약 마감” 또는 “예약 완료”는 선택할 수 없습니다.</p>
+            </div>
 
-        <div class="reserve-picker__footer">
-          <button class="btn primary" id="pickerReserveBtn" type="button">예약하기</button>
+            <button class="btn primary" id="reserveBtn" type="button" disabled>
+              예약하기
+            </button>
+          </div>
         </div>
       </section>
 
       <section class="card" aria-label="메뉴">
         <h2 class="section-title">메뉴</h2>
 
-        <div class="menu-list" id="menuList">
+        <div class="menu-list" id="menuList" data-static-menu="true">
           <div class="menu-item">
             <div class="menu-head">
               <div>
-                <div class="menu-name">5코스</div>
-                <div class="menu-price">55,000원</div>
+                <div class="menu-name">LUNCH</div>
+                <div class="menu-price">250,000원</div>
               </div>
               <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-1">
                 구성 보기
               </button>
             </div>
-            <div class="menu-detail" id="menuDetail-1" hidden>
-              • 채소 요리 3~4가지, 고기 요리 1가지, 면 요리 1가지<br />
-              • 제철 채소 구이<br />
-              • 샐러드<br />
-              • 버섯요리<br>
-              • 숯불 고기<br>
-              • 뇨끼 또는 오일 파스타 류
+            <div class="menu-detail" id="menuDetail-1">
+              • 주나미 쌀<br />
+              • 부각<br />
+              • 더덕<br />
+              • 봄동<br />
+              • 한재 미나리<br />
+              • 생선 조림<br />
+              • 삼계탕<br />
+              • 불고기<br />
+              • 군고무가 or 옥광밤<br />
+              • 자개함
             </div>
           </div>
 
           <div class="menu-item">
             <div class="menu-head">
               <div>
-                <div class="menu-name">디너 코스</div>
-                <div class="menu-price">75,000원</div>
+                <div class="menu-name">DIINNER</div>
+                <div class="menu-price">370,000원</div>
               </div>
               <button class="pill menu-toggle" type="button" data-role="menuToggle" data-target="menuDetail-2">
                 구성 보기
               </button>
             </div>
-            <div class="menu-detail" id="menuDetail-2" hidden>
-              • 채소 요리 3가지, 고기 요리 2가지, 면 요리 1가지, 디저트 1가지<br />
-              • 으깬 감자 사워크림<br />
-              • 구운 양배추<br />
-              • 부라타치즈와 귤 소스<br>
-              • 테이블 당 와인 보틀 주문 필수
+            <div class="menu-detail" id="menuDetail-2">
+              • 주나미 쌀<br />
+              • 부각<br />
+              • 더덕<br />
+              • 봄동<br />
+              • 한재 미나리<br />
+              • 생선 조림<br />
+              • 삼계탕<br />
+              • 불고기<br />
+              • 군고무가 or 옥광밤<br />
+              • 자개함
             </div>
           </div>
         </div>
@@ -140,9 +288,11 @@
 
       <section class="card" aria-label="위치">
         <h2 class="section-title">위치</h2>
+
         <iframe
+          id="mapFrame"
           title="지도"
-          src="about:blank"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.206707105521!2d127.04158799999998!3d37.5030426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca576c3d96129%3A0x928faa53eb450ee4!2z7J207YOA64uJIOqwgOuToA!5e0!3m2!1sko!2skr!4v1771825889110!5m2!1sko!2skr"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
@@ -150,11 +300,11 @@
         <div class="info-grid">
           <div class="info-row">
             <span class="label">주소</span>
-            <span>서울 강남구 연주로 135길 34 1층</span>
+            <span id="address">서울 강남구 테헤란로 231 조선팰리스 36층</span>
           </div>
           <div class="info-row">
             <span class="label">도보</span>
-            <span>학동역에서 275m / 강남구청역에서 772m</span>
+            <span id="walk">역삼역에서 500m / 선릉역에서 624m</span>
           </div>
         </div>
       </section>
@@ -165,11 +315,11 @@
         <div class="info-grid">
           <div class="info-row">
             <span class="label">전화</span>
-            <span>02-547-4420</span>
+            <span id="phone">02-727-7610</span>
           </div>
           <div class="info-row">
             <span class="label">정기휴무</span>
-            <span>매주 일요일</span>
+            <span id="closedDay">매주 월요일 화요일</span>
           </div>
         </div>
       </section>
@@ -182,5 +332,46 @@
         예약하기
       </button>
     </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const introCard = document.getElementById("shopIntroCard");
+        const openHoursDetails = document.getElementById("openHoursDetails");
+        const heroSwiperEl = document.querySelector(".hero-swiper");
+
+        if (heroSwiperEl && typeof Swiper !== "undefined") {
+          new Swiper(".hero-swiper", {
+            loop: true,
+            autoplay: {
+              delay: 3000,
+              disableOnInteraction: false,
+            },
+          });
+        }
+
+        const syncIntroCardHeight = () => {
+          if (!introCard) return;
+
+          const startHeight = introCard.getBoundingClientRect().height;
+          introCard.style.height = "auto";
+          const endHeight = introCard.getBoundingClientRect().height;
+
+          introCard.style.height = `${startHeight}px`;
+          requestAnimationFrame(() => {
+            introCard.style.height = `${endHeight}px`;
+          });
+
+          introCard.addEventListener(
+            "transitionend",
+            () => {
+              introCard.style.height = "auto";
+            },
+            { once: true }
+          );
+        };
+
+        openHoursDetails?.addEventListener("toggle", syncIntroCardHeight);
+      });
+    </script>
   </body>
 </html>

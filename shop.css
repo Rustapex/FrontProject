@@ -15,6 +15,57 @@ body {
   background: #fff;
 }
 
+main.app[data-sticky-topbar="true"] .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  height: 56px;
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  padding-right: 10px;
+}
+
+main.app[data-sticky-topbar="true"] .topbar__back {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 34px;
+  margin-left: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #111827;
+  font-size: 18px;
+  line-height: 1;
+  background: #fff;
+}
+
+main.app[data-sticky-topbar="true"] .topbar__title {
+  margin: 0;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+main.app[data-sticky-topbar="true"] .topbar__right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #111;
+  background: #fff;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 /* 이미지가 480 넘지 않게 */
 img { display: block; width: 100%; height: auto; }
 
@@ -274,4 +325,164 @@ iframe {
 .choice-chip.is-disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* korMenu01/02 공용 예약 패널 스타일 */
+.reserve-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.reserve-status-btn {
+  width: auto;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.reserve-status-btn:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.reserve-shell {
+  border: 1px solid #eceff3;
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+
+.reserve-trigger {
+  width: 100%;
+  border: 1px solid #dce3e8;
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.reserve-trigger strong {
+  display: block;
+  font-size: 13px;
+  color: #111;
+}
+
+.reserve-trigger span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.reserve-arrow {
+  font-size: 16px;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.reserve-trigger.is-open .reserve-arrow {
+  transform: rotate(180deg);
+}
+
+.reserve-panel {
+  display: none;
+  margin-top: 12px;
+}
+
+.reserve-panel.active {
+  display: block;
+}
+
+.reserve-group {
+  margin-bottom: 12px;
+}
+
+.reserve-group-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.calendar-head2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.calendar-nav-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.calendar-month-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#reserveSection .calendar-week span {
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+#reserveSection .calendar-empty {
+  height: 36px;
+}
+
+.reserve-note {
+  margin: 2px 0 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+#reserveSection #peopleRow {
+  overflow-y: hidden;
+  cursor: grab;
+  user-select: auto;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#reserveSection #peopleRow::-webkit-scrollbar {
+  display: none;
+}
+
+#reserveSection #peopleRow.is-grabbing {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#reserveSection #peopleRow .pill {
+  white-space: nowrap;
+  cursor: inherit;
+}
+
+main.app[data-people-range="1-9plus"] #reserveSection #peopleRow .pill {
+  min-width: 72px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
 }

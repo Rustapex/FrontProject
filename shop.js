@@ -58,6 +58,20 @@ const state = {
   calendarCursor: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
 };
 
+function getPeopleOptions() {
+  const appRoot = document.querySelector("main.app");
+  if (appRoot?.dataset.peopleRange === "1-9plus") {
+    return ["1명", "2명", "3명", "4명", "5명", "6명", "7명", "8명", "9명이상"];
+  }
+  return ["2명", "3명", "4명", "5명"];
+}
+
+function applyPageDefaults() {
+  const appRoot = document.querySelector("main.app");
+  const defaultPeople = appRoot?.dataset.defaultPeople;
+  if (defaultPeople) state.selectedPeople = defaultPeople;
+}
+
 /* =========================================================
   함수: $(selector)
   매개변수: selector (string) - CSS 선택자
@@ -286,6 +300,9 @@ function initReservePanel() {
 
   const prevBtn = $("#calPrevBtn");
   const nextBtn = $("#calNextBtn");
+  const peopleRow = $("#peopleRow");
+
+  initGrabScroll(peopleRow);
 
   toggleBtn.addEventListener("click", () => {
     const panel = $("#reservePanel");
@@ -319,19 +336,29 @@ function initReservePanel() {
 
 /* ---- 화면 채우기(더미 데이터) ---- */
 function renderShopInfo() {
-  $("#heroImg").src = SHOP.heroImg;
-  $("#shopName").textContent = SHOP.name;
-  $("#rating").textContent = `⭐ ${SHOP.rating}`;
-  $("#reviewCount").textContent = `(${SHOP.reviews.toLocaleString()})`;
-  $("#category").textContent = `· ${SHOP.category}`;
-  $("#area").textContent = `· ${SHOP.area}`;
-  $("#way").textContent = SHOP.way;
-  $("#price").textContent = SHOP.price;
-  $("#openHours").textContent = SHOP.openHours;
-  $("#address").textContent = SHOP.address;
-  $("#walk").textContent = SHOP.walk;
-  $("#phone").textContent = SHOP.phone;
-  $("#closedDay").textContent = SHOP.closedDay;
+  const appRoot = document.querySelector("main.app");
+  if (appRoot?.dataset.staticShopInfo === "true") return;
+
+  const heroImgEl = $("#heroImg");
+  if (heroImgEl) heroImgEl.src = SHOP.heroImg;
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  setText("shopName", SHOP.name);
+  setText("rating", `⭐ ${SHOP.rating}`);
+  setText("reviewCount", `(${SHOP.reviews.toLocaleString()})`);
+  setText("category", `· ${SHOP.category}`);
+  setText("area", `· ${SHOP.area}`);
+  setText("way", SHOP.way);
+  setText("price", SHOP.price);
+  setText("openHours", SHOP.openHours);
+  setText("address", SHOP.address);
+  setText("walk", SHOP.walk);
+  setText("phone", SHOP.phone);
+  setText("closedDay", SHOP.closedDay);
 }
 
 /* =========================================================
@@ -399,16 +426,21 @@ function renderDates() {
   함수: renderPeople
   매개변수: 없음
   반환값: 없음
-  기능: 인원(2~5명) 버튼을 그리고 단일 선택 처리
+  기능: 인원 버튼을 그리고 단일 선택 처리
   작동원리:
-    - 배열을 forEach로 돌며 버튼 생성
+    - 페이지 설정에 맞는 인원 목록을 forEach로 버튼 생성
     - state.selectedPeople와 비교해 on 클래스 부여
 ========================================================= */
 function renderPeople() {
   const row = $("#peopleRow");
   row.innerHTML = "";
 
-  ["2명", "3명", "4명", "5명"].forEach((p) => {
+  const peopleOptions = getPeopleOptions();
+  if (!peopleOptions.includes(state.selectedPeople)) {
+    state.selectedPeople = peopleOptions[0];
+  }
+
+  peopleOptions.forEach((p) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "pill";
@@ -500,6 +532,8 @@ function renderSummary() {
 ========================================================= */
 function renderMenu() {
   const list = $("#menuList");
+  if (!list) return;
+  if (list.dataset.staticMenu === "true") return;
   list.innerHTML = "";
 
   SHOP.menus.forEach((m) => {
@@ -523,6 +557,208 @@ function renderMenu() {
 
     list.appendChild(wrap);
   });
+}
+
+function initGrabScroll(rowEl) {
+  if (!rowEl || rowEl.dataset.grabInit === "1") return;
+  rowEl.dataset.grabInit = "1";
+
+  let isDown = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let didDrag = false;
+  let suppressClick = false;
+  let clickSuppressTimer = 0;
+
+  function onPointerDown(e) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+
+    if (clickSuppressTimer) {
+      clearTimeout(clickSuppressTimer);
+      clickSuppressTimer = 0;
+    }
+
+    isDown = true;
+    didDrag = false;
+    suppressClick = false;
+    startX = e.clientX;
+    startScrollLeft = rowEl.scrollLeft;
+  }
+
+  function onPointerMove(e) {
+    if (!isDown) return;
+
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 4) {
+      if (!didDrag) {
+        didDrag = true;
+        suppressClick = true;
+        rowEl.classList.add("is-grabbing");
+        try {
+          rowEl.setPointerCapture(e.pointerId);
+        } catch (_) {}
+      }
+    }
+
+    rowEl.scrollLeft = startScrollLeft - dx;
+    if (didDrag) e.preventDefault();
+  }
+
+  function endDrag() {
+    if (!isDown) return;
+    isDown = false;
+    rowEl.classList.remove("is-grabbing");
+
+    if (didDrag) {
+      clickSuppressTimer = window.setTimeout(() => {
+        suppressClick = false;
+        didDrag = false;
+        clickSuppressTimer = 0;
+      }, 220);
+    }
+  }
+
+  rowEl.addEventListener("pointerdown", onPointerDown);
+  rowEl.addEventListener("pointermove", onPointerMove);
+  rowEl.addEventListener("pointerup", endDrag);
+  rowEl.addEventListener("pointercancel", endDrag);
+  rowEl.addEventListener("lostpointercapture", endDrag);
+  rowEl.addEventListener("pointerleave", (e) => {
+    if (e.pointerType === "mouse") endDrag();
+  });
+
+  rowEl.addEventListener(
+    "click",
+    (e) => {
+      if (!suppressClick) return;
+      e.preventDefault();
+      e.stopPropagation();
+      suppressClick = false;
+      didDrag = false;
+    },
+    true
+  );
+}
+
+function getMenuDetailEl(btn) {
+  const targetId = btn.dataset.target;
+  if (targetId) return document.getElementById(targetId);
+
+  const menuId = btn.dataset.menu;
+  if (!menuId) return null;
+  return document.getElementById(`menuDetail-${menuId}`);
+}
+
+function setMenuDetailOpen(detail, open) {
+  if (!detail) return;
+
+  if (open) {
+    detail.removeAttribute("hidden");
+    detail.classList.add("open", "is-open");
+    detail.style.maxHeight = "0px";
+
+    requestAnimationFrame(() => {
+      detail.style.maxHeight = `${detail.scrollHeight}px`;
+    });
+
+    detail.addEventListener(
+      "transitionend",
+      () => {
+        if (detail.classList.contains("open") || detail.classList.contains("is-open")) {
+          detail.style.maxHeight = "none";
+        }
+      },
+      { once: true }
+    );
+    return;
+  }
+
+  const currentHeight = detail.scrollHeight;
+  detail.style.maxHeight = `${currentHeight}px`;
+  detail.classList.remove("open", "is-open");
+
+  requestAnimationFrame(() => {
+    detail.style.maxHeight = "0px";
+  });
+}
+
+function overrideReserve(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  const selectedDateBtn = document.querySelector("#dateRow [data-role='date'].on");
+  const selectedPeopleBtn = document.querySelector("#peopleRow .pill.on");
+  const selectedTimeBtn = document.querySelector("#timeGrid .pill.on");
+
+  if (!selectedDateBtn || !selectedPeopleBtn || !selectedTimeBtn) {
+    const reservePanel = document.getElementById("reservePanel");
+    const reserveToggleBtn = document.getElementById("reserveToggleBtn");
+    reservePanel?.classList.add("active");
+    reserveToggleBtn?.classList.add("is-open");
+    document.getElementById("reserveSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    alert("날짜/인원/시간을 모두 선택해 주세요.");
+    return;
+  }
+
+  if (selectedTimeBtn.disabled || selectedTimeBtn.classList.contains("disabled")) {
+    alert("선택한 시간은 예약할 수 없습니다.");
+    return;
+  }
+
+  const dateKeyStr = selectedDateBtn.dataset.dateKey || "";
+  const dayText = dateKeyStr
+    ? String(Number(dateKeyStr.split("-")[2]))
+    : selectedDateBtn.textContent.trim();
+  const peopleText =
+    selectedPeopleBtn.dataset.people || selectedPeopleBtn.textContent.trim();
+  const timeText = selectedTimeBtn.dataset.time || selectedTimeBtn.textContent.trim();
+  const name = (document.getElementById("shopName")?.textContent || SHOP.name || "식당").trim();
+  const areaText = (document.getElementById("area")?.textContent || "").replace("·", "").trim();
+  const priceText = (document.getElementById("price")?.textContent || "").trim();
+  const info = `${areaText} / ${priceText}`;
+  const image = document.getElementById("heroImg")?.src || "";
+
+  const reservation = {
+    dDay: dayText,
+    dateTime: `${dateKeyStr} ${timeText} / ${peopleText}`,
+    name,
+    info,
+    image,
+    status: "예약완료",
+  };
+
+  const reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+  reservations.push(reservation);
+  localStorage.setItem("reservations", JSON.stringify(reservations));
+
+  let syncedWithShopState = false;
+  if (
+    typeof SHOP !== "undefined" &&
+    typeof state !== "undefined" &&
+    typeof slotKey === "function"
+  ) {
+    const internalDateKey = state.selectedDateKey || dateKeyStr;
+    const internalTime = selectedTimeBtn.dataset.time || timeText;
+    state.reservedSlots.add(slotKey(SHOP.id, internalDateKey, internalTime));
+    state.selectedTime = null;
+    if (typeof saveReservedSlots === "function") saveReservedSlots();
+    if (typeof render === "function") render();
+    syncedWithShopState = true;
+  }
+
+  if (!syncedWithShopState) {
+    selectedTimeBtn.classList.remove("on");
+    selectedTimeBtn.classList.add("disabled");
+    selectedTimeBtn.disabled = true;
+    selectedTimeBtn.textContent = `${timeText} (예약마감)`;
+
+    const summary = document.getElementById("reserveSummary");
+    if (summary) {
+      summary.textContent = `${dateKeyStr} / ${peopleText} / 예약완료`;
+    }
+  }
+
+  alert("예약이 완료되었습니다.");
 }
 
 /* =========================================================
@@ -616,10 +852,12 @@ document.addEventListener("click", (e) => {
 
   // 메뉴 펼치기
   if (role === "menuToggle") {
-    const id = btn.dataset.menu;
-    const detail = $(`#menuDetail-${id}`);
-    const isOpen = detail.classList.toggle("open");
-    btn.textContent = isOpen ? "접기" : "구성 보기";
+    const detail = getMenuDetailEl(btn);
+    if (!detail) return;
+
+    const isOpen = detail.classList.contains("open") || detail.classList.contains("is-open");
+    setMenuDetailOpen(detail, !isOpen);
+    btn.textContent = isOpen ? "구성 보기" : "접기";
     return;
   }
 });
@@ -638,6 +876,22 @@ $("#bottomReserveBtn").addEventListener("click", () => {
   bookSelectedSlot();
 });
 
+const appRoot = document.querySelector("main.app");
+const reservationBtnEl = $("#reservationBtn");
+if (
+  reservationBtnEl &&
+  appRoot?.dataset.reservationLink !== "static" &&
+  reservationBtnEl.getAttribute("href") === "#"
+) {
+  reservationBtnEl.addEventListener("click", () => {
+    window.location.href = "예약현황.html";
+  });
+}
+
+$("#reserveBtn")?.addEventListener("click", overrideReserve, true);
+$("#bottomReserveBtn")?.addEventListener("click", overrideReserve, true);
+
 // 최초 렌더
+applyPageDefaults();
 initReservePanel();
 render();
