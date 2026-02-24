@@ -71,6 +71,7 @@
         background: black; /* 배경색 변경 */
         color: white; /* 글자색 변경 */
       }
+      
 
       /* 슬라이더 */
       .photo-slider {
@@ -410,7 +411,19 @@
         gap: 30px;
         padding-bottom: 5px;
       }
+      .people-btn {
+        padding: 8px 14px;
+        border: 1px solid #ccc;
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+      }
 
+      .people-btn.active {
+        background-color: black;
+        color: #fff;
+      
+      }
       /* 시간 버튼 */
       .times {
         display: flex;
@@ -418,21 +431,47 @@
         flex-wrap: wrap;
         margin-top: 20px;
       }
-
       .time-btn {
-        background: #000000;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 8px;
+        padding: 8px 14px;
+        border: 1px solid #ccc;
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
       }
 
+      .time-btn.active {
+        background-color: black;
+        color: #fff;
+        
+      }
       .close-btn {
         width: 100%;
         margin-top: 16px;
         height: 42px;
         border: 1px solid #ccc;
         background-color: white;
+      }
+      .close-btn2 {
+        width: 100%;
+        height: 50px;
+        border: none;
+        border-radius: 12px;
+        background: black;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+
+        display: none;   /* 👈 기본 숨김 */
+      }
+
+      .close-btn2.show {
+        display: block;  /* 👈 조건 만족 시 보이기 */
+      }
+      .time-btn.disabled {
+        background: #ddd;
+        color: #999;
+        cursor: not-allowed;
       }
     </style>
   </head>
@@ -583,15 +622,15 @@
             <span class="reserve-arrow">▼</span>
           </div>
 
-          <div class="reserve-panel">
+          <!-- <div class="reserve-panel"> -->
             <!-- 캘린더 -->
-            <div class="calendar">
+            <!-- <div class="calendar">
               <div class="calendar-header">2026년 2월</div>
 
               <div class="calendar-grid"></div>
-            </div>
+            </div> -->
 
-            <!-- 인원 선택 -->
+            <!-- 인원 선택
             <div class="people">
               <button class="people-btn active">2명</button>
               <button class="people-btn">3명</button>
@@ -600,8 +639,8 @@
               <button class="people-btn">6명</button>
             </div>
 
-            <button class="find-btn">예약 가능 날짜 찾기</button>
-          </div>
+            <button class="find-btn">예약 가능 날짜 찾기</button> -->
+          <!-- </div> -->
         </section>
         <!-- 예약 모달 -->
         <div class="reserve-modal" id="reserveModal">
@@ -613,7 +652,7 @@
 
               <!-- 인원 -->
               <div class="people">
-                <button class="people-btn active">2명</button>
+                <button class="people-btn">2명</button>
                 <button class="people-btn">3명</button>
                 <button class="people-btn">4명</button>
                 <button class="people-btn">5명</button>
@@ -623,9 +662,18 @@
               </div>
 
               <!-- 시간 -->
-              <div class="times" id="timeBox"></div>
+              <div class="times" id="timeBox">
+                <button class="time-btn">11:30</button>
+                <button class="time-btn">12:00</button>
+                <button class="time-btn">12:30</button>
+                <button class="time-btn">13:00</button>
+                <button class="time-btn">13:30</button>
+                <button class="time-btn">14:00</button>
+
+              </div>
             </div>
-            <button class="close-btn" onclick="closeReserve()">닫기</button>
+            <button type="button"class="close-btn2" onclick="closeReserve()">예약하기</button>
+            <button type="button"class="close-btn" onclick="closeReserve()">닫기</button>
           </div>
         </div>
 
@@ -745,69 +793,183 @@
       <button class="reserve-btn" onclick="toggleReserve()">예약하기</button>
     </footer>
 
-    <script>
-      new Swiper(".photo-slider", {
-        loop: true,
-        pagination: { el: ".swiper-pagination" },
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const peopleButtons = document.querySelectorAll(".people-btn");
+  const reserveBtn = document.querySelector(".close-btn2");
+
+  const modal = document.getElementById("reserveModal");
+  const grid = document.getElementById("calendarGrid");
+  const header = document.getElementById("calendarTitle");
+  const reservationBtn = document.getElementById("reservationBtn");
+
+  /* ==============================
+     🔥 예약현황 버튼 (오류 수정)
+  ============================== */
+  if (reservationBtn) {
+    reservationBtn.addEventListener('click', () => {
+      window.location.href = "예약현황.html";
+    });
+  }
+
+  /* ==============================
+     예약 가능 여부 체크
+  ============================== */
+  function checkReserveReady() {
+    const selectedDate = document.querySelector(".day.active");
+    const selectedPeople = document.querySelector(".people-btn.active");
+    const selectedTime = document.querySelector(".time-btn.active");
+
+    if (selectedDate && selectedPeople && selectedTime) {
+      reserveBtn.style.display = "block";
+    } else {
+      reserveBtn.style.display = "none";
+    }
+  }
+
+  /* ==============================
+     인원 선택
+  ============================== */
+  peopleButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      peopleButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      checkReserveReady();
+    });
+  });
+
+  /* ==============================
+     시간 선택
+  ============================== */
+  function bindTimeButtons() {
+    const timeButtons = document.querySelectorAll(".time-btn");
+
+    timeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+
+        if (btn.classList.contains("disabled")) return;
+
+        timeButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        checkReserveReady();
       });
+    });
+  }
 
-      function toggleHours() {
-        document.querySelector(".hours-list")?.classList.toggle("open");
-        document.querySelector(".arrow")?.classList.toggle("rotate");
-      }
+  /* ==============================
+     모달 열기 / 닫기
+  ============================== */
+  window.toggleReserve = function () {
+    modal.classList.add("show");
+  }
 
-      const modal = document.getElementById("reserveModal");
-      const grid = document.getElementById("calendarGrid");
-      const header = document.getElementById("calendarTitle");
-      const timeBox = document.getElementById("timeBox");
+  window.closeReserve = function () {
+    modal.classList.remove("show");
+  }
 
-      function toggleReserve() {
-        // modal.classList.add("show");
-        modal.classList.add("show");
-      }
-      function closeReserve() {
-        modal.classList.remove("show");
-      }
+  /* ==============================
+     ✅ 예약하기 (저장 + 마감 처리)
+  ============================== */
+  window.reserveSubmit = function () {
 
-      /* 캘린더 */
-      const today = new Date();
-      const y = today.getFullYear();
-      const m = today.getMonth();
-      const d = today.getDate();
+    const selectedDate = document.querySelector(".day.active");
+    const selectedPeople = document.querySelector(".people-btn.active");
+    const selectedTime = document.querySelector(".time-btn.active");
 
-      header.textContent = `${y}년 ${m + 1}월`;
+    if (!selectedDate || !selectedPeople || !selectedTime) {
+      alert("날짜, 인원, 시간을 모두 선택해주세요.");
+      return;
+    }
 
-      const first = new Date(y, m, 1).getDay();
-      const last = new Date(y, m + 1, 0).getDate();
+    if (selectedTime.classList.contains("disabled")) {
+      alert("이미 마감된 시간입니다.");
+      return;
+    }
 
-      for (let i = 0; i < first; i++)
-        grid.appendChild(document.createElement("span"));
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const day = selectedDate.textContent;
+    const people = selectedPeople.textContent;
+    const time = selectedTime.textContent.replace(" (마감)", "");
 
-      for (let i = 1; i <= last; i++) {
-        const btn = document.createElement("button");
-        btn.className = "day";
-        btn.textContent = i;
-        if (i === d) btn.classList.add("active");
-        btn.onclick = () => {
-          document
-            .querySelectorAll(".day")
-            .forEach((x) => x.classList.remove("active"));
-          btn.classList.add("active");
-          makeTimes();
-        };
-        grid.appendChild(btn);
-      }
+    const fullDateTime = `${year}.${month}.${day} / ${time} / ${people}`;
 
-      function makeTimes() {
-        timeBox.innerHTML = "";
-        ["11:30", "12:00", "18:00", "18:30", "19:00"].forEach((t) => {
-          const b = document.createElement("button");
-          b.className = "time-btn";
-          b.textContent = t;
-          timeBox.appendChild(b);
-        });
-      }
-      makeTimes();
-    </script>
+    /* =========================
+       localStorage 저장
+    ========================= */
+    let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+
+    reservations.push({
+      dDay: "예약완료",
+      status: "예약완료",
+      image: "",
+      name: "예약",
+      info: "정상적으로 예약되었습니다.",
+      dateTime: fullDateTime,
+      buttonText: ""
+    });
+
+    localStorage.setItem("reservations", JSON.stringify(reservations));
+
+    /* =========================
+       시간 마감 처리
+    ========================= */
+    selectedTime.classList.remove("active");
+    selectedTime.classList.add("disabled");
+    selectedTime.textContent = time + " (마감)";
+
+    reserveBtn.style.display = "none";
+    modal.classList.remove("show");
+
+    /* =========================
+       예약현황 이동
+    ========================= */
+    window.location.href = "예약현황.html";
+  };
+
+  /* ==============================
+     캘린더 생성
+  ============================== */
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = today.getMonth();
+  const d = today.getDate();
+
+  header.textContent = `${y}년 ${m + 1}월`;
+
+  const first = new Date(y, m, 1).getDay();
+  const last = new Date(y, m + 1, 0).getDate();
+
+  for (let i = 0; i < first; i++) {
+    grid.appendChild(document.createElement("span"));
+  }
+
+  for (let i = 1; i <= last; i++) {
+    const btn = document.createElement("button");
+    btn.className = "day";
+    btn.textContent = i;
+
+    if (i === d) btn.classList.add("active");
+
+    btn.onclick = () => {
+      document.querySelectorAll(".day")
+        .forEach(x => x.classList.remove("active"));
+      btn.classList.add("active");
+      checkReserveReady();
+    };
+
+    grid.appendChild(btn);
+  }
+
+  /* ==============================
+     초기 실행
+  ============================== */
+  bindTimeButtons();
+  checkReserveReady();
+
+});
+</script>
   </body>
 </html>
