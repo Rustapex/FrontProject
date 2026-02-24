@@ -1532,6 +1532,7 @@ function initBottomActions() {
   btnShow.addEventListener("click", () => console.log("[Bottom] 결과 보기"));
 }
 
+
 /* =========================================================
   [10] 초기 실행
 ========================================================= */
@@ -1544,4 +1545,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ✅ 첫 화면 렌더링(더미 식당 목록 출력) → 문제 3 해결
   renderShopList();
+});
+
+const slider = document.getElementById("reserveDateGrid");
+
+let isDown = false;
+let startX;
+let scrollLeft;
+
+slider.addEventListener("mousedown", (e) => {
+  isDown = true;
+  slider.classList.add("active");
+  startX = e.pageX - slider.offsetLeft;
+  scrollLeft = slider.scrollLeft;
+});
+
+slider.addEventListener("mouseleave", () => {
+  isDown = false;
+});
+
+slider.addEventListener("mouseup", () => {
+  isDown = false;
+});
+
+slider.addEventListener("mousemove", (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - slider.offsetLeft;
+  const walk = (x - startX) * 2; // 속도 조절 (2는 감도)
+  slider.scrollLeft = scrollLeft - walk;
 });
