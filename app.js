@@ -181,7 +181,7 @@ const DUMMY_SHOPS = [
   {
     id: "s7",
     type: "black",
-    headLink: "korMenu01.html",
+    headLink: "./캐치테이블/흑식당중식.html",
     infoLink: "#",
     name: "보보식당",
     rating: 4.5,
@@ -202,7 +202,7 @@ const DUMMY_SHOPS = [
   {
     id: "s8",
     type: "white",
-    headLink: "korMenu01.html",
+    headLink: "./캐치테이블2/백식당중식.html",
     infoLink: "#",
     name: "엠버서더 서울 풀만 호빈",
     rating: 4.8,

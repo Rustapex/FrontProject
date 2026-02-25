@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveReservation(day, slotTime) {
+    // keep sold-out cache up to date immediately
+    syncSoldOutFromHistory();
     if (!day || !slotTime) return;
 
     const name = document.querySelector(".place-header h1")?.textContent?.trim() || "\uB9E4\uC7A5";
@@ -56,7 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelector(".place-header .info li:nth-child(2)")?.textContent?.trim() ||
       document.querySelector(".place-header .info li")?.textContent?.trim() ||
       "\uC608\uC57D \uC815\uBCF4";
-    const image = document.querySelector(".slide img")?.getAttribute("src") || "";
+    // try hero element or first slide and normalise to absolute URL
+  let image = document.querySelector("#heroImg")?.src || document.querySelector(".slide img")?.getAttribute("src") || "";
+  if (image) {
+    try {
+      image = new URL(image, window.location.href).href;
+    } catch {}
+  }
 
     const dateLabel = `${year}\uB144 ${month + 1}\uC6D4 ${day}\uC77C`;
     const peopleLabel = `${people}\uBA85`;
@@ -85,6 +93,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function slotKey(day, slotTime) {
     return `${year}-${month + 1}-${day}-${slotTime}`;
+  }
+
+  function syncSoldOutFromHistory() {
+    soldOutSlots.clear();
+    let reservations = [];
+    try {
+      reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+    } catch (_) {
+      reservations = [];
+    }
+    const shopName = document.querySelector('.place-header h1')?.textContent?.trim();
+    for (const res of reservations) {
+      if (!res || res.name !== shopName) continue;
+      const m = String(res.dateTime || '').match(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일[\s\/]+([0-9:]+)/);
+      if (m) {
+        const rYear = parseInt(m[1], 10);
+        const rMonth = parseInt(m[2], 10) - 1;
+        const rDay = parseInt(m[3], 10);
+        const rTime = m[4];
+        if (rYear === year && rMonth === month) {
+          soldOutSlots.add(`${year}-${month + 1}-${rDay}-${rTime}`);
+        }
+      }
+    }
+    applyTimeAvailability();
   }
 
   function getModalReserveButton() {
@@ -259,6 +292,16 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTimeAvailability();
   updateReserveText();
   if (closeBtn) closeBtn.style.display = "none";
+
+  // keep slots synced when history changes elsewhere
+  window.addEventListener('storage', (e) => {
+    if (e.key !== 'reservations') return;
+    syncSoldOutFromHistory();
+  });
+
+  window.addEventListener('pageshow', () => {
+    syncSoldOutFromHistory();
+  });
 
 });
 const openBtn = document.getElementById("openReserveFixed");

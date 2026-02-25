@@ -10,6 +10,58 @@
 body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
 .container{ max-width:420px; margin:0 auto; padding:16px; }
 
+/* ===== 상단 topbar ===== */
+main.app[data-sticky-topbar="true"] .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  height: 56px;
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  padding-right: 10px;
+}
+
+main.app[data-sticky-topbar="true"] .topbar__back {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 34px;
+  margin-left: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #111827;
+  font-size: 18px;
+  line-height: 1;
+  background: #fff;
+}
+
+main.app[data-sticky-topbar="true"] .topbar__title {
+  margin: 0;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+main.app[data-sticky-topbar="true"] .topbar__right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #111;
+  background: #fff;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 /* ===== 슬라이더 ===== */
 .hero{ margin-bottom:16px; }
 .slider{
@@ -341,4 +393,259 @@ iframe{
 
 .time-btn.active{
   background:#e84d00;
+}
+
+/* ===== 예약 패널 스타일 (from shop.css) ===== */
+.reserve-shell {
+  border: 1px solid #eceff3;
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+
+.reserve-trigger {
+  width: 100%;
+  border: 1px solid #dce3e8;
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.reserve-trigger strong {
+  display: block;
+  font-size: 13px;
+  color: #111;
+}
+
+.reserve-trigger span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.reserve-arrow {
+  font-size: 16px;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.reserve-trigger.is-open .reserve-arrow {
+  transform: rotate(180deg);
+}
+
+.reserve-panel {
+  display: none;
+  margin-top: 12px;
+}
+
+.reserve-panel.active {
+  display: block;
+}
+
+.reserve-group {
+  margin-bottom: 12px;
+}
+
+.reserve-group-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.calendar-head2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.calendar-nav-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.calendar-month-label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#reserveSection .calendar-week span {
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+#reserveSection #dateRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+#reserveSection #dateRow .calendar-day {
+  width: 100%;
+  border-color: #d1d5db;
+  font-weight: 600;
+}
+
+#reserveSection #dateRow .calendar-day.today,
+#reserveSection #dateRow .calendar-day.is-today {
+  border-color: #111;
+}
+
+#reserveSection #dateRow .calendar-day.on,
+#reserveSection #dateRow .calendar-day.is-selected {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+#reserveSection #dateRow .calendar-day.disabled,
+#reserveSection #dateRow .calendar-day.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#reserveSection .calendar-empty {
+  height: 36px;
+}
+
+.reserve-note {
+  margin: 2px 0 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+#reserveSection #peopleRow {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  grid-template-columns: none;
+  padding-bottom: 4px;
+  cursor: grab;
+  user-select: auto;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#reserveSection #peopleRow::-webkit-scrollbar {
+  display: none;
+}
+
+#reserveSection #peopleRow.is-grabbing {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#reserveSection #peopleRow .pill,
+#reserveSection #timeGrid .pill {
+  white-space: nowrap;
+  cursor: inherit;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+main.app[data-people-range="1-9plus"] #reserveSection #peopleRow .pill {
+  min-width: 72px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+#reserveSection #peopleRow .pill.on,
+#reserveSection #timeGrid .pill.on {
+  border-color: #111;
+}
+
+#reserveSection #peopleRow .pill.disabled,
+#reserveSection #timeGrid .pill.disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* date grid styling */
+#reserveSection #dateRow .calendar-day {
+  width: 100%;
+  border-color: #d1d5db;
+  font-weight: 600;
+}
+
+#reserveSection #dateRow .calendar-day.today,
+#reserveSection #dateRow .calendar-day.is-today {
+  border-color: #111;
+}
+
+#reserveSection #dateRow .calendar-day.on,
+#reserveSection #dateRow .calendar-day.is-selected {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+#reserveSection #dateRow .calendar-day.disabled,
+#reserveSection #dateRow .calendar-day.is-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+#reserveSection .calendar-empty {
+  height: 36px;
+}
+
+#reserveSection #timeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+#reserveSection #reserveBtn {
+  margin-top: 10px;
+}
+
+.bottom-bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: min(480px, 100%);
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 10px;
+}
+
+.bottom-spacer { height: 90px; }
+
+/* button helpers (from shop.css) */
+.btn {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 700;
+}
+.btn.primary { background: #111; color: #fff; border-color: #111; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* hero image fallback (in case a dedicated #heroImg element is injected) */
+#heroImg[hidden] {
+  display: none !important;
 }

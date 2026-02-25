@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>보보식당</title>
     <link rel="stylesheet" href="style.css" />
+    <script>
+      // provide hero info for reservation history and make cancellation sync easier
+      window.SHOP = {
+        id: "흑식당중식",
+        heroImg: "images1/이미지1.png"
+      };
+    </script>
     <script src="js/main.js" defer></script>
   </head>
   <body>
@@ -25,6 +32,8 @@
           <div class="dots" id="dots"></div>
         </div>
       </section>
+      <!-- hidden hero image for history page fallback -->
+      <img id="heroImg" src="images1/이미지1.png" hidden>
 
       <!-- 매장 정보 -->
       <section class="place-header">

@@ -6,11 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>엠버서더 서울 풀만 호빈</title>
   <link rel="stylesheet" href="style.css" />
+  <script>
+    window.SHOP = {
+      id: "백식당중식",
+      name: "엠버서더 서울 풀만 호빈",
+      // primary image used for history/summary – mirrors first slide
+      heroImg: "images/이미지1.png",
+      // optional array if you ever want carousel logic from shop.js
+      heroImages: ["images/이미지1.png"],
+      menus: []
+    };
+  </script>
   <script src="js/main.js" defer></script>
 </head>
 <body>
 
-<div class="container">
+<main class="app container" data-people-range="1-9plus" data-sticky-topbar="true" aria-label="식당 상세 페이지">
+
+  <header class="topbar">
+    <a class="topbar__back" href="../intro.html" aria-label="뒤로가기">←</a>
+    <h1 class="topbar__title">엠버서더 서울 풀만 호빈</h1>
+    <button class="topbar__right" type="button" id="reservationBtn">예약현황</button>
+  </header>
 
   <!-- ================= 상단 이미지 슬라이더 ================= -->
   <section class="hero">
@@ -25,6 +42,8 @@
       <div class="dots" id="dots"></div>
     </div>
   </section>
+  <!-- hidden hero element for history fallback (not shown to users) -->
+  <img id="heroImg" src="images/이미지1.png" hidden>
 
   <!-- ================= 매장 정보 ================= -->
   <section class="place-header">
@@ -59,19 +78,55 @@
   </section>
 
   <!-- ================= 예약 ================= -->
-  <section class="reserve">
-    <h2>예약</h2>
+      <section class="card" id="reserveSection" aria-label="예약">
+        <div class="reserve-head">
+          <h2 class="section-title">예약</h2>
+        </div>
 
-    <button id="openReserve" class="reserve-summary">
-      📅 <span id="reserveText">2026년 2월 24일 · 2명</span> <span>▾</span>
-    </button>
+        <div class="reserve-shell">
+          <button id="reserveToggleBtn" class="reserve-trigger" type="button">
+            <div>
+              <strong>📅 날짜, 인원, 시간</strong>
+              <span id="reserveSummary">기본 선택: 오늘 · 1명 · 시간 선택</span>
+            </div>
+            <i class="reserve-arrow">∨</i>
+          </button>
 
-    <div class="reserve-disabled">
-      📅 예약이 모두 마감되었어요
-    </div>
+          <div id="reservePanel" class="reserve-panel">
+            <div class="reserve-group">
+              <p class="reserve-group-title">날짜</p>
+              <div class="calendar-head2">
+                <button id="calPrevBtn" class="calendar-nav-btn" type="button">‹</button>
+                <span id="calMonthLabel" class="calendar-month-label">2026년 2월</span>
+                <button id="calNextBtn" class="calendar-nav-btn" type="button">›</button>
+              </div>
+              <div class="calendar-week">
+                <span>일</span>
+                <span>월</span>
+                <span>화</span>
+                <span>수</span>
+                <span>목</span>
+                <span>금</span>
+                <span>토</span>
+              </div>
+              <div class="calendar-grid" id="dateRow" aria-label="날짜 선택"></div>
+            </div>
 
-    <button class="find-btn">예약 가능 날짜 찾기</button>
-  </section>
+            <div class="reserve-group">
+              <p class="reserve-group-title">인원</p>
+              <div class="grid" id="peopleRow" aria-label="인원 선택"></div>
+            </div>
+
+            <div class="reserve-group">
+              <p class="reserve-group-title">시간</p>
+              <div class="grid" id="timeGrid" aria-label="시간 선택"></div>
+              <p class="reserve-note">※ “예약 마감” 또는 “예약 완료”는 선택할 수 없습니다.</p>
+            </div>
+
+            <button class="btn primary" id="reserveBtn" type="button" disabled>예약하기</button>
+          </div>
+        </div>
+      </section>  
 
   <!-- ================= 메뉴 (✅ 전부 복구, 삭제 없음) ================= -->
   <section class="menu-area">
@@ -165,72 +220,46 @@
   </section>
 
   <!-- ================= 위치 ================= -->
-
-   
-
-    <button class="map-btn">🧭 길찾기</button>
+  <section class="card" aria-label="위치">
+    <h2 class="section-title">위치</h2>
+    <iframe
+      id="mapFrame"
+      title="지도"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.782687076412!2d126.99982037640551!3d37.56018342449156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca30294428037%3A0x3709b85ef5abe6fd!2z7Zi467mI!5e0!3m2!1sko!2skr"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="label">주소</span>
+        <span id="address">서울 강남구 테헤란로 231 조선팰리스 36층</span>
+      </div>
+      <div class="info-row">
+        <span class="label">도보</span>
+        <span id="walk">역삼역에서 500m / 선릉역에서 624m</span>
+      </div>
+    </div>
   </section>
 
-</div>
-
-<!-- ================= 예약 오버레이 (월 변경 + 날짜 클릭 + 인원 가로) ================= -->
-<div id="reserveOverlay" class="overlay">
-  <div class="modal">
-
-    <div class="modal-header">
-      <button id="prevMonth" class="month-nav" type="button">‹</button>
-      <strong id="monthLabel">2026년 2월</strong>
-      <button id="nextMonth" class="month-nav" type="button">›</button>
-    </div>
-
-    <div class="calendar">
-      <div class="week">
-        <span>일</span><span>월</span><span>화</span>
-        <span>수</span><span>목</span><span>금</span><span>토</span>
+  <section class="card" aria-label="상세정보">
+    <h2 class="section-title">상세정보</h2>
+    <div class="info-grid">
+      <div class="info-row">
+        <span class="label">📞 전화</span>
+        <span>02-727-7610</span>
       </div>
-      <div class="days" id="days"></div>
+      <div class="info-row">
+        <span class="label">정기휴무</span>
+        <span>매주 월요일 화요일</span>
+      </div>
     </div>
+  </section>
 
-    <div class="people" id="people">
-      <button data-p="1">1명</button>
-      <button class="active" data-p="2">2명</button>
-      <button data-p="3">3명</button>
-      <button data-p="4">4명</button>
-      <button data-p="5">5명</button>
-      <button data-p="6">6명</button>
-      <button data-p="7">7명</button>
-      <button data-p="8">8명</button>
-      <button data-p="9">9명</button>
-    </div>
-    <!-- 시간 선택 -->
-    <div class="times" id="times">
-      <button class="time-btn">오후 5:30</button>
-      <button class="time-btn">오후 6:00</button>
-      <button class="time-btn">오후 6:30</button>
-      <button class="time-btn">오후 7:00</button>
-      <button class="time-btn">오후 8:00</button>
-    </div>
+  <div class="bottom-spacer" aria-hidden="true"></div>
+</main>
 
-    <div class="closed-info">📅 예약이 모두 마감되었어요</div>
-
-    <button id="closeReserve" class="close-btn">닫기</button>
-  </div>
-</div>
-
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.782687076412!2d126.99982037640551!3d37.56018342449156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca30294428037%3A0x3709b85ef5abe6fd!2z7Zi467mI!5e0!3m2!1sko!2skr!4v1771917848517!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<footer class="bottom-bar" aria-label="하단 예약하기">
+  <button class="btn primary" id="bottomReserveBtn" type="button">예약하기</button>
+</footer>
 </body>
-<div class="reserve-bar">
-  <div class="map-width-wrap">
-    <button class="call-mini">
-      📞 전화
-    </button>
-
-    
-
-    <button id="openReserveFixed" class="reserve-orange">
-      예약하기
-    </button>
-  </div>
-  
-</div>
 </html>
