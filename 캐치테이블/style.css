@@ -4,6 +4,50 @@
   --muted:#6b7280;
 }
 
+#header 
+{
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 0 16px;        /* 좌우 여백 */
+            border-bottom: 1px solid #ddd;
+            z-index: 99;
+            height: 60px;
+
+            display: flex;           /* 플렉스 사용 */
+            align-items: center;     /* 세로 가운데 정렬 */
+            gap: 16px;               /* 내부 아이템 간격 */
+        }
+        #header a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            /* flex 컨테이너 안에 있으므로 top/left 제거 */
+        }
+
+        #header b {
+            margin: 0;               /* flex 안이라 margin-left 대신 gap 사용 */
+            font-weight: bold;
+            font-size: 17px;
+        }
+        #header button{
+            justify-self: end;
+            margin-left: auto;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            border-radius: 999px;
+            padding: 8px 10px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        #header button:hover {
+            background: black; /* 배경색 변경 */
+            color: white;          /* 글자색 변경 */
+        }
+.reserve-bar{
+  width: 480px;
+  margin: 0 auto;
+}
 *{ box-sizing:border-box; }
 body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
 .container{ max-width:420px; margin:0 auto; padding:16px; }
@@ -17,10 +61,30 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
 .slide{ flex:0 0 100%; }
 .slide img{ width:100%; height:100%; object-fit:cover; }
 
+<<<<<<< Updated upstream
 .badge-row{ display:flex; gap:6px; flex-wrap:wrap; }
 .badge{ padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; }
 .badge.dark{ background:#111; color:#fff; }
 .badge.gold{ background:#fff7ed; color:#c2410c; }
+=======
+/* ======================
+   배지 / 헤더
+====================== */
+.badge-row{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.badge{
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+.badge.dark{ background:#111; color:#fff; margin-top: 10px;}
+.badge.gold{ background:#fff7ed; color:#c2410c; margin-top: 10px;}
+>>>>>>> Stashed changes
 .badge.outline{ border:1px solid var(--line); }
 
 .reserve-summary{
@@ -60,12 +124,19 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   display:none;
   justify-content:center;
   align-items:flex-end;
+<<<<<<< Updated upstream
+=======
+  z-index:10000;
+}
+.overlay.show{
+  display:flex;
+>>>>>>> Stashed changes
 }
 .overlay.show{ display:flex; }
 
 .modal{
   width:100%;
-  max-width:420px;
+  max-width:480px;
   background:#fff;
   border-radius:22px 22px 0 0;
   padding:16px;
@@ -104,6 +175,61 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   background:var(--accent);
   color:#fff;
 }
+<<<<<<< Updated upstream
+=======
+.time{
+  display:flex;
+  gap:8px;
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  overflow-y:hidden;
+  margin:14px 0;
+  -ms-overflow-style:none;
+  scrollbar-width:none;
+  touch-action:pan-x;
+  -webkit-overflow-scrolling:touch;
+}
+.time::-webkit-scrollbar{
+  display:none;
+}
+.time button{
+  flex:0 0 auto;
+  min-width:56px;
+  padding:10px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;
+  cursor:pointer;
+}
+.time .active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+.info{
+  list-style: none;
+}
+/* 닫기 버튼 */
+.time button.soldout,
+.time button:disabled{
+  background:#f3f4f6;
+  color:#9ca3af;
+  border-color:#d1d5db;
+  cursor:not-allowed;
+}
+
+.modal-reserve-btn{
+  width:100%;
+  margin-bottom:10px;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+>>>>>>> Stashed changes
 
 .close-btn{
   width:100%;
@@ -309,7 +435,13 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   border-radius:12px;
   border:1px solid #e5e7eb;
   background:#fff;
+<<<<<<< Updated upstream
   font-weight:800;
+=======
+  font-size:16px;
+  cursor:pointer;
+  font-size: 12px;
+>>>>>>> Stashed changes
 }
 
 /* 예약하기 버튼 */
@@ -321,5 +453,25 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   background:#ff5a00;
   color:#fff;
   font-size:16px;
+<<<<<<< Updated upstream
   font-weight:900;
 }
+=======
+  font-weight:700;
+  cursor:pointer;
+}
+
+.reserve-orange:active{
+  background:#e64f00;
+}
+.call-mini:active{
+  background:#f5f5f5;
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+>>>>>>> Stashed changes

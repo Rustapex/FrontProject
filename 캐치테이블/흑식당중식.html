@@ -9,6 +9,11 @@
   </head>
   <body>
     <div class="container">
+      <header id="header">
+            <a class="" href="intro.html" aria-label="뒤로가기">←</a>
+            <b>보보식당</b>
+            <button class="btn3" type="button" id="reservationBtn">예약현황</button>
+        </header>
       <!-- 상단 이미지 슬라이더 -->
       <section class="hero">
         <div class="slider">
@@ -64,8 +69,6 @@
         <button id="openReserve" class="reserve-summary">
           📅 <span id="reserveText">2026년 2월 24일 · 2명</span> ▾
         </button>
-
-        <div class="reserve-disabled">📅 예약이 모두 마감되었어요</div>
       </section>
 
       <!-- 메뉴 -->
@@ -193,7 +196,18 @@
           <button data-p="9">9명</button>
         </div>
 
-        <div class="closed-info">📅 예약이 모두 마감되었어요</div>
+        <div class="time" id="time">
+          <button data-p="1">11:00</button>
+          <button class="active" data-p="2">11:30</button>
+          <button data-p="3">12:00</button>
+          <button data-p="4">12:30</button>
+          <button data-p="5">13:00</button>
+          <button data-p="6">13:30</button>
+          <button data-p="7">14:00</button>
+          <button data-p="8">14:30</button>
+          <button data-p="9">15:00</button>
+        </div>
+
 
         <button id="closeReserve" class="close-btn">닫기</button>
       </div>
@@ -209,6 +223,7 @@
   
     ></iframe>
     </div>
+<<<<<<< Updated upstream
   </body>
   <!-- ===== 하단 고정 예약 바 ===== -->
 <div class="reserve-bar">
@@ -221,6 +236,15 @@
       예약하기
     </button>
   </div>
+=======
+
+    <!-- ✅ 하단 고정 예약 바 (항상 노출 / 중앙 440px) -->
+  <div class="reserve-bar">
+    <div class="reserve-bar-inner">
+      <button class="call-mini">📞 전화</button>
+      <button id="openReserveFixed" class="reserve-orange">예약하기</button>
+    </div>
+>>>>>>> Stashed changes
 </div>
 
 <!-- ===== 예약 모달 ===== -->
