@@ -61,12 +61,12 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
 .slide{ flex:0 0 100%; }
 .slide img{ width:100%; height:100%; object-fit:cover; }
 
-<<<<<<< Updated upstream
+
 .badge-row{ display:flex; gap:6px; flex-wrap:wrap; }
 .badge{ padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; }
 .badge.dark{ background:#111; color:#fff; }
 .badge.gold{ background:#fff7ed; color:#c2410c; }
-=======
+
 /* ======================
    배지 / 헤더
 ====================== */
@@ -84,7 +84,6 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
 }
 .badge.dark{ background:#111; color:#fff; margin-top: 10px;}
 .badge.gold{ background:#fff7ed; color:#c2410c; margin-top: 10px;}
->>>>>>> Stashed changes
 .badge.outline{ border:1px solid var(--line); }
 
 .reserve-summary{
@@ -124,13 +123,12 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   display:none;
   justify-content:center;
   align-items:flex-end;
-<<<<<<< Updated upstream
-=======
+
   z-index:10000;
 }
 .overlay.show{
   display:flex;
->>>>>>> Stashed changes
+
 }
 .overlay.show{ display:flex; }
 
@@ -175,8 +173,6 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   background:var(--accent);
   color:#fff;
 }
-<<<<<<< Updated upstream
-=======
 .time{
   display:flex;
   gap:8px;
@@ -229,7 +225,6 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   font-weight:900;
   cursor:pointer;
 }
->>>>>>> Stashed changes
 
 .close-btn{
   width:100%;
@@ -435,13 +430,15 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   border-radius:12px;
   border:1px solid #e5e7eb;
   background:#fff;
-<<<<<<< Updated upstream
+
   font-weight:800;
-=======
+
+
+
   font-size:16px;
   cursor:pointer;
   font-size: 12px;
->>>>>>> Stashed changes
+
 }
 
 /* 예약하기 버튼 */
@@ -453,10 +450,7 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   background:#ff5a00;
   color:#fff;
   font-size:16px;
-<<<<<<< Updated upstream
-  font-weight:900;
-}
-=======
+
   font-weight:700;
   cursor:pointer;
 }
@@ -474,4 +468,4 @@ body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
   justify-content:center;
   gap:12px;
 }
->>>>>>> Stashed changes
+
