@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dots.forEach((d, i) => d.classList.toggle("active", i === slideIndex));
     }, 3500);
   }
+
 });
 
 // ======================= reservation/shop logic =======================
@@ -237,7 +238,11 @@ function renderInfo() {
   ];
   for (const [selector, value] of map) {
     const el = qs(selector);
-    if (el) el.textContent = value;
+    // Only overwrite existing DOM text when SHOP provides a defined value.
+    // This preserves static markup in the HTML when SHOP.* properties are not set.
+    if (!el) continue;
+    if (value === undefined || value === null) continue;
+    el.textContent = value;
   }
 
   const rating = qs("#rating");

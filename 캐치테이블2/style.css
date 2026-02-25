@@ -5,6 +5,23 @@
   --muted:#6b7280;
 }
 
+/* 페이지 전체를 감싸는 컨테이너 폭 제한
+   - 'footer.bottom-bar' 제외, 메인 콘텐츠만 480px 이하로 유지 */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+#header 
+{
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 0 16px;        /* 좌우 여백 */
+            border-bottom: 1px solid #ddd;
+            z-index: 99;
+            height: 60px;}
 
 *{ box-sizing:border-box; }
 body{ margin:0; font-family:system-ui,"Noto Sans KR"; background:#fff; }
@@ -63,7 +80,11 @@ main.app[data-sticky-topbar="true"] .topbar__right {
 }
 
 /* ===== 슬라이더 ===== */
-.hero{ margin-bottom:16px; }
+/* 슬라이더 컨테이너를 480px 이하로 제한하고 중앙 정렬 (모든 페이지 공통 규격) */
+.hero{
+  margin:0 auto 16px;
+  max-width:480px;
+}
 .slider{
   position:relative;
   height:220px;
@@ -336,6 +357,9 @@ iframe{
   z-index:999;
   background:#fff;
   border-top:1px solid #e5e7eb;
+  z-index:9999;
+  display:flex;
+  justify-content:center;
   padding:10px 0;
 }
 
@@ -344,7 +368,7 @@ iframe{
   width:100%;
   max-width:420px;          /* map-box와 동일 */
   margin:0 auto;
-  padding:0 16px;
+  padding:0 12px;
   display:flex;
   gap:10px;
   align-items:center;

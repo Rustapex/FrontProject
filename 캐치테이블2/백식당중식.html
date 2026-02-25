@@ -42,8 +42,8 @@
       <div class="dots" id="dots"></div>
     </div>
   </section>
-  <!-- hidden hero element for history fallback (not shown to users) -->
-  <img id="heroImg" src="images/이미지1.png" hidden>
+  <!-- hidden hero image for history page fallback -->
+  <img id="heroImg" src="images1/이미지1.png" hidden>
 
   <!-- ================= 매장 정보 ================= -->
   <section class="place-header">
@@ -207,7 +207,7 @@
         <small>* Small dish 기준 금액입니다.</small>
         <b>24,000원</b>
       </div>
-      <img src="images/이미지9.png">
+      <img src="./images/이미지9.png">
     </div>
 
     <div class="menu-item">
@@ -215,7 +215,55 @@
         <strong>세가지 맛 모둠 딤섬</strong>
         <b>24,000원</b>
       </div>
-      <img src="images/이미지10.png">
+      <img src="./images/이미지10.png">
+    </div>
+  </section>
+
+    <!-- 예약 오버레이 -->
+    <div id="reserveOverlay" class="overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <button id="prevMonth" class="month-nav">‹</button>
+          <strong id="monthLabel">2026년 2월</strong>
+          <button id="nextMonth" class="month-nav">›</button>
+        </div>
+
+        <div class="calendar">
+          <div class="week">
+            <span>일</span><span>월</span><span>화</span>
+            <span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="days" id="days"></div>
+        </div>
+
+        <div class="people" id="people">
+          <button data-p="1">1명</button>
+          <button class="active" data-p="2">2명</button>
+          <button data-p="3">3명</button>
+          <button data-p="4">4명</button>
+          <button data-p="5">5명</button>
+          <button data-p="6">6명</button>
+          <button data-p="7">7명</button>
+          <button data-p="8">8명</button>
+          <button data-p="9">9명</button>
+        </div>
+
+        <div class="time" id="time">
+          <button data-p="1">11:00</button>
+          <button class="active" data-p="2">11:30</button>
+          <button data-p="3">12:00</button>
+          <button data-p="4">12:30</button>
+          <button data-p="5">13:00</button>
+          <button data-p="6">13:30</button>
+          <button data-p="7">14:00</button>
+          <button data-p="8">14:30</button>
+          <button data-p="9">15:00</button>
+        </div>
+
+
+        <button id="closeReserve" class="close-btn">닫기</button>
+      </div>
+      <div class="dots" id="dots"></div>
     </div>
   </section>
 
