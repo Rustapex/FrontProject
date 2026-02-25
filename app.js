@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
   [0] JS가 로드됐는지 확인용 로그
   - F12 콘솔에서 이 문장이 보이면 app.js는 정상 연결됨
 ========================================================= */
@@ -142,13 +142,13 @@ const DUMMY_SHOPS = [
   {
     id: "s5",
     type: "white",
-    headLink: "일식흑수저.html",
+    headLink: "korMenu01.html",
     infoLink: "#",
     name: "이타닉 가든",
     rating: 4.9,
     reviews: 2875,
     area: "역삼",
-    cuisine: "코스요리",
+    cuisine: "코스요리(한식)",
     openInfo: "영업전 · 12:00 영업 시작",
     priceInfo: "점심 25만원 · 저녁 37만원",
     images: [
@@ -157,7 +157,7 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/syaGdSH6rp9yBcAMHm_p3qg/m/4a65a533bafe4f6dbfe5bbb0b62d061d?resizeType=details500&ftype=avif",
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
-    link: "korMenu.html"
+    link: "korMenu01.html"
   },
   {
     id: "s6",
@@ -179,7 +179,7 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/shop/manager/images/35b633ee92c84e7aaa2e1c1b89294be9?resizeType=details500&ftype=avif"
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
-    link: "korMenu01.html"
+    link: "korMenu.html"
   },
   {
     id: "s7",
@@ -242,7 +242,7 @@ function slotKey(shopId, date, time) {
 function isReservedSlot(shopId, date, time) {
   return RESERVED_SLOT_KEYS.has(slotKey(shopId, date, time));
 }
-function reserveSlot(shopId, date, time) {
+function setReservedSlot(shopId, date, time) {
   RESERVED_SLOT_KEYS.add(slotKey(shopId, date, time));
 }
 
@@ -317,33 +317,73 @@ function setReservedDate(shopId, date) {
   RESERVED_DATE_KEYS.add(reserveKey(shopId, date));
 }
 
+function hydrateReservedStateFromStorage() {
+  RESERVED_SLOT_KEYS.clear();
+  RESERVED_DATE_KEYS.clear();
 
-function reserveSlot(shopId, date, time, people, priceInfo) {
+  let reservations = [];
+  try {
+    reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+  } catch (_) {
+    reservations = [];
+  }
+
+  reservations.forEach((r) => {
+    const shopId = r?.shopId;
+    const date = r?.dDay;
+    const time =
+      r?.time ||
+      (typeof r?.dateTime === "string"
+        ? (r.dateTime.match(/\b\d{1,2}:\d{2}\b/) || [])[0]
+        : "");
+
+    if (!shopId || !date) return;
+    setReservedDate(shopId, date);
+    if (time) setReservedSlot(shopId, date, time);
+  });
+}
+
+
+function reserveSlot(shopId, date, time, people) {
     // 이미 예약된 날짜/시간이면 무시
     if (isReservedSlot(shopId, date, time)) {
         alert("이미 예약된 시간입니다.");
         return;
     }
-
+    
     // 예약 처리 (데모용 메모리)
+    setReservedSlot(shopId, date, time);
     setReservedDate(shopId, date);
 
     // localStorage에서 기존 예약 가져오기
     let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
 
+    const shop = DUMMY_SHOPS.find(s => s.id === shopId);
+    if (!shop) {
+        alert("유효하지 않은 매장입니다.");
+        return;
+    }
+
+    
     // 예약 정보 추가 (취소 버튼 없음)
     const year = new Date().getFullYear();
     const month = new Date().getMonth() + 1;
+    const peopleLabel = people || "2명";
+
+    const shopImage = Array.isArray(shop.images) && shop.images.length > 0
+      ? shop.images[0]
+      : "";
 
     reservations.push({
         id: Date.now(),
         shopId,
-        dDay: "예약완료",
+        dDay: date,
+        time,
         status: "예약완료",
-        image: "",          // 이미지 있으면 넣기
-        name: "예약",
-        info: priceInfo,
-        dateTime: `${year}.${month}.${date} / ${time} / ${people}`
+        image: shopImage,
+        name: shop.name,
+        info: `${shop.area} / ${shop.priceInfo}`,
+        dateTime: `${year}.${month}.${date} / ${time} / ${peopleLabel}`
     });
 
     // localStorage 저장
@@ -444,8 +484,7 @@ const SORT_OPTIONS = {
   price: {
     title: "가격",
     allLabel: "전체", // default
-    // (화면 참고) 10/20/30/40 — 필요하면 여기 라벨만 바꾸면 됨
-    options: ["10", "20", "30", "40"],
+    options: ["10만원 이하", "10만원대", "20만원대", "30만원대", "40만원 이상"],
   },
 };
 
@@ -466,7 +505,7 @@ function normalizeCuisineTag2(raw) {
 /* (선택) 더미 식당의 cuisine 텍스트를 "한/중/양/일"로 매핑해서 필터가 동작하게 함 */
 function normalizeCuisineTag(raw) {
   if (!raw) return "";
-  if (raw.includes("와인")) return "한식";
+  if (raw.includes("와인") || raw.includes("한")) return "한식";
   if (raw.includes("중")) return "중식";
   // 이탈리안/양식 류는 "양식"으로 취급
   if (raw.includes("바베큐") || raw.includes("양") || raw.includes("프렌"))
@@ -475,6 +514,20 @@ function normalizeCuisineTag(raw) {
   if (raw.includes("이자") || raw.includes("코스") || raw.includes("일") || raw.includes("초밥"))
     return "일식";
   return raw;
+}
+
+function getPriceBucket(priceInfo) {
+  if (!priceInfo) return "10만원 이하";
+
+  const numbers = (priceInfo.match(/\d+(\.\d+)?/g) || []).map(Number);
+  if (numbers.length === 0) return "10만원 이하";
+
+  const maxPrice = Math.max(...numbers);
+  if (maxPrice < 10) return "10만원 이하";
+  if (maxPrice < 20) return "10만원대";
+  if (maxPrice < 30) return "20만원대";
+  if (maxPrice < 40) return "30만원대";
+  return "40만원 이상";
 }
 
 
@@ -495,9 +548,10 @@ function applySortFilters(list) {
     );
   }
 
-  // 가격: 지금 더미 데이터는 숫자 비교가 애매해서 우선 미적용(표시/스택만 동작)
-
-  // 나중에 priceInfo를 숫자로 바꾸면 여기서 필터링 추가하면 됨.
+  // 가격: priceInfo에서 숫자를 추출해서 구간(0/10/20/30/40)으로 비교
+  if (!sortState.priceAll && sortState.prices.size > 0) {
+    out = out.filter((s) => sortState.prices.has(getPriceBucket(s.priceInfo)));
+  }
 
   return out;
 }
@@ -787,6 +841,9 @@ function ensureReserveUI() {
     timeGrid: sheet.querySelector("#reserveTimeGrid"),
   };
 
+  // 예약 시트 내부 sheet-grid(날짜/인원/시간) 가로 드래그 활성화
+  initGrabSlideForSheetGrid(sheet);
+
   // 닫기
   backdrop.addEventListener("click", closeReserveSheet);
   reserveUI.closeX.addEventListener("click", closeReserveSheet);
@@ -834,7 +891,12 @@ function ensureReserveUI() {
     }
 
     // ✅ "시간 단위" 예약 완료 처리
-    reserveSlot(reserveDraft.shopId, reserveDraft.date, reserveDraft.time);
+    reserveSlot(
+      reserveDraft.shopId,
+      reserveDraft.date,
+      reserveDraft.time,
+      reserveDraft.people
+    );
 
     alert("예약이 완료되었습니다.");
 
@@ -861,6 +923,7 @@ function openReserveSheet(shopId, date) {
   renderReserveDates(shop);
   renderReservePeople();
   renderReserveTimes(shopId, date);
+  initGrabSlideForSheetGrid(reserveUI.sheet);
 
   reserveUI.backdrop.hidden = false;
   reserveUI.sheet.hidden = false;
@@ -946,7 +1009,7 @@ function renderReservePeople() {
     .join("");
 }
 
-/* 예약창: 시간 렌더 (예약 마감/예약 완료 표시 + 클릭 불가) */
+/* 예약창: 시간 렌더 (예약 마감 표시 + 클릭 불가) */
 function renderReserveTimes(shopId, date) {
   const slots = buildTimeSlots(shopId, date);
 
@@ -961,7 +1024,7 @@ function renderReserveTimes(shopId, date) {
       if (slot.closed)
         suffix = ` <span class="muted" style="font-weight:700;">예약 마감</span>`;
       else if (reserved)
-        suffix = ` <span class="muted" style="font-weight:700;">예약 완료</span>`;
+        suffix = ` <span class="muted" style="font-weight:700;">예약 마감</span>`;
 
       return `
         <button
@@ -1159,9 +1222,9 @@ function initSelectedChips() {
     return wrap;
   }
 
-  /* type별 라벨 표시(가격은 '10' → '10만원'처럼 보이게) */
+  /* type별 라벨 표시 */
   function formatLabel(type, value) {
-    if (type === "price") return `${value}만원`;
+    if (type === "price") return value;
     return value;
   }
 
@@ -1502,6 +1565,28 @@ function initGrabSlideForHorizontalRows(
       }
     }
 
+    // Touch fallback (일부 환경에서 pointer 이벤트가 불안정한 경우 대비)
+    function onTouchStart(e) {
+      if (!e.touches || e.touches.length === 0) return;
+      isDown = true;
+      didDrag = false;
+      suppressClick = false;
+      startX = e.touches[0].clientX;
+      startScrollLeft = row.scrollLeft;
+    }
+
+    function onTouchMove(e) {
+      if (!isDown || !e.touches || e.touches.length === 0) return;
+      const dx = e.touches[0].clientX - startX;
+      if (Math.abs(dx) > 4) {
+        didDrag = true;
+        suppressClick = true;
+        row.classList.add("is-grabbing");
+      }
+      row.scrollLeft = startScrollLeft - dx;
+      if (didDrag) e.preventDefault();
+    }
+
     row.addEventListener("pointerdown", onPointerDown);
     row.addEventListener("pointermove", onPointerMove);
     row.addEventListener("pointerup", endDrag);
@@ -1510,6 +1595,13 @@ function initGrabSlideForHorizontalRows(
     row.addEventListener("pointerleave", (e) => {
       if (e.pointerType === "mouse") endDrag();
     });
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
+
+    row.addEventListener("touchstart", onTouchStart, { passive: true });
+    row.addEventListener("touchmove", onTouchMove, { passive: false });
+    row.addEventListener("touchend", endDrag, { passive: true });
+    row.addEventListener("touchcancel", endDrag, { passive: true });
 
     row.addEventListener(
       "click",
@@ -1648,6 +1740,7 @@ function initBottomActions() {
   [10] 초기 실행
 ========================================================= */
 document.addEventListener("DOMContentLoaded", () => {
+  hydrateReservedStateFromStorage();
   initTabs();
   initSelectedChips();
   initGrabSlideForSheetGrid();
@@ -1658,31 +1751,38 @@ document.addEventListener("DOMContentLoaded", () => {
   renderShopList();
 });
 
+// 예약현황에서 취소 후 뒤로 왔을 때(브라우저 bfcache 포함) 슬롯 상태 재동기화
+window.addEventListener("pageshow", () => {
+  hydrateReservedStateFromStorage();
+});
+
 const slider = document.getElementById("reserveDateGrid");
 
 let isDown = false;
 let startX;
 let scrollLeft;
 
-slider.addEventListener("mousedown", (e) => {
-  isDown = true;
-  slider.classList.add("active");
-  startX = e.pageX - slider.offsetLeft;
-  scrollLeft = slider.scrollLeft;
-});
+if (slider) {
+  slider.addEventListener("mousedown", (e) => {
+    isDown = true;
+    slider.classList.add("active");
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
 
-slider.addEventListener("mouseleave", () => {
-  isDown = false;
-});
+  slider.addEventListener("mouseleave", () => {
+    isDown = false;
+  });
 
-slider.addEventListener("mouseup", () => {
-  isDown = false;
-});
+  slider.addEventListener("mouseup", () => {
+    isDown = false;
+  });
 
-slider.addEventListener("mousemove", (e) => {
-  if (!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - slider.offsetLeft;
-  const walk = (x - startX) * 2; // 속도 조절 (2는 감도)
-  slider.scrollLeft = scrollLeft - walk;
-});
+  slider.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; // 속도 조절 (2는 감도)
+    slider.scrollLeft = scrollLeft - walk;
+  });
+}
