@@ -142,7 +142,7 @@ const DUMMY_SHOPS = [
   {
     id: "s5",
     type: "white",
-    headLink: "./",
+    headLink: "./korMenu01.html",
     infoLink: "#",
     name: "이타닉 가든",
     rating: 4.9,
@@ -161,7 +161,7 @@ const DUMMY_SHOPS = [
   {
     id: "s6",
     type: "black",
-    headLink: "korMenu01.html",
+    headLink: "./korMenu02.html",
     infoLink: "#",
     name: "양출서울",
     rating: 4.8,
