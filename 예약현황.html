@@ -170,6 +170,34 @@ window.addEventListener('DOMContentLoaded', () => {
     // localStorage에서 예약 데이터 가져오기
     let reservationData = JSON.parse(localStorage.getItem('reservations')) || [];
 
+    function removeStoredSlotLock(res) {
+        const fallbackKeyByName = {
+            "도우룸 광화문": "reservedSlots_doughroom_gwanghwamun",
+            "유용욱 바베큐 연구소": "reservedSlots_yooyongwook_bbq",
+        };
+
+        const key = res?.slotStoreKey || fallbackKeyByName[res?.name];
+        const date = res?.slotDate || res?.dDay;
+        const time =
+            res?.slotTime ||
+            (typeof res?.dateTime === "string"
+                ? (res.dateTime.split("/")?.[0]?.replace(String(date || ""), "").trim() || "")
+                : "");
+        if (!key || !date || !time) return;
+
+        let slotMap = {};
+        try {
+            slotMap = JSON.parse(localStorage.getItem(key)) || {};
+        } catch (_) {
+            slotMap = {};
+        }
+
+        if (!Array.isArray(slotMap[date])) return;
+        slotMap[date] = slotMap[date].filter((t) => t !== time);
+        if (slotMap[date].length === 0) delete slotMap[date];
+        localStorage.setItem(key, JSON.stringify(slotMap));
+    }
+
     // 예약 카드 렌더링 함수
     function renderReservations() {
         container.innerHTML = ""; // 기존 카드 초기화
@@ -199,6 +227,8 @@ window.addEventListener('DOMContentLoaded', () => {
         cancelButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const idx = btn.dataset.index;
+                const removed = reservationData[idx];
+                removeStoredSlotLock(removed);
                 reservationData.splice(idx, 1);
                 localStorage.setItem('reservations', JSON.stringify(reservationData));
                 renderReservations();
