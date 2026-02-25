@@ -266,7 +266,7 @@ body {
   scroll-snap-type: x mandatory;
   cursor: grab;
   user-select: auto;
-  touch-action: pan-y;
+  touch-action: pan-x;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -378,7 +378,9 @@ body {
   scroll-snap-type: x mandatory;
   cursor: grab;
   user-select: auto;
-  touch-action: pan-y;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -395,6 +397,7 @@ body {
   scroll-snap-align: start;
   white-space: nowrap;
   cursor: inherit;
+  touch-action: pan-x;
 }
 
 .pill {

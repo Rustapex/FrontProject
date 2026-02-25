@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -690,6 +690,43 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const modalReserveBtn = document.querySelector(".calendar-reserve-btn"); // 모달 안 버튼
     const outsideReserveBtn = document.getElementById("reserveBtn"); // 화면 밖 버튼
+    const SHOP_SLOT_KEY = "reservedSlots_yooyongwook_bbq";
+    const watchButtons = Array.from(document.querySelectorAll(".watch button"));
+
+    // 시간 버튼 원문 라벨 보관
+    watchButtons.forEach((btn) => {
+        if (!btn.dataset.timeLabel) btn.dataset.timeLabel = btn.textContent.trim();
+    });
+
+    function loadReservedSlots() {
+        try {
+            return JSON.parse(localStorage.getItem(SHOP_SLOT_KEY)) || {};
+        } catch (_) {
+            return {};
+        }
+    }
+
+    function saveReservedSlots(slots) {
+        localStorage.setItem(SHOP_SLOT_KEY, JSON.stringify(slots));
+    }
+
+    function syncDisabledTimesByDate(dateText) {
+        const slots = loadReservedSlots();
+        const reservedSet = new Set(slots[dateText] || []);
+
+        watchButtons.forEach((btn) => {
+            const label = btn.dataset.timeLabel || btn.textContent.trim();
+            const isReserved = reservedSet.has(label);
+
+            btn.classList.toggle("disabled", isReserved);
+            if (isReserved) {
+                btn.classList.remove("selected");
+                btn.textContent = `${label} 예약마감`;
+            } else {
+                btn.textContent = label;
+            }
+        });
+    }
 
     function checkSelection() {
         const selectedDate = document.querySelector(".calendar .selected");
@@ -712,6 +749,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .forEach(d => d.classList.remove("selected"));
 
             date.classList.add("selected");
+            syncDisabledTimesByDate(date.textContent.trim());
             checkSelection();
         });
     });
@@ -730,6 +768,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 시간 선택
     document.querySelectorAll(".watch button").forEach(btn => {
         btn.addEventListener("click", () => {
+            if (btn.classList.contains("disabled")) return;
             document.querySelectorAll(".watch button")
                 .forEach(b => b.classList.remove("selected"));
 
@@ -745,15 +784,27 @@ document.addEventListener("DOMContentLoaded", function() {
     const selectedTime = document.querySelector(".watch .selected");
 
     if (!selectedDate || !selectedPeople || !selectedTime) return;
+    const selectedDateText = selectedDate.textContent.trim();
+    const selectedTimeText = selectedTime.dataset.timeLabel || selectedTime.textContent.trim();
+
+    // 날짜/시간별 예약 마감 상태 저장 (뒤로가기/재진입 후 복원용)
+    const slots = loadReservedSlots();
+    const daySlots = new Set(slots[selectedDateText] || []);
+    daySlots.add(selectedTimeText);
+    slots[selectedDateText] = Array.from(daySlots);
+    saveReservedSlots(slots);
 
     // 예약 정보 객체 생성
     const reservation = {
-        dDay: selectedDate.textContent,
-        dateTime: `${selectedDate.textContent} ${selectedTime.textContent} / ${selectedPeople.textContent}`,
+        dDay: selectedDateText,
+        dateTime: `${selectedDateText} ${selectedTimeText} / ${selectedPeople.textContent}`,
         name: "유용욱 바베큐 연구소",   // 매장명
         info: "남영 / 점심 10-15만원, 저녁 15만원",
         image: "https://ugc-images.catchtable.co.kr/shop/manager/images/3c7dafb8a7f947e2a00ab59c99cc36d1?resizeType=details500&ftype=avif",
         status: "예약완료",
+        slotStoreKey: SHOP_SLOT_KEY,
+        slotDate: selectedDateText,
+        slotTime: selectedTimeText,
     };
 
     // localStorage에 기존 데이터 가져오기
@@ -761,10 +812,8 @@ document.addEventListener("DOMContentLoaded", function() {
     reservations.push(reservation);
     localStorage.setItem("reservations", JSON.stringify(reservations));
 
-    // 예약마감 처리
-    selectedTime.classList.remove("selected");
-    selectedTime.classList.add("disabled");
-    selectedTime.textContent = "예약마감";
+    // 예약마감 처리 반영
+    syncDisabledTimesByDate(selectedDateText);
 
     // 모달 닫기
     modal.classList.remove("active");
@@ -781,6 +830,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // 화면 밖 버튼 클릭
     if(outsideReserveBtn) outsideReserveBtn.addEventListener("click", processReservation);
 
+    // 최초 로딩 시 선택된 날짜 기준으로 마감 상태 복원
+    const initialDate = document.querySelector(".calendar .selected");
+    if (initialDate) syncDisabledTimesByDate(initialDate.textContent.trim());
+
 });
 </script>
 </html>
+
