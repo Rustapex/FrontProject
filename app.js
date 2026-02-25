@@ -59,7 +59,7 @@ const reservationBtn = document.getElementById('reservationBtn');
 const DUMMY_SHOPS = [
   {
     id: "s1",
-    headLink: "#",
+    headLink: "일식백수저.html",
     infoLink: "#",
     type: "white",
     name: "고료리 켄",
@@ -75,12 +75,13 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/snu5CgGPvtvTj7GWIBYcbiA/m/5f5c3938eeb2431f85e8c1c95278f09b?resizeType=details500&ftype=avif",
     ],
     dates: [...DEFAULT_DATE_LABELS],
+    link: "일식백수저.html"
   },
   {
     id: "s2",
     headLink: "백(양식).html",
     infoLink: "#",
-    type: "black",
+    type: "white",
     name: "도우룸 광화문",
     rating: 4.5,
     reviews: 1308,
@@ -98,7 +99,7 @@ const DUMMY_SHOPS = [
   },
   {
     id: "s3",
-    headLink: "#",
+    headLink: "일식흑수저.html",
     infoLink: "#",
     type: "black",
     name: "소바쥬",
@@ -114,10 +115,13 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sTgdqdvK4tx1ipytPfrFEKA/1a125adfb0ee42c79699bd1b82d8f494?resizeType=details500&ftype=avif",
     ],
     dates: [...DEFAULT_DATE_LABELS],
+    link: "일식흑수저.html"
   },
   {
     id: "s4",
     type: "black",
+    headLink: "흑(양식).html",
+    infoLink: "#",
     name: "유용욱 바베큐 연구소",
     rating: 4.7,
     reviews: 303,
@@ -131,10 +135,13 @@ const DUMMY_SHOPS = [
       "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/d3cd1b68bf17494abd4b1ff57d522766?resizeType=details500&ftype=avif",
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "흑(양식).html"
   },
   {
     id: "s5",
-    type: "black",
+    type: "white",
+    headLink: "일식흑수저.html",
+    infoLink: "#",
     name: "이타닉 가든",
     rating: 4.9,
     reviews: 2875,
@@ -152,6 +159,8 @@ const DUMMY_SHOPS = [
   {
     id: "s6",
     type: "black",
+    headLink: "korMenu01.html",
+    infoLink: "#",
     name: "양출서울",
     rating: 4.8,
     reviews: 319,
@@ -160,11 +169,54 @@ const DUMMY_SHOPS = [
     openInfo: "영업전 · 18:00 영업 시작",
     priceInfo: "점심 영업안함 · 저녁 5.5-7.5만원",
     images: [
-      "https://ugc-images.catchtable.co.kr/shop/manager/images/3c7dafb8a7f947e2a00ab59c99cc36d1?resizeType=details500&ftype=avif",
-      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/b4f15004bf9f4bc6bde1665bc19d7e6d?resizeType=details500&ftype=avif",
-      "https://ugc-images.catchtable.co.kr/catchtable/shopinfo/sWgsrWRcE8EOpoYVDzuBveA/m/d3cd1b68bf17494abd4b1ff57d522766?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/d6794db665b94f3cb5ef4bfdf6f9c6e7?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/1ace96248fdd44869e643b1c20fa0577?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/35b633ee92c84e7aaa2e1c1b89294be9?resizeType=details500&ftype=avif"
     ],
     dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "korMenu01.html"
+  },
+  {
+    id: "s7",
+    type: "black",
+    headLink: "korMenu01.html",
+    infoLink: "#",
+    name: "보보식당",
+    rating: 4.5,
+    reviews: 3038,
+    area: "압구정",
+    cuisine: "중식",
+    openInfo: "영업전 · 11:30 영업 시작",
+    priceInfo: "점심, 저녁 동일가 1-19만원",
+    images: [
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/c9c27169addc4e6590b6922e6122d656?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/90c071200e7a4746a293b98f54ad9129?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/ce0d2c26a94249eb8109a31e6c460d6d?resizeType=details500&ftype=avif"
+
+    ],
+    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "korMenu01.html"
+  },
+  {
+    id: "s8",
+    type: "white",
+    headLink: "korMenu01.html",
+    infoLink: "#",
+    name: "엠버서더 서울 풀만 호빈",
+    rating: 4.8,
+    reviews: 168,
+    area: "장충동",
+    cuisine: "중식",
+    openInfo: "영업전 · 11:30 영업 시작",
+    priceInfo: "점심, 저녁 동일가 11-40만원",
+    images: [
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/8a2f0c003d314e3f8ea1a7c3efe4b39d?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/711f1240bee7465d93193645e343298c?resizeType=details500&ftype=avif",
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/7669c048bfdd4170aa36d44393bb195a?resizeType=details500&ftype=avif"      
+
+    ],
+    dates: ["오늘(월)", "내일(화)", "2.25(수)", "2.26(목)", "2.27(금)"],
+    link: "korMenu01.html"
   },
   
 ];
@@ -344,7 +396,7 @@ const SORT_OPTIONS = {
   region: {
     title: "지역",
     allLabel: "서울 전체", // "전체(default)" 역할
-    options: ["강남", "역삼", "선릉", "삼성", "잠실", "인사동"],
+    options: ["종로/광화문", "압구정", "신사/논현", "용산/삼각지", "마포", "강남/역삼/선릉", "장충동"],
   },
   cuisine: {
     title: "음식 종류",
@@ -359,19 +411,34 @@ const SORT_OPTIONS = {
   },
 };
 
+function normalizeCuisineTag2(raw) {
+  if (!raw) return "";
+  if (raw.includes("광화문")) return "종로/광화문";
+  if (raw.includes("압") || raw.includes("도산")) return "압구정";
+  // 이탈리안/양식 류는 "양식"으로 취급
+  if (raw.includes("논현"))return "신사/논현";
+  // 이자카야/일식 류는 "일식"으로 취급
+  if (raw.includes("남영"))return "용산/삼각지";
+  if (raw.includes("마포"))return "마포";
+  if (raw.includes("역삼"))return "강남/역삼/선릉";
+  if (raw.includes("장충동"))return "장충동";
+  return raw;
+}
+
 /* (선택) 더미 식당의 cuisine 텍스트를 "한/중/양/일"로 매핑해서 필터가 동작하게 함 */
 function normalizeCuisineTag(raw) {
   if (!raw) return "";
-  if (raw.includes("한")) return "한식";
+  if (raw.includes("와인")) return "한식";
   if (raw.includes("중")) return "중식";
   // 이탈리안/양식 류는 "양식"으로 취급
-  if (raw.includes("이탈") || raw.includes("양") || raw.includes("프렌"))
+  if (raw.includes("바베큐") || raw.includes("양") || raw.includes("프렌"))
     return "양식";
   // 이자카야/일식 류는 "일식"으로 취급
-  if (raw.includes("이자") || raw.includes("일") || raw.includes("초밥"))
+  if (raw.includes("이자") || raw.includes("코스") || raw.includes("일") || raw.includes("초밥"))
     return "일식";
   return raw;
 }
+
 
 /* 현재 sortState를 기반으로 더미 목록을 필터링 */
 function applySortFilters(list) {
@@ -379,7 +446,8 @@ function applySortFilters(list) {
 
   // 지역: 선택된 지역 중 하나라도 매치되면 표시
   if (!sortState.regionAll && sortState.regions.size > 0) {
-    out = out.filter((s) => sortState.regions.has(s.area));
+    out = out.filter((s) => 
+      sortState.regions.has(normalizeCuisineTag2(s.area)),);
   }
 
   // 음식 종류: normalizeCuisineTag로 "한/중/양/일"로 맞춘 뒤 비교
@@ -390,6 +458,7 @@ function applySortFilters(list) {
   }
 
   // 가격: 지금 더미 데이터는 숫자 비교가 애매해서 우선 미적용(표시/스택만 동작)
+
   // 나중에 priceInfo를 숫자로 바꾸면 여기서 필터링 추가하면 됨.
 
   return out;
@@ -716,7 +785,7 @@ function ensureReserveUI() {
       return;
     }
   });
-
+  
   // 예약하기
   reserveUI.confirmBtn.addEventListener("click", () => {
     if (!reserveDraft.shopId || !reserveDraft.date) return;
@@ -764,6 +833,10 @@ function closeReserveSheet() {
   reserveUI.backdrop.hidden = true;
   reserveUI.sheet.hidden = true;
 }
+
+
+
+
 
 /* =========================================================
   [수정] 날짜 버튼 UI를 "남은 시간" 기준으로 갱신

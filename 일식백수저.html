@@ -365,7 +365,19 @@
         gap: 30px;
         padding-bottom: 5px;
       }
+      .people-btn {
+        padding: 8px 14px;
+        border: 1px solid #ccc;
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+      }
 
+      .people-btn.active {
+        background-color: black;
+        color: #fff;
+      
+      }
       /* 시간 버튼 */
       .times {
         display: flex;
@@ -382,12 +394,49 @@
         border-radius: 8px;
       }
 
+      .time-btn {
+        padding: 8px 14px;
+        border: 1px solid #ccc;
+        background: #fff;
+        color: black;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .time-btn.active {
+        background-color: black;
+        color: #fff;
+        
+      }
       .close-btn {
         width: 100%;
         margin-top: 16px;
         height: 42px;
         border: 1px solid #ccc;
         background-color: white;
+        cursor: pointer;
+      }
+      .close-btn2 {
+        width: 100%;
+        height: 50px;
+        border: none;
+        border-radius: 12px;
+        background: black;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+
+        display: none;   /* 👈 기본 숨김 */
+      }
+
+      .close-btn2.show {
+        display: block;  /* 👈 조건 만족 시 보이기 */
+      }
+      .time-btn.disabled {
+        background: #ddd;
+        color: #999;
+        cursor: not-allowed;
       }
     </style>
   </head>
@@ -522,15 +571,15 @@
             <span class="reserve-arrow">▼</span>
           </div>
 
-          <div class="reserve-panel">
+          <!-- <div class="reserve-panel"> -->
             <!-- 캘린더 -->
-            <div class="calendar">
+            <!-- <div class="calendar">
               <div class="calendar-header">2026년 2월</div>
 
               <div class="calendar-grid"></div>
-            </div>
+            </div> -->
 
-            <!-- 인원 선택 -->
+            <!-- 인원 선택
             <div class="people">
               <button class="people-btn active">2명</button>
               <button class="people-btn">3명</button>
@@ -539,8 +588,8 @@
               <button class="people-btn">6명</button>
             </div>
 
-            <button class="find-btn">예약 가능 날짜 찾기</button>
-          </div>
+            <button class="find-btn">예약 가능 날짜 찾기</button> -->
+          <!-- </div> -->
         </section>
         <!-- 예약 모달 -->
         <div class="reserve-modal" id="reserveModal">
@@ -552,7 +601,7 @@
 
               <!-- 인원 -->
               <div class="people">
-                <button class="people-btn active">2명</button>
+                <button class="people-btn">2명</button>
                 <button class="people-btn">3명</button>
                 <button class="people-btn">4명</button>
                 <button class="people-btn">5명</button>
@@ -562,9 +611,19 @@
               </div>
 
               <!-- 시간 -->
-              <div class="times" id="timeBox"></div>
+              <!-- 시간 -->
+              <div class="times" id="timeBox">
+                <button class="time-btn">11:30</button>
+                <button class="time-btn">12:00</button>
+                <button class="time-btn">12:30</button>
+                <button class="time-btn">13:00</button>
+                <button class="time-btn">13:30</button>
+                <button class="time-btn">14:00</button>
+
+              </div>
             </div>
-            <button class="close-btn" onclick="closeReserve()">닫기</button>
+            <button type="button"class="close-btn2" onclick="reserveSubmit()">예약하기</button>
+            <button type="button"class="close-btn" onclick="closeReserve()">닫기</button>
           </div>
         </div>
 
@@ -627,67 +686,222 @@
     </footer>
 
     <script>
-      new Swiper(".photo-slider", {
-        loop: true,
-        pagination: { el: ".swiper-pagination" },
-      });
+document.addEventListener("DOMContentLoaded", function () {
+  const SHOP = {
+    id: "sobaju-black",
+    name: "고료리 켄",
+    info: "도산공원 | 점심 5.5만원 저녁 8만원",
+    image:
+      "https://ugc-images.catchtable.co.kr/shop/manager/images/1f371d7f69484f138027895ec178779a?resizeType=details500&ftype=avif",
+  };
 
-      function toggleHours() {
-        document.querySelector(".hours-list")?.classList.toggle("open");
-        document.querySelector(".arrow")?.classList.toggle("rotate");
+  const STORAGE_KEYS = {
+    reservations: "reservations",
+    reservedSlots: "demo_reserved_slots",
+  };
+
+  const modal = document.getElementById("reserveModal");
+  const grid = document.getElementById("calendarGrid");
+  const header = document.getElementById("calendarTitle");
+  const reservationBtn = document.getElementById("reservationBtn");
+  const reserveSubmitBtn = document.querySelector(".close-btn2");
+  const reserveToggleText = document.querySelector(".reserve-toggle span");
+  const peopleButtons = document.querySelectorAll(".people-btn");
+  const timeButtons = document.querySelectorAll(".time-btn");
+
+  function dateKeyFromButton(dayText) {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    const d = String(Number(dayText)).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function slotKey(dateKey, time) {
+    return `${SHOP.id}__${dateKey}__${time}`;
+  }
+
+  function loadReservedSlots() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.reservedSlots);
+      const arr = raw ? JSON.parse(raw) : [];
+      return new Set(Array.isArray(arr) ? arr : []);
+    } catch {
+      return new Set();
+    }
+  }
+
+  function saveReservedSlots(set) {
+    localStorage.setItem(
+      STORAGE_KEYS.reservedSlots,
+      JSON.stringify(Array.from(set))
+    );
+  }
+
+  const reservedSlots = loadReservedSlots();
+
+  if (reservationBtn) {
+    reservationBtn.addEventListener("click", () => {
+      window.location.href = "예약현황.html";
+    });
+  }
+
+  function checkReserveReady() {
+    const selectedDate = document.querySelector(".day.active");
+    const selectedPeople = document.querySelector(".people-btn.active");
+    const selectedTime = document.querySelector(".time-btn.active");
+
+    reserveSubmitBtn.style.display =
+      selectedDate && selectedPeople && selectedTime ? "block" : "none";
+  }
+
+  function markReservedTimesByDate() {
+    const selectedDate = document.querySelector(".day.active");
+    if (!selectedDate) return;
+
+    const currentDateKey = dateKeyFromButton(selectedDate.textContent.trim());
+
+    timeButtons.forEach((btn) => {
+      const pureTime = btn.textContent.replace(" (예약마감)", "").trim();
+      const key = slotKey(currentDateKey, pureTime);
+      const isReserved = reservedSlots.has(key);
+
+      btn.classList.remove("active");
+      if (isReserved) {
+        btn.classList.add("disabled");
+        btn.textContent = `${pureTime} (예약마감)`;
+      } else {
+        btn.classList.remove("disabled");
+        btn.textContent = pureTime;
       }
+    });
+  }
 
-      const modal = document.getElementById("reserveModal");
-      const grid = document.getElementById("calendarGrid");
-      const header = document.getElementById("calendarTitle");
-      const timeBox = document.getElementById("timeBox");
+  function updateReserveToggleSummary() {
+    const selectedDate = document.querySelector(".day.active");
+    const selectedPeople = document.querySelector(".people-btn.active");
+    const selectedTime = document.querySelector(".time-btn.active");
+    const dayText = selectedDate ? selectedDate.textContent.trim() : "날짜";
+    const peopleText = selectedPeople ? selectedPeople.textContent.trim() : "인원";
+    const timeText = selectedTime
+      ? selectedTime.textContent.replace(" (예약마감)", "").trim()
+      : "시간";
 
-      function toggleReserve() {
-        modal.classList.add("show");
-      }
-      function closeReserve() {
-        modal.classList.remove("show");
-      }
+    if (reserveToggleText) {
+      reserveToggleText.textContent = `📅 ${dayText}일 · ${peopleText} · ${timeText}`;
+    }
+  }
 
-      /* 캘린더 */
-      const today = new Date();
-      const y = today.getFullYear();
-      const m = today.getMonth();
-      const d = today.getDate();
+  peopleButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      peopleButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      checkReserveReady();
+      updateReserveToggleSummary();
+    });
+  });
 
-      header.textContent = `${y}년 ${m + 1}월`;
+  timeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.classList.contains("disabled")) return;
 
-      const first = new Date(y, m, 1).getDay();
-      const last = new Date(y, m + 1, 0).getDate();
+      timeButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      checkReserveReady();
+      updateReserveToggleSummary();
+    });
+  });
 
-      for (let i = 0; i < first; i++)
-        grid.appendChild(document.createElement("span"));
+  window.toggleReserve = function () {
+    modal.classList.add("show");
+  };
 
-      for (let i = 1; i <= last; i++) {
-        const btn = document.createElement("button");
-        btn.className = "day";
-        btn.textContent = i;
-        if (i === d) btn.classList.add("active");
-        btn.onclick = () => {
-          document
-            .querySelectorAll(".day")
-            .forEach((x) => x.classList.remove("active"));
-          btn.classList.add("active");
-          makeTimes();
-        };
-        grid.appendChild(btn);
-      }
+  window.closeReserve = function () {
+    modal.classList.remove("show");
+  };
 
-      function makeTimes() {
-        timeBox.innerHTML = "";
-        ["11:30", "12:00", "18:00", "18:30", "19:00"].forEach((t) => {
-          const b = document.createElement("button");
-          b.className = "time-btn";
-          b.textContent = t;
-          timeBox.appendChild(b);
-        });
-      }
-      makeTimes();
-    </script>
+  window.reserveSubmit = function () {
+    const selectedDate = document.querySelector(".day.active");
+    const selectedPeople = document.querySelector(".people-btn.active");
+    const selectedTime = document.querySelector(".time-btn.active");
+
+    if (!selectedDate || !selectedPeople || !selectedTime) {
+      alert("날짜, 인원, 시간을 모두 선택해주세요.");
+      return;
+    }
+
+    if (selectedTime.classList.contains("disabled")) {
+      alert("이미 마감된 시간입니다.");
+      return;
+    }
+
+    const dateKey = dateKeyFromButton(selectedDate.textContent.trim());
+    const dayText = String(Number(selectedDate.textContent.trim()));
+    const peopleText = selectedPeople.textContent.trim();
+    const pureTime = selectedTime.textContent.replace(" (예약마감)", "").trim();
+
+    const reservation = {
+      dDay: dayText,
+      dateTime: `${dateKey} ${pureTime} / ${peopleText}`,
+      name: SHOP.name,
+      info: SHOP.info,
+      image: "https://ugc-images.catchtable.co.kr/shop/manager/images/f46ee8ee92e84a319fd72de838210e1a?resizeType=details500&ftype=avif",
+      status: "예약완료",
+    };
+
+    const reservations = JSON.parse(localStorage.getItem(STORAGE_KEYS.reservations)) || [];
+    reservations.push(reservation);
+    localStorage.setItem(STORAGE_KEYS.reservations, JSON.stringify(reservations));
+
+    reservedSlots.add(slotKey(dateKey, pureTime));
+    saveReservedSlots(reservedSlots);
+
+    selectedTime.classList.remove("active");
+    selectedTime.classList.add("disabled");
+    selectedTime.textContent = `${pureTime} (예약마감)`;
+
+    reserveSubmitBtn.style.display = "none";
+    modal.classList.remove("show");
+    updateReserveToggleSummary();
+
+  };
+
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = today.getMonth();
+  const d = today.getDate();
+
+  header.textContent = `${y}년 ${m + 1}월`;
+
+  const first = new Date(y, m, 1).getDay();
+  const last = new Date(y, m + 1, 0).getDate();
+
+  for (let i = 0; i < first; i++) {
+    grid.appendChild(document.createElement("span"));
+  }
+
+  for (let i = 1; i <= last; i++) {
+    const btn = document.createElement("button");
+    btn.className = "day";
+    btn.textContent = i;
+
+    if (i === d) btn.classList.add("active");
+
+    btn.onclick = () => {
+      document.querySelectorAll(".day").forEach((x) => x.classList.remove("active"));
+      btn.classList.add("active");
+      markReservedTimesByDate();
+      checkReserveReady();
+      updateReserveToggleSummary();
+    };
+
+    grid.appendChild(btn);
+  }
+
+  markReservedTimesByDate();
+  checkReserveReady();
+  updateReserveToggleSummary();
+});
+</script>
   </body>
 </html>
