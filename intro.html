@@ -4,6 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>흑백요리사 시즌2</title>
+    <style>
+      .QRCodeWrap_container__y3UuS {
+    width: 200px;          /* QR 크기 고정 */
+    position: absolute;
+    bottom: 0;             /* 바닥 고정 */
+    left: 300px;           /* 좌측 시작 위치 */
+    text-align: center;
+}   /* 왼쪽에 붙이고 싶으면 0 */
+    .top100 {
+        width: 200px;          /* QR 크기 고정 */
+        position: absolute;
+        bottom: 20px;             /* 바닥 고정 */
+        right: 310px;           /* 좌측 시작 위치 */
+        text-align: center;
+    } 
+    .insta  {
+      display: flex;
+      margin-top: 10px;
+      margin-left: 30px;
+    }
+    </style>
 
     <!-- Swiper CSS -->
     <link
@@ -16,6 +37,19 @@
   </head>
 
   <body>
+    <div class="QRCodeWrap_container__y3UuS">
+        <img src="qrcode.png" alt="캐치테이블 QR" width="150">
+        <p class="QRCodeWrap_text__6EB9z">
+            캐치테이블 앱으로<br>더 자세한 정보 확인하기
+        </p>
+    </div>
+
+    <div class="top100">
+        <a href="https://app.catchtable.co.kr/ct/search/rank/waiting"><img src="https://www.tabling.co.kr/_next/image?url=https%3A%2F%2Fimage.tabling.co.kr%2Fuser-web-assets%2Fimages%2Flink%2Ftop100.png%3Fs%3D280x384&w=384&q=75"
+         alt="캐치테이블 QR" width="150"></a>
+        <a class="insta" href="https://www.instagram.com/catchtable_official/"><img src="https://www.tabling.co.kr/_next/image?url=https%3A%2F%2Fimage.tabling.co.kr%2Fuser-web-assets%2Fimages%2Flink%2Finstagram.png%3Fs%3D280x292&w=384&q=75" alt="" width="150"></a>
+    </div>
+    
     <div class="page">
       <!-- ✅ 480px 고정 프레임 / 이 div가 스크롤 컨테이너 -->
       <div class="app" role="application" aria-label="흑백요리사 시즌2">
