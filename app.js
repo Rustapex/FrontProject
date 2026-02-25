@@ -48,10 +48,12 @@ const DEFAULT_DATE_LABELS = buildUpcomingDateLabels(12);
 
 //예약현황.html 불러오기
 const reservationBtn = document.getElementById('reservationBtn');
+if (reservationBtn) {
   reservationBtn.addEventListener('click', () => {
     // 예약현황 페이지로 이동
     window.location.href = "예약현황.html";
   });
+}
 
 
 
@@ -140,9 +142,13 @@ const DUMMY_SHOPS = [
   {
     id: "s5",
     type: "white",
-    headLink: "일식흑수저.html",
+    headLink: "./",
     infoLink: "#",
+    name: "이타닉 가든",
+    rating: 4.9,
+    reviews: 2876,
     area: "역삼",
+    cuisine: "코스요리",
     openInfo: "영업전 · 12:00 영업 시작",
     priceInfo: "점심 25만원 · 저녁 37만원",
     images: [
@@ -227,6 +233,46 @@ const DUMMY_SHOPS = [
 ========================================================= */
 const RESERVED_SLOT_KEYS = new Set();
 
+const RESERVED_STORAGE_KEY = "reserved_slots_v1";
+
+function getReservedSlotStorage() {
+  try {
+    return window.sessionStorage;
+  } catch (_) {
+    return window.localStorage;
+  }
+}
+
+function persistReservedStateToStorage() {
+  try {
+    const storage = getReservedSlotStorage();
+    storage.setItem(
+      RESERVED_STORAGE_KEY,
+      JSON.stringify(Array.from(RESERVED_SLOT_KEYS)),
+    );
+  } catch (e) {
+    console.warn("[reserve] persist failed", e);
+  }
+}
+
+function hydrateReservedStateFromStorage() {
+  try {
+    const storage = getReservedSlotStorage();
+    const raw = storage.getItem(RESERVED_STORAGE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (!Array.isArray(saved)) return;
+    RESERVED_SLOT_KEYS.clear();
+    saved.forEach((key) => {
+      if (typeof key === "string" && key.length > 0) {
+        RESERVED_SLOT_KEYS.add(key);
+      }
+    });
+  } catch (e) {
+    console.warn("[reserve] hydrate failed", e);
+  }
+}
+
 function slotKey(shopId, date, time) {
   return `${shopId}__${date}__${time}`;
 }
@@ -235,6 +281,55 @@ function isReservedSlot(shopId, date, time) {
 }
 function setReservedSlot(shopId, date, time) {
   RESERVED_SLOT_KEYS.add(slotKey(shopId, date, time));
+}
+
+function reserveSlot(shopId, date, time) {
+  if (!shopId || !date || !time) return;
+  setReservedSlot(shopId, date, time);
+  persistReservedStateToStorage();
+}
+
+function dayTextFromDateLabel(label) {
+  const text = String(label || "").trim();
+  if (!text) return "";
+
+  const today = new Date();
+  if (text.startsWith("오늘(")) return String(today.getDate());
+  if (text.startsWith("내일(")) {
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    return String(tomorrow.getDate());
+  }
+
+  const m = text.match(/^(\d{1,2})\.(\d{2})\(/);
+  if (m) return String(Number(m[2]));
+  return text;
+}
+
+function saveReservationHistoryFromMain(shop, dateText, timeText, peopleText) {
+  if (!shop || !dateText || !timeText || !peopleText) return;
+
+  const reservation = {
+    shopId: shop.id,
+    dDay: dayTextFromDateLabel(dateText),
+    dateTime: `${dateText} ${timeText} / ${peopleText}`,
+    name: shop.name || "식당",
+    info: `${shop.area || "-"} / ${shop.priceInfo || "-"}`,
+    image: Array.isArray(shop.images) ? shop.images[0] || "" : "",
+    status: "예약완료",
+    slotStoreKeyV1: RESERVED_STORAGE_KEY,
+    slotKeyV1: slotKey(shop.id, dateText, timeText),
+    slotDate: dateText,
+    slotTime: timeText,
+  };
+
+  try {
+    const reservations = JSON.parse(localStorage.getItem("reservations")) || [];
+    reservations.push(reservation);
+    localStorage.setItem("reservations", JSON.stringify(reservations));
+  } catch (e) {
+    console.warn("[reserve] save history failed", e);
+  }
 }
 
 /* =========================================================
@@ -406,14 +501,12 @@ const SORT_OPTIONS = {
   },
 };
 
-function normalizeCuisineTag2(raw) {
+function normalizeRegionTag(raw) {
   if (!raw) return "";
   if (raw.includes("광화문")) return "종로/광화문";
   if (raw.includes("압") || raw.includes("도산")) return "압구정";
-  // 이탈리안/양식 류는 "양식"으로 취급
-  if (raw.includes("논현"))return "신사/논현";
-  // 이자카야/일식 류는 "일식"으로 취급
-  if (raw.includes("남영"))return "용산/삼각지";
+  if (raw.includes("논현")) return "신사/논현";
+  if (raw.includes("남영")) return "용산/삼각지";
   if (raw.includes("마포"))return "마포";
   if (raw.includes("역삼"))return "강남/역삼/선릉";
   if (raw.includes("장충동"))return "장충동";
@@ -423,15 +516,42 @@ function normalizeCuisineTag2(raw) {
 /* (선택) 더미 식당의 cuisine 텍스트를 "한/중/양/일"로 매핑해서 필터가 동작하게 함 */
 function normalizeCuisineTag(raw) {
   if (!raw) return "";
-  if (raw.includes("와인")) return "한식";
+  if (raw.includes("한") || raw.includes("와인")) return "한식";
   if (raw.includes("중")) return "중식";
-  // 이탈리안/양식 류는 "양식"으로 취급
-  if (raw.includes("바베큐") || raw.includes("양") || raw.includes("프렌"))
+  if (raw.includes("바베큐") || raw.includes("양") || raw.includes("프렌") || raw.includes("이탈"))
     return "양식";
-  // 이자카야/일식 류는 "일식"으로 취급
-  if (raw.includes("이자") || raw.includes("코스") || raw.includes("일") || raw.includes("초밥"))
+  if (raw.includes("이자") || raw.includes("일") || raw.includes("초밥") || raw.includes("스시") || raw.includes("사시미"))
     return "일식";
   return raw;
+}
+
+function extractPriceValues(priceInfo) {
+  if (!priceInfo) return [];
+  const nums = priceInfo.match(/\d+(?:\.\d+)?/g);
+  if (!nums) return [];
+  return nums.map((v) => Number(v) * 10000).filter((v) => Number.isFinite(v));
+}
+
+function isPriceInBucket(priceValue, bucket) {
+  if (bucket === "10만원 이하") return priceValue <= 100000;
+  if (bucket === "10만원대") return priceValue >= 100000 && priceValue < 200000;
+  if (bucket === "20만원대") return priceValue >= 200000 && priceValue < 300000;
+  if (bucket === "30만원대") return priceValue >= 300000 && priceValue < 400000;
+  if (bucket === "40만원 이상") return priceValue >= 400000;
+  return false;
+}
+
+function matchesPriceFilter(priceInfo, selectedBuckets) {
+  if (!selectedBuckets || selectedBuckets.size === 0) return true;
+  const values = extractPriceValues(priceInfo);
+  if (values.length === 0) return false;
+
+  for (const bucket of selectedBuckets) {
+    if (values.some((v) => isPriceInBucket(v, bucket))) {
+      return true;
+    }
+  }
+  return false;
 }
 
 
@@ -441,8 +561,9 @@ function applySortFilters(list) {
 
   // 지역: 선택된 지역 중 하나라도 매치되면 표시
   if (!sortState.regionAll && sortState.regions.size > 0) {
-    out = out.filter((s) => 
-      sortState.regions.has(normalizeCuisineTag2(s.area)),);
+    out = out.filter((s) =>
+      sortState.regions.has(normalizeRegionTag(s.area)),
+    );
   }
 
   // 음식 종류: normalizeCuisineTag로 "한/중/양/일"로 맞춘 뒤 비교
@@ -452,9 +573,10 @@ function applySortFilters(list) {
     );
   }
 
-  // 가격: 지금 더미 데이터는 숫자 비교가 애매해서 우선 미적용(표시/스택만 동작)
-
-  // 나중에 priceInfo를 숫자로 바꾸면 여기서 필터링 추가하면 됨.
+  // 가격: priceInfo 문자열에서 숫자를 추출해 선택 구간과 비교
+  if (!sortState.priceAll && sortState.prices.size > 0) {
+    out = out.filter((s) => matchesPriceFilter(s.priceInfo, sortState.prices));
+  }
 
   return out;
 }
@@ -536,6 +658,12 @@ function renderShopList() {
 
 /* 카드 HTML 템플릿 */
 function shopCardHTML(shop) {
+  const name = shop.name || "이름 미정";
+  const rating = Number.isFinite(shop.rating) ? shop.rating : 0;
+  const reviews = Number.isFinite(shop.reviews) ? shop.reviews : 0;
+  const area = shop.area || "-";
+  const cuisine = shop.cuisine || "-";
+
   const slides = shop.images
     .map(
       (src) => `
@@ -572,12 +700,12 @@ function shopCardHTML(shop) {
   <article class="shop-card" data-shopid="${shop.id}">
     <div class="shop-card__head" data-href="${shop.headLink || "#"}" role="link" tabindex="0">
       <div>
-        <h2 class="shop-card__name">${shop.name}</h2>
+        <h2 class="shop-card__name">${name}</h2>
         <div class="shop-card__meta">
-          <span class="star">★</span><span>${shop.rating}</span>
-          <span class="muted">(${shop.reviews.toLocaleString()})</span>
-          <span class="dot">·</span><span class="muted">${shop.area}</span>
-          <span class="dot">·</span><span class="muted">${shop.cuisine}</span>
+          <span class="star">★</span><span>${rating}</span>
+          <span class="muted">(${reviews.toLocaleString()})</span>
+          <span class="dot">·</span><span class="muted">${area}</span>
+          <span class="dot">·</span><span class="muted">${cuisine}</span>
         </div>
       </div>
       <button class="bookmark" type="button" aria-label="북마크">🔖</button>
@@ -799,6 +927,14 @@ function ensureReserveUI() {
       reserveDraft.date,
       reserveDraft.time,
       reserveDraft.people
+    );
+
+    const selectedShop = DUMMY_SHOPS.find((s) => s.id === reserveDraft.shopId);
+    saveReservationHistoryFromMain(
+      selectedShop,
+      reserveDraft.date,
+      reserveDraft.time,
+      reserveDraft.people,
     );
 
     alert("예약이 완료되었습니다.");
