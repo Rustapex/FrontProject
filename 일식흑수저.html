@@ -51,7 +51,6 @@
         font-size: 14px;
         /* flex 컨테이너 안에 있으므로 top/left 제거 */
       }
-
       #header b {
         margin: 0; /* flex 안이라 margin-left 대신 gap 사용 */
         font-weight: bold;
@@ -71,7 +70,6 @@
         background: black; /* 배경색 변경 */
         color: white; /* 글자색 변경 */
       }
-      
 
       /* 슬라이더 */
       .photo-slider {
@@ -87,7 +85,6 @@
       .content {
         padding: 20px 18px;
       }
-
       .category {
         font-size: 13px;
         color: #777;
@@ -107,26 +104,21 @@
         color: #666;
         margin-bottom: 16px;
       }
-
       .info {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 20px;
         font-size: 14px;
       }
-
       .info-row {
         display: flex;
         align-items: center;
-        gap: 8px;
       }
-
       .icon {
         width: 18px;
         height: 18px;
         fill: #888;
       }
-
       .copy-btn {
         margin-left: auto;
         background: none;
@@ -146,7 +138,6 @@
       .arrow.rotate {
         transform: rotate(180deg);
       }
-
       .hours-list {
         list-style: none;
         padding: 0;
@@ -167,6 +158,14 @@
       .today {
         font-weight: 700;
       }
+      .today-highlight {
+        font-weight: 700;
+      }
+
+      .today-closed {
+        font-weight: 700;
+        color: #d91f11;
+      }
 
       /* 메뉴 */
       .menu-section {
@@ -183,7 +182,6 @@
         display: flex;
         flex-direction: column;
       }
-
       .badge {
         display: inline-block;
         background: #ff4d00;
@@ -194,7 +192,6 @@
         margin-bottom: 6px;
         width: fit-content;
       }
-
       .menu-title {
         font-weight: 700;
         font-size: 17px;
@@ -226,8 +223,8 @@
         margin-top: 30px;
       }
       .detail-title {
-        font-weight: 700;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
+        margin-top: 25px;
       }
       .info-link {
         color: #ff4d00;
@@ -236,8 +233,30 @@
       }
       .map {
         margin-top: 10px;
-        border-radius: 12px;
+        border-radius: 15px;
         overflow: hidden;
+      }
+      .notice-box {
+        /* margin-top: 6px; */
+        padding-left: 4px;
+      }
+      .notice-box p {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 12px; /* 문단 사이 여백 */
+      }
+      .notice-box span {
+        display: block;
+        font-size: 13px;
+        color: #888;
+        margin-top: 4px;
+      }
+      .map-address span {
+        display: block;
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 20px;
       }
 
       /* 예약 버튼 */
@@ -266,11 +285,9 @@
 
       /* 예약 캘린더 */
       /* ===== 예약 아코디언 ===== */
-
       .reserve-section {
         margin-top: 20px;
       }
-
       .reserve-toggle {
         background: #f6f6f6;
         padding: 14px;
@@ -280,15 +297,12 @@
         cursor: pointer;
         font-weight: 600;
       }
-
       .reserve-arrow {
         transition: 0.25s;
       }
-
       .reserve-arrow.rotate {
         transform: rotate(180deg);
       }
-
       .reserve-panel {
         position: relative;
         width: 100%;
@@ -302,7 +316,6 @@
         flex: 1;
         overflow-y: auto;
       }
-
       .reserve-panel.open {
         bottom: 0;
         /* display: block; */
@@ -314,13 +327,11 @@
         font-weight: 700;
         margin-bottom: 10px;
       }
-
       .calendar-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         gap: 8px;
       }
-
       .day {
         height: 55px;
         border-radius: 50%;
@@ -328,7 +339,6 @@
         background: #eee;
         cursor: pointer;
       }
-
       .day.active {
         background: #000000;
         color: white;
@@ -341,14 +351,12 @@
         gap: 8px;
         flex-wrap: wrap;
       }
-
       .people-btn {
         padding: 6px 12px;
         border-radius: 20px;
         border: 1px solid #ddd;
         background: white;
       }
-
       .people-btn.active {
         background: #000000;
         color: rgb(0, 0, 0);
@@ -366,7 +374,6 @@
       }
 
       /* ===== 바텀시트 모달 ===== */
-
       .reserve-modal {
         position: fixed;
         inset: 0;
@@ -378,11 +385,9 @@
 
         z-index: 999;
       }
-
       .reserve-modal.show {
         display: flex;
       }
-
       .reserve-sheet {
         /* position: relative; */
         width: 450px;
@@ -397,11 +402,9 @@
 
         overflow: hidden;
       }
-
       .reserve-modal.show .reserve-sheet {
         transform: translateY(0);
       }
-
       .sheet-content {
         flex: 1;
         overflow-y: auto;
@@ -418,12 +421,11 @@
         border-radius: 6px;
         cursor: pointer;
       }
-
       .people-btn.active {
         background-color: black;
         color: #fff;
-      
       }
+
       /* 시간 버튼 */
       .times {
         display: flex;
@@ -435,14 +437,13 @@
         padding: 8px 14px;
         border: 1px solid #ccc;
         background: #fff;
+        /* color: black; */
         border-radius: 6px;
         cursor: pointer;
       }
-
       .time-btn.active {
         background-color: black;
         color: #fff;
-        
       }
       .close-btn {
         width: 100%;
@@ -463,11 +464,10 @@
         font-weight: bold;
         cursor: pointer;
 
-        display: none;   /* 👈 기본 숨김 */
+        display: none; /* 👈 기본 숨김 */
       }
-
       .close-btn2.show {
-        display: block;  /* 👈 조건 만족 시 보이기 */
+        display: block; /* 👈 조건 만족 시 보이기 */
       }
       .time-btn.disabled {
         background: #ddd;
@@ -522,19 +522,28 @@
         <hr />
 
         <div class="info">
-          <div class="info-row">
+          <!-- 거리 + 아코디언 -->
+          <div class="info-row accordion-toggle" onclick="toggleAddress()">
             <svg class="icon" viewBox="0 0 24 24">
               <path d="M12 2C8 2 5 5 5 9c0 5 7 11 7 11s7-6 7-11c0-4-3-7-7-7z" />
             </svg>
             <span>마포역에서 191m</span>
+            <span class="arrow address-arrow">▼</span>
           </div>
 
-          <div class="info-row">
-            <span>서울특별시 마포구 큰우물로 75 성지빌딩 지하 1층 22호</span>
-            <button class="copy-btn">복사</button>
-          </div>
+          <ul class="hours-list address-list">
+            <li class="hours-item">
+              <span>서울특별시 마포구 큰우물로 75 성지빌딩 지하 1층 22호</span>
+              <button class="copy-btn" onclick="copyAddress(event)">
+                복사
+              </button>
+            </li>
+          </ul>
 
           <div class="info-row">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M12 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" />
+            </svg>
             <span>점심 5.5만원 저녁 8만원</span>
           </div>
 
@@ -543,11 +552,11 @@
             <svg class="icon" viewBox="0 0 24 24">
               <path d="M12 8v5l3 2" />
             </svg>
-            <span>오늘 (화) · 12:00 ~ 22:00</span>
+            <span id="todayHoursText"></span>
             <span class="arrow">▼</span>
           </div>
 
-          <ul class="hours-list">
+          <ul class="hours-list hours-time-list">
             <li class="hours-item">
               <span>월</span>
               <span>·</span>
@@ -561,7 +570,7 @@
             <li class="hours-item holiday">
               <span>화</span>
               <span>·</span>
-              <span>2/24 휴무일</span>
+              <span>3/3 휴무일</span>
             </li>
             <li class="hours-item">
               <span>수</span>
@@ -619,19 +628,19 @@
         <!-- ===== 예약 아코디언 ===== -->
         <section class="reserve-section">
           <div class="reserve-toggle" onclick="toggleReserve()">
-            <span>📅 오늘 (월) · 2명</span>
+            <span>📅 오늘 (목) · 2명</span>
             <span class="reserve-arrow">▼</span>
           </div>
 
           <!-- <div class="reserve-panel"> -->
-            <!-- 캘린더 -->
-            <!-- <div class="calendar">
+          <!-- 캘린더 -->
+          <!-- <div class="calendar">
               <div class="calendar-header">2026년 2월</div>
 
               <div class="calendar-grid"></div>
             </div> -->
 
-            <!-- 인원 선택
+          <!-- 인원 선택
             <div class="people">
               <button class="people-btn active">2명</button>
               <button class="people-btn">3명</button>
@@ -670,16 +679,20 @@
                 <button class="time-btn">13:00</button>
                 <button class="time-btn">13:30</button>
                 <button class="time-btn">14:00</button>
-
               </div>
             </div>
-            <button type="button"class="close-btn2" onclick="reserveSubmit()">예약하기</button>
-            <button type="button"class="close-btn" onclick="closeReserve()">닫기</button>
+            <button type="button" class="close-btn2" onclick="reserveSubmit()">
+              예약하기
+            </button>
+            <button type="button" class="close-btn" onclick="closeReserve()">
+              닫기
+            </button>
           </div>
         </div>
 
         <!-- 메뉴 -->
         <section class="menu-section">
+          <hr />
           <h3>메뉴</h3>
 
           <!-- 코스 -->
@@ -742,12 +755,28 @@
 
         <!-- 상세정보 -->
         <section class="detail-section">
-          <div class="detail-title">상세정보</div>
+          <hr />
+          <div class="map">
+            <h3>위치</h3>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.5878613779005!2d126.94312097640496!3d37.54121147557899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c990056c4e545%3A0x47d4a3e7a6d3a7ef!2sSobajuu!5e0!3m2!1sko!2sus!4v1771835062895!5m2!1sko!2sus"
+              width="100%"
+              height="180"
+              style="border: none; border-radius: 10px"
+            ></iframe>
+            <div class="map-address">
+              <p>서울특별시 마포구 큰우물로 75 성지빌딩 지하 1층 22호</p>
+              <span>마포역에서 191m</span>
+              <span>공덕역에서 477m</span>
+            </div>
+          </div>
 
+          <hr />
+          <div class="detail-title"><h3>상세정보</h3></div>
           <div class="info">
             <div class="info-row">
               📞
-              <a href="tel:02-511-7809" class="info-link">070-8676-0218</a>
+              <a href="tel:070-8676-0218" class="info-link">070-8676-0218</a>
             </div>
 
             <div class="info-row">정기 휴무 · 화요일</div>
@@ -756,36 +785,33 @@
               안내 및 유의사항
             </div>
 
-            <div
-              style="
-                font-size: 13px;
-                color: #666;
-                line-height: 1.6;
-                padding-left: 24px;
-                padding: 5px;
-              "
-            >
-              - 알러지나 가리시는 식재료가 있으시다면 예약시 말씀
-              부탁드립니다(당일에 말씀 주시면 대체가 불가능 합니다).<br />
-              - 1인매장 특성상 동시 시작으로 예약시간에 맞춰 방문
-              부탁드립니다(20분 이상 늦으실 경우 식사와 환불이 불가능
-              합니다).<br />
-              - 평일 낮에는 빌딩 내 주차장이 혼잡하여 불편하실 수 있으시니
-              염리주차장을 이용하셔도 좋습니다.<br />
-              - 노쇼 발생 시 예약금 환불불가 및 식사 전체금을 결제 해주셔야하는
-              부분 참고 부탁드립니다.<br />
+            <div class="notice-box">
+              <p>
+                - 알러지나 가리시는 식재료가 있으시다면 예약시 말씀
+                부탁드립니다.
+                <span>(당일에 말씀 주시면 대체가 불가능 합니다.)</span>
+              </p>
+
+              <p>
+                - 1인매장 특성상 동시 시작으로 예약시간에 맞춰 방문
+                부탁드립니다.
+                <span
+                  >(20분 이상 늦으실 경우 식사와 환불이 불가능 합니다.)</span
+                >
+              </p>
+
+              <p>
+                - 평일 낮에는 빌딩 내 주차장이 혼잡하여 불편하실 수 있으니
+                염리주차장을 이용하셔도 좋습니다.
+              </p>
+
+              <p>
+                - 노쇼 발생 시 예약금 환불 불가 및 식사 전체금을 결제해주셔야
+                하는 점 참고 부탁드립니다.
+              </p>
             </div>
           </div>
           <hr />
-
-          <div class="map">
-            <h3>위치</h3>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.5878613779005!2d126.94312097640496!3d37.54121147557899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c990056c4e545%3A0x47d4a3e7a6d3a7ef!2sSobajuu!5e0!3m2!1sko!2sus!4v1771835062895!5m2!1sko!2sus"
-              width="100%"
-              height="180"
-            ></iframe>
-          </div>
         </section>
       </div>
     </div>
@@ -794,223 +820,308 @@
       <button class="reserve-btn" onclick="toggleReserve()">예약하기</button>
     </footer>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const SHOP = {
-    id: "sobaju-black",
-    name: "소바쥬",
-    info: "마포 | 점심 5.5만원 저녁 8만원",
-    image:
-      "https://ugc-images.catchtable.co.kr/shop/manager/images/1f371d7f69484f138027895ec178779a?resizeType=details500&ftype=avif",
-  };
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const SHOP = {
+          id: "sobaju-black",
+          name: "소바쥬",
+          info: "마포 | 점심 5.5만원 저녁 8만원",
+          image:
+            "https://ugc-images.catchtable.co.kr/shop/manager/images/1f371d7f69484f138027895ec178779a?resizeType=details500&ftype=avif",
+        };
 
-  const STORAGE_KEYS = {
-    reservations: "reservations",
-    reservedSlots: "demo_reserved_slots",
-  };
+        const STORAGE_KEYS = {
+          reservations: "reservations",
+          reservedSlots: "demo_reserved_slots",
+        };
 
-  const modal = document.getElementById("reserveModal");
-  const grid = document.getElementById("calendarGrid");
-  const header = document.getElementById("calendarTitle");
-  const reservationBtn = document.getElementById("reservationBtn");
-  const reserveSubmitBtn = document.querySelector(".close-btn2");
-  const reserveToggleText = document.querySelector(".reserve-toggle span");
-  const peopleButtons = document.querySelectorAll(".people-btn");
-  const timeButtons = document.querySelectorAll(".time-btn");
+        const modal = document.getElementById("reserveModal");
+        const grid = document.getElementById("calendarGrid");
+        const header = document.getElementById("calendarTitle");
+        const reservationBtn = document.getElementById("reservationBtn");
+        const reserveSubmitBtn = document.querySelector(".close-btn2");
+        const reserveToggleText = document.querySelector(
+          ".reserve-toggle span",
+        );
+        const peopleButtons = document.querySelectorAll(".people-btn");
+        const timeButtons = document.querySelectorAll(".time-btn");
 
-  function dateKeyFromButton(dayText) {
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = String(now.getMonth() + 1).padStart(2, "0");
-    const d = String(Number(dayText)).padStart(2, "0");
-    return `${y}-${m}-${d}`;
-  }
+        function dateKeyFromButton(dayText) {
+          const now = new Date();
+          const y = now.getFullYear();
+          const m = String(now.getMonth() + 1).padStart(2, "0");
+          const d = String(Number(dayText)).padStart(2, "0");
+          return `${y}-${m}-${d}`;
+        }
 
-  function slotKey(dateKey, time) {
-    return `${SHOP.id}__${dateKey}__${time}`;
-  }
+        function slotKey(dateKey, time) {
+          return `${SHOP.id}__${dateKey}__${time}`;
+        }
 
-  function loadReservedSlots() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEYS.reservedSlots);
-      const arr = raw ? JSON.parse(raw) : [];
-      return new Set(Array.isArray(arr) ? arr : []);
-    } catch {
-      return new Set();
-    }
-  }
+        function loadReservedSlots() {
+          try {
+            const raw = localStorage.getItem(STORAGE_KEYS.reservedSlots);
+            const arr = raw ? JSON.parse(raw) : [];
+            return new Set(Array.isArray(arr) ? arr : []);
+          } catch {
+            return new Set();
+          }
+        }
 
-  function saveReservedSlots(set) {
-    localStorage.setItem(
-      STORAGE_KEYS.reservedSlots,
-      JSON.stringify(Array.from(set))
-    );
-  }
+        function saveReservedSlots(set) {
+          localStorage.setItem(
+            STORAGE_KEYS.reservedSlots,
+            JSON.stringify(Array.from(set)),
+          );
+        }
 
-  const reservedSlots = loadReservedSlots();
+        const reservedSlots = loadReservedSlots();
 
-  if (reservationBtn) {
-    reservationBtn.addEventListener("click", () => {
-      window.location.href = "예약현황.html";
-    });
-  }
+        if (reservationBtn) {
+          reservationBtn.addEventListener("click", () => {
+            window.location.href = "예약현황.html";
+          });
+        }
 
-  function checkReserveReady() {
-    const selectedDate = document.querySelector(".day.active");
-    const selectedPeople = document.querySelector(".people-btn.active");
-    const selectedTime = document.querySelector(".time-btn.active");
+        function checkReserveReady() {
+          const selectedDate = document.querySelector(".day.active");
+          const selectedPeople = document.querySelector(".people-btn.active");
+          const selectedTime = document.querySelector(".time-btn.active");
 
-    reserveSubmitBtn.style.display =
-      selectedDate && selectedPeople && selectedTime ? "block" : "none";
-  }
+          reserveSubmitBtn.style.display =
+            selectedDate && selectedPeople && selectedTime ? "block" : "none";
+        }
 
-  function markReservedTimesByDate() {
-    const selectedDate = document.querySelector(".day.active");
-    if (!selectedDate) return;
+        function markReservedTimesByDate() {
+          const selectedDate = document.querySelector(".day.active");
+          if (!selectedDate) return;
 
-    const currentDateKey = dateKeyFromButton(selectedDate.textContent.trim());
+          const currentDateKey = dateKeyFromButton(
+            selectedDate.textContent.trim(),
+          );
 
-    timeButtons.forEach((btn) => {
-      const pureTime = btn.textContent.replace(" (예약마감)", "").trim();
-      const key = slotKey(currentDateKey, pureTime);
-      const isReserved = reservedSlots.has(key);
+          timeButtons.forEach((btn) => {
+            const pureTime = btn.textContent.replace(" (예약마감)", "").trim();
+            const key = slotKey(currentDateKey, pureTime);
+            const isReserved = reservedSlots.has(key);
 
-      btn.classList.remove("active");
-      if (isReserved) {
-        btn.classList.add("disabled");
-        btn.textContent = `${pureTime} (예약마감)`;
-      } else {
-        btn.classList.remove("disabled");
-        btn.textContent = pureTime;
+            btn.classList.remove("active");
+            if (isReserved) {
+              btn.classList.add("disabled");
+              btn.textContent = `${pureTime} (예약마감)`;
+            } else {
+              btn.classList.remove("disabled");
+              btn.textContent = pureTime;
+            }
+          });
+        }
+
+        function updateReserveToggleSummary() {
+          const selectedDate = document.querySelector(".day.active");
+          const selectedPeople = document.querySelector(".people-btn.active");
+          const selectedTime = document.querySelector(".time-btn.active");
+          const dayText = selectedDate
+            ? selectedDate.textContent.trim()
+            : "날짜";
+          const peopleText = selectedPeople
+            ? selectedPeople.textContent.trim()
+            : "인원";
+          const timeText = selectedTime
+            ? selectedTime.textContent.replace(" (예약마감)", "").trim()
+            : "시간";
+
+          if (reserveToggleText) {
+            reserveToggleText.textContent = `📅 ${dayText}일 · ${peopleText} · ${timeText}`;
+          }
+        }
+
+        peopleButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            peopleButtons.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            checkReserveReady();
+            updateReserveToggleSummary();
+          });
+        });
+
+        timeButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            if (btn.classList.contains("disabled")) return;
+
+            timeButtons.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            checkReserveReady();
+            updateReserveToggleSummary();
+          });
+        });
+
+        window.toggleReserve = function () {
+          modal.classList.add("show");
+        };
+
+        window.closeReserve = function () {
+          modal.classList.remove("show");
+        };
+
+        window.reserveSubmit = function () {
+          const selectedDate = document.querySelector(".day.active");
+          const selectedPeople = document.querySelector(".people-btn.active");
+          const selectedTime = document.querySelector(".time-btn.active");
+
+          if (!selectedDate || !selectedPeople || !selectedTime) {
+            alert("날짜, 인원, 시간을 모두 선택해주세요.");
+            return;
+          }
+
+          if (selectedTime.classList.contains("disabled")) {
+            alert("이미 마감된 시간입니다.");
+            return;
+          }
+
+          const dateKey = dateKeyFromButton(selectedDate.textContent.trim());
+          const dayText = String(Number(selectedDate.textContent.trim()));
+          const peopleText = selectedPeople.textContent.trim();
+          const pureTime = selectedTime.textContent
+            .replace(" (예약마감)", "")
+            .trim();
+
+          const reservation = {
+            dDay: dayText,
+            dateTime: `${dateKey} ${pureTime} / ${peopleText}`,
+            name: SHOP.name,
+            info: SHOP.info,
+            image:
+              "https://ugc-images.catchtable.co.kr/shop/manager/images/1f371d7f69484f138027895ec178779a?resizeType=details500&ftype=avif",
+            status: "예약완료",
+          };
+
+          const reservations =
+            JSON.parse(localStorage.getItem(STORAGE_KEYS.reservations)) || [];
+          reservations.push(reservation);
+          localStorage.setItem(
+            STORAGE_KEYS.reservations,
+            JSON.stringify(reservations),
+          );
+
+          reservedSlots.add(slotKey(dateKey, pureTime));
+          saveReservedSlots(reservedSlots);
+
+          selectedTime.classList.remove("active");
+          selectedTime.classList.add("disabled");
+          selectedTime.textContent = `${pureTime} (예약마감)`;
+
+          reserveSubmitBtn.style.display = "none";
+          modal.classList.remove("show");
+          updateReserveToggleSummary();
+        };
+
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = today.getMonth();
+        const d = today.getDate();
+
+        header.textContent = `${y}년 ${m + 1}월`;
+
+        const first = new Date(y, m, 1).getDay();
+        const last = new Date(y, m + 1, 0).getDate();
+
+        for (let i = 0; i < first; i++) {
+          grid.appendChild(document.createElement("span"));
+        }
+
+        for (let i = 1; i <= last; i++) {
+          const btn = document.createElement("button");
+          btn.className = "day";
+          btn.textContent = i;
+
+          if (i === d) btn.classList.add("active");
+
+          btn.onclick = () => {
+            document
+              .querySelectorAll(".day")
+              .forEach((x) => x.classList.remove("active"));
+            btn.classList.add("active");
+            markReservedTimesByDate();
+            checkReserveReady();
+            updateReserveToggleSummary();
+          };
+
+          grid.appendChild(btn);
+        }
+
+        markReservedTimesByDate();
+        checkReserveReady();
+        updateReserveToggleSummary();
+
+        // ===== Swiper 초기화 =====
+        new Swiper(".photo-slider", {
+          loop: true,
+          pagination: {
+            el: ".swiper-pagination",
+          },
+        });
+
+        // ===== 오늘 요일 자동 표시 (소바쥬 전용) =====
+        const todayTextEl = document.getElementById("todayHoursText");
+
+        const now2 = new Date();
+        const dayIndex = now2.getDay(); // 0=일,1=월,...6=토
+        const weekNames = ["일", "월", "화", "수", "목", "금", "토"];
+
+        // ✅ 소바쥬 영업시간 구조
+        // 화요일만 휴무
+        const hoursByDay = {
+          0: { lunch: "12:00 ~ 14:00", dinner: "19:00 ~ 22:00" }, // 일
+          1: { lunch: "12:00 ~ 14:00", dinner: "19:00 ~ 22:00" }, // 월
+          2: null, // 화 휴무
+          3: { lunch: "12:00 ~ 14:00", dinner: "19:00 ~ 22:00" }, // 수
+          4: { lunch: "12:00 ~ 14:00", dinner: "19:00 ~ 22:00" }, // 목
+          5: { lunch: "12:00 ~ 14:00", dinner: "19:00 ~ 22:00" }, // 금
+          6: { lunch: "12:00 ~ 14:00", dinner: "19:00 ~ 22:00" }, // 토
+        };
+
+        const todayName = weekNames[dayIndex];
+        const todayHours = hoursByDay[dayIndex];
+
+        todayTextEl.classList.remove("today-highlight", "today-closed");
+
+        if (!todayHours) {
+          todayTextEl.textContent = `오늘 (${todayName}) · 휴무`;
+          todayTextEl.classList.add("today-closed"); // 🔴 휴무 빨강
+        } else {
+          todayTextEl.innerHTML = `
+    <span class="today-highlight">오늘 (${todayName})</span>
+    · 점심 ${todayHours.lunch} / 저녁 ${todayHours.dinner}
+  `;
+        }
+      });
+
+      //주소 아코디언
+      function toggleAddress() {
+        const list = document.querySelector(".address-list");
+        const arrow = document.querySelector(".address-arrow");
+
+        if (list) list.classList.toggle("open");
+        if (arrow) arrow.classList.toggle("rotate");
       }
-    });
-  }
 
-  function updateReserveToggleSummary() {
-    const selectedDate = document.querySelector(".day.active");
-    const selectedPeople = document.querySelector(".people-btn.active");
-    const selectedTime = document.querySelector(".time-btn.active");
-    const dayText = selectedDate ? selectedDate.textContent.trim() : "날짜";
-    const peopleText = selectedPeople ? selectedPeople.textContent.trim() : "인원";
-    const timeText = selectedTime
-      ? selectedTime.textContent.replace(" (예약마감)", "").trim()
-      : "시간";
+      function copyAddress(event) {
+        event.stopPropagation();
+        const text = "서울특별시 마포구 큰우물로 75 성지빌딩 지하 1층 22호";
+        navigator.clipboard.writeText(text);
+        alert("주소가 복사되었습니다.");
+      }
 
-    if (reserveToggleText) {
-      reserveToggleText.textContent = `📅 ${dayText}일 · ${peopleText} · ${timeText}`;
-    }
-  }
+      //영업시간 아코디언
+      function toggleHours() {
+        const list = document.querySelector(".hours-time-list");
+        const arrow = document.querySelector(
+          '.accordion-toggle[onclick="toggleHours()"] .arrow',
+        );
 
-  peopleButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      peopleButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      checkReserveReady();
-      updateReserveToggleSummary();
-    });
-  });
-
-  timeButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (btn.classList.contains("disabled")) return;
-
-      timeButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      checkReserveReady();
-      updateReserveToggleSummary();
-    });
-  });
-
-  window.toggleReserve = function () {
-    modal.classList.add("show");
-  };
-
-  window.closeReserve = function () {
-    modal.classList.remove("show");
-  };
-
-  window.reserveSubmit = function () {
-    const selectedDate = document.querySelector(".day.active");
-    const selectedPeople = document.querySelector(".people-btn.active");
-    const selectedTime = document.querySelector(".time-btn.active");
-
-    if (!selectedDate || !selectedPeople || !selectedTime) {
-      alert("날짜, 인원, 시간을 모두 선택해주세요.");
-      return;
-    }
-
-    if (selectedTime.classList.contains("disabled")) {
-      alert("이미 마감된 시간입니다.");
-      return;
-    }
-
-    const dateKey = dateKeyFromButton(selectedDate.textContent.trim());
-    const dayText = String(Number(selectedDate.textContent.trim()));
-    const peopleText = selectedPeople.textContent.trim();
-    const pureTime = selectedTime.textContent.replace(" (예약마감)", "").trim();
-
-    const reservation = {
-      dDay: dayText,
-      dateTime: `${dateKey} ${pureTime} / ${peopleText}`,
-      name: SHOP.name,
-      info: SHOP.info,
-      image: "https://ugc-images.catchtable.co.kr/shop/manager/images/1f371d7f69484f138027895ec178779a?resizeType=details500&ftype=avif",
-      status: "예약완료",
-    };
-
-    const reservations = JSON.parse(localStorage.getItem(STORAGE_KEYS.reservations)) || [];
-    reservations.push(reservation);
-    localStorage.setItem(STORAGE_KEYS.reservations, JSON.stringify(reservations));
-
-    reservedSlots.add(slotKey(dateKey, pureTime));
-    saveReservedSlots(reservedSlots);
-
-    selectedTime.classList.remove("active");
-    selectedTime.classList.add("disabled");
-    selectedTime.textContent = `${pureTime} (예약마감)`;
-
-    reserveSubmitBtn.style.display = "none";
-    modal.classList.remove("show");
-    updateReserveToggleSummary();
-
-  };
-
-  const today = new Date();
-  const y = today.getFullYear();
-  const m = today.getMonth();
-  const d = today.getDate();
-
-  header.textContent = `${y}년 ${m + 1}월`;
-
-  const first = new Date(y, m, 1).getDay();
-  const last = new Date(y, m + 1, 0).getDate();
-
-  for (let i = 0; i < first; i++) {
-    grid.appendChild(document.createElement("span"));
-  }
-
-  for (let i = 1; i <= last; i++) {
-    const btn = document.createElement("button");
-    btn.className = "day";
-    btn.textContent = i;
-
-    if (i === d) btn.classList.add("active");
-
-    btn.onclick = () => {
-      document.querySelectorAll(".day").forEach((x) => x.classList.remove("active"));
-      btn.classList.add("active");
-      markReservedTimesByDate();
-      checkReserveReady();
-      updateReserveToggleSummary();
-    };
-
-    grid.appendChild(btn);
-  }
-
-  markReservedTimesByDate();
-  checkReserveReady();
-  updateReserveToggleSummary();
-});
-</script>
+        if (list) list.classList.toggle("open");
+        if (arrow) arrow.classList.toggle("rotate");
+      }
+    </script>
   </body>
 </html>
