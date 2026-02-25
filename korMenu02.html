@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>양출서울</title>
+    <link rel="stylesheet" href="./shop.css" />
+    <script>
+      window.SHOP = {
+        id: "kor-menu-01",
+        heroImg: "./korMenuImg/kormenu02_menu01.jpg",
+        heroImages: [
+          "./korMenuImg/kormenu02_menu01.jpg",
+          ,"https://ugc-images.catchtable.co.kr/shop/manager/images/ae31c732c59a477389f0a94b39f35cf0?resizeType=details500&ftype=avif"
+          ,"https://ugc-images.catchtable.co.kr/shop/manager/images/35b633ee92c84e7aaa2e1c1b89294be9?resizeType=details500&ftype=avif"
+          
+        ],
+        name: "양출서울",
+        rating: 4.8,
+        reviews: 319,
+        category: "한식",
+        area: "논현",
+        way: "학동역에서 275m",
+        price: "점심 영업안함 · 저녁 5.5 ~ 7.5만원",
+        openHoursSummary: "오늘(월) 18: 00 ~ 22: 00",
+        openHours: "월 ~ 토 : 18 : 00 ~ 22 : 00<br>일 : 영업시간 유동적",
+        address: "서울특별시 강남구 언주로135길 34 1층",
+        walk: "학동역에서 275m / 강남구청역에서 772m",
+        phone: "02-547-4420",
+        closedDay: "매주 일요일",
+        menus: [
+          {
+            id: "m1",
+            name: "5코스",
+            price: "55,000원",
+            items: [
+              "채소요리 3, 고기요리 1, 면 요리 1",
+              "계절에 따라서 메뉴 변경 가능",
+              "고기-> 채소로 변경 가능",
+              "보리니꾸 모듬야채",
+              "잎채소 계절 과일 소스",
+              "컬리플라워 튀김",
+              "닭, 목살 (택1)",
+              "면 요리",
+              "보틀 와인 주문 필수",
+            ],
+          },
+          {
+            id: "m2",
+            name: "7코스",
+            price: "75,000원",
+            items: [
+              "채소요리 3~4 , 고기요리 1, 면 요리 1, 디저트 1",
+              "계절에 따라서 메뉴 변경 가능",
+              "2026.01.24일 기준",
+              "사과 샐러드",
+              "컬리플라워, 잣, 체리소스",
+              "양파, 시금치소스, 루꼴라",
+              "닭, 양송이버섯",
+              "브로콜리, 엔다이브, 자몽",
+              "돼지고기 목살",
+              "당근스테이크, 커리",
+              "미소 면",
+              "버섯, 병아리콩"
+            ],
+          },
+        ],
+      };
+    </script>
+    <script src="./shop.js" defer></script>
+  </head>
+  <body>
+    <main class="app" data-people-range="1-9plus" aria-label="식당 상세 페이지">
+      <section class="hero" aria-label="가게 대표 이미지">
+        <div class="hero-top-actions" aria-label="상단 버튼">
+          <a class="hero-action-btn" href="./intro.html">뒤로</a>
+          <a class="hero-action-btn" href="예약현황.html">예약현황</a>
+        </div>
+        <img id="heroImg" src="./korMenuImg/kormenu02_menu01.jpg" alt="양출서울 대표 이미지" />
+      </section>
+
+      <section class="card" aria-label="가게 소개">
+        <h1 class="title" id="shopName">양출서울</h1>
+        <div class="meta">
+          <span id="rating">별점 4.8</span>
+          <span id="reviewCount">리뷰 319개</span>
+          <span id="category">- 한식</span>
+          <span id="area">논현</span>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="label">🗺️</span>
+            <span id="way">학동역에서 275m</span>
+          </div>
+          <div class="info-row">
+            <span class="label">💰</span>
+            <span id="price">점심 영업안함 저녁 5.5 ~ 7.5만원</span>
+          </div>
+          <div class="info-row">
+            <span class="label">🕒</span>
+            <details>
+              <summary id="openHoursSummary">오늘(월) 18: 00 ~ 22: 00</summary>
+              <span id="openHours">월 ~ 토 : 18 : 00 ~ 22 : 00<br>일 : 영업시간 유동적</span>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="reserveSection" aria-label="예약">
+        <div class="reserve-head">
+          <h2 class="section-title">예약</h2>
+        </div>
+
+        <div class="reserve-shell">
+          <button id="reserveToggleBtn" class="reserve-trigger" type="button">
+            <div>
+              <strong>📅 날짜, 인원, 시간</strong>
+              <span id="reserveSummary">기본 선택: 오늘 · 1명 · 시간 선택</span>
+            </div>
+            <i class="reserve-arrow">∨</i>
+          </button>
+
+          <div id="reservePanel" class="reserve-panel">
+            <div class="reserve-group">
+              <p class="reserve-group-title">날짜</p>
+              <div class="calendar-head2">
+                <button id="calPrevBtn" class="calendar-nav-btn" type="button">‹</button>
+                <span id="calMonthLabel" class="calendar-month-label">2026년 2월</span>
+                <button id="calNextBtn" class="calendar-nav-btn" type="button">›</button>
+              </div>
+              <div class="calendar-week">
+                <span>일</span>
+                <span>월</span>
+                <span>화</span>
+                <span>수</span>
+                <span>목</span>
+                <span>금</span>
+                <span>토</span>
+              </div>
+              <div class="calendar-grid" id="dateRow" aria-label="날짜 선택"></div>
+            </div>
+
+            <div class="reserve-group">
+              <p class="reserve-group-title">인원</p>
+              <div class="grid" id="peopleRow" aria-label="인원 선택"></div>
+            </div>
+
+            <div class="reserve-group">
+              <p class="reserve-group-title">시간</p>
+              <div class="grid" id="timeGrid" aria-label="시간 선택"></div>
+              <p class="reserve-note">※ “예약 마감” 또는 “예약 완료”는 선택할 수 없습니다.</p>
+            </div>
+
+            <button class="btn primary" id="reserveBtn" type="button" disabled>예약하기</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-label="메뉴">
+        <h2 class="section-title">메뉴</h2>
+        <div class="menu-list" id="menuList"></div>
+      </section>
+
+      <section class="card" aria-label="위치">
+        <h2 class="section-title">위치</h2>
+        <iframe
+          id="mapFrame"
+          title="지도"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.630992401179!2d127.0324625!3d37.516620499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca3ed2b5fd46f%3A0xcaa295a4dbecb41d!2z7JaR7Lac7ISc7Jq4!5e0!3m2!1sko!2skr!4v1771980957535!5m2!1sko!2skr"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="label">주소</span>
+            <span id="address">서울특별시 강남구 언주로135길 34 1층</span>
+          </div>
+          <div class="info-row">
+            <span class="label">도보</span>
+            <span id="walk">학동역에서 275m / 강남구청역에서 772m</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-label="상세정보">
+        <h2 class="section-title">상세정보</h2>
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="label">전화</span>
+            <span id="phone">02-547-4420</span>
+          </div>
+          <div class="info-row">
+            <span class="label">정기휴무</span>
+            <span id="closedDay">매주 일요일</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="bottom-spacer" aria-hidden="true"></div>
+    </main>
+
+    <footer class="bottom-bar" aria-label="하단 예약하기">
+      <button class="btn primary" id="bottomReserveBtn" type="button">예약하기</button>
+    </footer>
+  </body>
+</html>
